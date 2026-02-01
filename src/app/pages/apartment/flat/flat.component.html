@@ -28,14 +28,6 @@
             </div>
         </form>
     </div>
-    <div class="row mb-4" *ngIf="!isMulti">
-        <form [formGroup]="filterForm">
-            <div class="col-12 col-md-6 mx-auto">
-                <input type="text" class="form-control form-control-lg" placeholder="Apartment Name"
-                    formControlName="apartmentName">
-            </div>
-        </form>
-    </div>
 
     <!-- begin::Table container -->
     <div class="table-responsive">
@@ -44,20 +36,13 @@
             <!-- begin::Table head -->
             <thead>
                 <tr class="fw-bolder">
-                    <th class="text-uppercase"><span class="badge badge-light-warning fs-6 fw-bolder"> SR </span></th>
-                    <th class="min-w-70px text-uppercase"><span class="badge badge-light-success fs-6 fw-bolder"> NUMBER
-                        </span></th>
-                    <th class="min-w-50px text-uppercase"><span class="badge badge-light-primary fs-6 fw-bolder"> FLOOR
-                        </span></th>
-                    <th class="min-w-100px text-uppercase"><span class="badge badge-light-warning fs-6 fw-bolder">
-                            RENT </span></th>
-                    <th class="min-w-70px text-uppercase"><span class="badge badge-light-success fs-6 fw-bolder">
-                            STATUS </span></th>
-                    <th class="min-w-170px text-uppercase"><span class="fs-6 fw-bolder" style="color: #17c653"> ADMIN
-                        </span>
-                    </th>
-                    <th class="min-w-100px text-uppercase text-center"><span
-                            class="badge badge-light-warning fs-6 fw-bolder">Actions</span></th>
+                    <th class="text-uppercase text-warning"> SR </th>
+                    <th class="text-uppercase text-success"> NUMBER </th>
+                    <th class="text-uppercase text-primary"> FLOOR </th>
+                    <th class=" text-uppercase text-info"> RENT </th>
+                    <th class="text-uppercase text-success"> STATUS </th>
+                    <th class=" text-uppercase text-warning"> ADMIN </th>
+                    <th class=" text-uppercase text-center text-danger"> Actions </th>
                 </tr>
             </thead>
             <!-- end::Table head -->
@@ -158,7 +143,7 @@
             <div class="row mb-4">
                 <div class="col-12 col-md-6 mx-auto">
                     <label class="fw-bolder text-success">
-                        Number <span class="text-danger">*</span>
+                        Flat Number <span class="text-danger">*</span>
                     </label>
 
                     <input type="text" class="form-control form-control-lg" placeholder="Flat Number"
@@ -183,7 +168,7 @@
                     <label class="fw-bolder text-success">
                         Rent <span class="text-danger">*</span>
                     </label>
-                    <input type="number" class="form-control form-control-lg" placeholder="Rent Amt"
+                    <input type="number" class="form-control form-control-lg" placeholder="Rent Amt in Ruppes"
                         formControlName="rentAmount">
                 </div>
             </div>

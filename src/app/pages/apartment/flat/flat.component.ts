@@ -46,6 +46,7 @@ export class FlatComponent {
   flatAdminUpdate: boolean = false;
   isA_Admin: boolean = false;
   isF_Admin: boolean = false;
+  apartmentName: any;
 
   constructor(private authState: AuthStateService,
     private modalService: NgbModal,
@@ -78,7 +79,7 @@ export class FlatComponent {
     this.flatAdminUpdate = false;
     this.adminForm.controls["name"].setValue("")
     this.adminForm.controls['mobile'].setValue("")
-    this.adminForm.controls['password'].setValue("")
+    this.adminForm.controls['password'].setValue("123456")
     this.modalRef = this.modalService.open(addModal);
     this.modalRef.result.then(
       (result: any) => {
@@ -128,7 +129,8 @@ export class FlatComponent {
         this.filterForm.controls['select_apartmentId'].setValue(res.data[0]._id)
       } else {
         this.isMulti = false;
-        this.filterForm.controls['apartmentName'].setValue(res.data[0].name)
+        this.apartmentName = res.data[0].name
+        this.addForm.controls['apartmentId'].setValue(this.apartmentId)
       }
     });
 
@@ -142,6 +144,8 @@ export class FlatComponent {
 
     this.post.getFlatByApartmentId(apartmentId).subscribe({
       next: (res) => {
+        if (!res.data.length) return this.loading = false;
+
         this.flats = res.data;
         this.apartmentId = res.data[0].apartmentId;
         this.loading = false;
@@ -178,8 +182,6 @@ export class FlatComponent {
     }
 
     this.loading = true;
-    this.apartmentId = this.addForm.value.apartmentId;
-    // apartmentId, flatNumber, floor, rentAmount
     const payload = {
       apartmentId: this.addForm.value.apartmentId!,
       flatNumber: this.addForm.value.flatNumber!,
