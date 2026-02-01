@@ -4,11 +4,17 @@
 
 export const environment = {
   production: true,
-  appVersion: 'v0.0.1',
+  appVersion: 'v1.0.1',
+  appThemeName: 'P18',
+  apiUrl: 'https://apartment-backend.onrender.com',
+
+
+
+
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
-  apiUrl: 'api',
-  appThemeName: 'P18',
+
+
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration: 'https://preview.keenthemes.com/metronic8/demo1/documentation/base/helpers/flex-layouts.html',
   appPreviewUrl: 'https://preview.keenthemes.com/metronic8/angular/demo1/',
