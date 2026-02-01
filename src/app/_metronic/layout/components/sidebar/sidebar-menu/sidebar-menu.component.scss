@@ -1,0 +1,39 @@
+/* Unified sidebar menu style (Web + Mobile) */
+
+.sidebar-menu {
+  padding-top: 1rem;
+}
+
+.sidebar-menu-link {
+  padding: 14px 18px !important;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.sidebar-menu-title {
+  font-size: 1.05rem;
+  font-weight: 700; /* BOLD */
+  letter-spacing: 0.3px;
+}
+
+.sidebar-menu-icon i {
+  font-size: 1.35rem;
+}
+
+/* Active menu style */
+.menu-link.active {
+  background: linear-gradient(90deg, #1e90ff, #0066ff);
+  color: #ffffff !important;
+}
+
+.menu-link.active .menu-icon i,
+.menu-link.active .menu-title {
+  color: #ffffff !important;
+  font-weight: 800;
+}

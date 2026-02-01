@@ -7,6 +7,7 @@ import { AuthStateService } from 'src/app/core/services/auth-state.service';
 @Component({
   selector: 'app-user-inner',
   templateUrl: './user-inner.component.html',
+  styleUrls: ['./user-inner.component.scss'],
 })
 export class UserInnerComponent implements OnInit, OnDestroy {
   @HostBinding('class')

@@ -11,6 +11,7 @@ export class UserDetailsComponent implements OnInit {
   otp = '';
   showOtpBox = false;
   loading = false;
+  isEditMode = false;
 
   constructor(private userService: UserService) { }
 
@@ -61,5 +62,13 @@ export class UserDetailsComponent implements OnInit {
 
     // restore cursor position
     input.setSelectionRange(cursorPos, cursorPos);
+  }
+
+  enableEditMode() {
+    this.isEditMode = true;
+  }
+
+  cancelEdit() {
+    this.isEditMode = false;
   }
 }

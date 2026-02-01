@@ -1,0 +1,43 @@
+/* ===============================
+   THEME MODE DROPDOWN – COMPACT
+   =============================== */
+
+.menu-sub-dropdown {
+  width: auto !important;
+  min-width: unset !important;
+  padding: 6px !important;
+  border-radius: 10px;
+}
+
+/* Make menu vertical & compact */
+.menu-sub-dropdown .menu-item {
+  padding: 0 !important;
+  margin: 4px 0 !important;
+}
+
+/* Icon-only buttons */
+.menu-sub-dropdown .menu-link {
+  width: 40px;
+  height: 40px;
+  padding: 0 !important;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Remove title spacing (even if present) */
+.menu-sub-dropdown .menu-title {
+  display: none !important;
+}
+
+/* Active state */
+.menu-sub-dropdown .menu-link.active {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Dark mode support */
+[data-bs-theme="dark"] .menu-sub-dropdown .menu-link.active {
+  background-color: rgba(255, 255, 255, 0.15);
+}

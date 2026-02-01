@@ -10,31 +10,82 @@ import { AuthStateService } from 'src/app/core/services/auth-state.service';
 export class QuickActionsComponent {
   role!: string | null;
 
-  constructor(private authState: AuthStateService,
+  constructor(
+    private authState: AuthStateService,
     private router: Router
   ) {
-    this.role = this.authState.getRole(); // example method
+    this.role = this.authState.getRole();
   }
 
+  /* =========================
+     PERMISSION CHECKS
+     ========================= */
+
   canAddAdmin(): boolean {
-    return this.role === 'super_admin' || this.role === 'apartment_admin';
+    return this.role === 'super_admin';
   }
 
   canAddComplaint(): boolean {
-    return true; // all roles
+    return ['apartment_admin', 'flat_admin', 'resident'].includes(this.role || '');
   }
 
   canAddVehicle(): boolean {
-    return this.role === 'resident';
+    return ['apartment_admin', 'flat_admin', 'resident'].includes(this.role || '');
   }
 
   canAddMember(): boolean {
+    return this.role === 'flat_admin';
+  }
+
+  canAddApartment(): boolean {
     return this.role === 'apartment_admin';
   }
 
-  gotoAdmin(){  
-    if(this.role === 'super_admin') this.router.navigate(['/users']);
-    if(this.role === 'apartment_admin') this.router.navigate(['/users/flat']);
+  canAddFlat(): boolean {
+    return this.role === 'apartment_admin';
+  }
+
+  canAddRent(): boolean {
+    return this.role === 'flat_admin';
+  }
+
+  canAddLightBill(): boolean {
+    return this.role === 'flat_admin';
+  }
+
+  /* =========================
+     NAVIGATION ACTIONS
+     ========================= */
+
+  gotoAdmin(): void {
+    this.router.navigate(['/users']);
+  }
+
+  gotoAddComplaint(): void {
+    this.router.navigate(['/complaints/add']);
+  }
+
+  gotoAddVehicle(): void {
+    this.router.navigate(['/vehicles/add']);
+  }
+
+  gotoMember(): void {
+    this.router.navigate(['/apartment/my-flat']);
+  }
+
+  gotoRent(): void {
+    this.router.navigate(['/payment/rent']);
+  }
+
+  gotoAddLightBill(): void {
+    this.router.navigate(['/payment/light-bill']);
+  }
+  gotoFlat(): void {
+    this.router.navigate(['/apartment/flat']);
+  }
+
+  gotoApartment(): void {
+    this.router.navigate(['/apartment/profile']);
   }
 }
 

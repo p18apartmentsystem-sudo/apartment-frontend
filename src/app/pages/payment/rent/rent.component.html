@@ -1,15 +1,13 @@
 <!-- begin::Header -->
 <div *ngIf="isF_Admin" class="card-header border-0 pt-5 d-flex justify-content-end">
-    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-        title="Click to add Rent">
-
-        <button type="button" class="btn btn-success" (click)="openAddModal(addModal)">
+    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add Rent">
+        <button type="button" class="btn btn-success fw-bolder px-4" (click)="openAddModal(addModal)">
             + Add Rent
         </button>
-
     </div>
 </div>
 <!-- end::Header -->
+
 <!-- begin::Body -->
 <div *ngIf="isF_Admin" class="card-body py-3">
 
@@ -40,7 +38,7 @@
             <div class="row text-center">
 
                 <div class="col-md-4">
-                    <span >Flat :</span>
+                    <span>Flat :</span>
                     <span class="fw-bolder">{{ flatNumber }}</span>
                 </div>
 
@@ -59,173 +57,141 @@
 
     </div>
 
-
     <!-- begin::Table container -->
     <div class="table-responsive">
-        <!-- begin::Table -->
         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+
             <!-- begin::Table head -->
             <thead>
-                <tr class="fw-bolder">
-                    <th class="text-uppercase"><span class="fs-6 fw-bolder" style="color: #f6c000"> SR </span></th>
-                    <th class="min-w-80px text-uppercase"><span class="fs-6 fw-bolder" style="color: #17c653"> MONTH
-                        </span></th>
-                    <th class="min-w-100px text-uppercase"><span class="fs-6 fw-bolder" style="color: #f6c000"> AMOUNT
-                        </span></th>
-                    <th class="min-w-50px text-uppercase"><span class="fs-6 fw-bolder" style="color: #17c653"> STATUS
-                        </span></th>
-                    <th class="min-w-100px text-uppercase text-center"><span class="fs-6 fw-bolder"
-                            style="color: red">Actions</span></th>
+                <tr class="fw-bolder text-uppercase">
+                    <th class="text-warning">SR</th>
+                    <th class="text-success">Month</th>
+                    <th class="text-primary">Amount</th>
+                    <th class="text-info">Status</th>
+                    <th class="text-danger text-center">Actions</th>
                 </tr>
             </thead>
             <!-- end::Table head -->
+
             <!-- begin::Table body -->
             <tbody>
-                <tr *ngFor="let data of rents; let i = index ">
-                    <td> {{ i + 1 }} </td>
-                    <td> {{ data.month }} {{ data.year }} </td>
-                    <td> {{ data.amount | currency:'INR' }} </td>
-                    <td>
-                        {{ data.status | uppercase }}
-                    </td>
-                    <td>
-                        <div class="d-flex justify-content-center flex-shrink-0">
-                            <a class="
-                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
-                " (click)="viewRent(data._id, viewModal)">
-                                <span class="badge badge-light-success fs-6 fw-bolder">
-                                    <app-keenicon name="eye" class="fs-3"></app-keenicon>
-                                </span>
-                            </a>
-                        </div>
+                <tr *ngFor="let data of rents; let i = index">
+                    <td>{{ i + 1 }}</td>
+
+                    <td class="fw-bolder">
+                        {{ data.month }} {{ data.year }}
                     </td>
 
+                    <td class="fw-bolder">
+                        {{ data.amount | currency:'INR' }}
+                    </td>
+
+                    <td>
+                        <span class="badge" [ngClass]="{
+                'badge-light-success': data.status === 'paid',
+                'badge-light-warning': data.status !== 'paid'
+              }">
+                            {{ data.status | uppercase }}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-light-success" (click)="viewRent(data._id, viewModal)">
+                            <app-keenicon name="eye" class="fs-3"></app-keenicon>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
             <!-- end::Table body -->
+
         </table>
-        <!-- end::Table -->
     </div>
     <!-- end::Table container -->
 
 </div>
 <!-- end::Body -->
 
+<!-- ================= MODALS ================= -->
 
-<!-- begin:: modal template -->
-<!-- ADD -->
+<!-- ADD RENT -->
 <ng-template #addModal let-c="close" let-d="dismiss">
 
-    <div class="modal-header d-flex justify-content-between align-items-center">
-        <h4 class="mb-0">
-            <span>Add Rent</span>
-        </h4>
-
-        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
+    <div class="modal-header">
+        <h4 class="fw-bolder mb-0">Add Rent</h4>
+        <button type="button" class="btn btn-sm btn-danger" (click)="d('Cross click')">
+            ✕
         </button>
     </div>
 
     <div class="modal-body">
 
-        <!-- Add Flat Member -->
         <form [formGroup]="paymentForm">
 
             <!-- MONTH -->
-            <div class="row mb-4">
-                <div class="col-12 col-md-6 mx-auto">
-                    <label class="fw-bolder text-success mb-1">
-                        Month <span class="text-danger">*</span>
-                    </label>
-
-                    <select class="form-select form-select-lg" formControlName="monthYear"
-                        (change)="selectMonthYear($event)">
-
-                        <option value="">Select Month</option>
-
-                        <option *ngFor="let item of month" [value]="item.monthYr">
-                            {{ item.monthYr }}
-                        </option>
-
-                    </select>
-                </div>
+            <div class="mb-4">
+                <label class="fw-bolder text-success mb-1">
+                    Month <span class="text-danger">*</span>
+                </label>
+                <select class="form-select form-select-lg" formControlName="monthYear"
+                    (change)="selectMonthYear($event)">
+                    <option value="">Select Month</option>
+                    <option *ngFor="let item of month" [value]="item.monthYr">
+                        {{ item.monthYr }}
+                    </option>
+                </select>
             </div>
 
-            <!-- RENT -->
-            <div class="row mb-4">
-                <div class="col-12 col-md-6 mx-auto">
-                    <label class="fw-bolder text-success">
-                        Amount
-                    </label>
-
-                    <input type="number" class="form-control form-control-lg" placeholder="Amount"
-                        formControlName="amount" readonly>
-                </div>
+            <!-- AMOUNT -->
+            <div class="mb-4">
+                <label class="fw-bolder text-success">Amount</label>
+                <input type="number" class="form-control form-control-lg" formControlName="amount" readonly />
             </div>
 
             <!-- REF NO -->
-            <div class="row mb-4">
-                <div class="col-12 col-md-6 mx-auto">
-                    <label class="fw-bolder text-success">
-                        Referance No
-                    </label>
-
-                    <input type="text" class="form-control form-control-lg" placeholder="Referance No"
-                        formControlName="refNo">
-                </div>
+            <div class="mb-4">
+                <label class="fw-bolder text-success">Reference No</label>
+                <input type="text" class="form-control form-control-lg" placeholder="Reference No"
+                    formControlName="refNo" />
             </div>
+
             <!-- FILE -->
-            <div class="row mb-4">
-                <div class="col-12 col-md-6 mx-auto">
-                    <label class="fw-bolder text-success">
-                        Payment Receipt <span class="text-danger">*</span>
-                    </label>
-
-                    <input type="file" class="form-control" (change)="onFileChange($event)" [class.is-invalid]="
-        paymentForm.controls['proofFile'].invalid &&
-        paymentForm.controls['proofFile'].touched
-      " />
-
-                    <small class="text-danger" *ngIf="
-        paymentForm.controls['proofFile'].invalid &&
-        paymentForm.controls['proofFile'].touched
-      ">
-                        Payment receipt is required
-                    </small>
-                </div>
+            <div class="mb-4">
+                <label class="fw-bolder text-success">
+                    Payment Receipt <span class="text-danger">*</span>
+                </label>
+                <input type="file" class="form-control" (change)="onFileChange($event)" />
             </div>
 
         </form>
-        <br>
-        <!-- ACTION BUTTONS -->
-        <div class="d-flex justify-content-center gap-3 mt-4">
-            <button class="btn btn-success px-5" (click)="addRent()">Submit</button>
-            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
-        </div>
-    </div>
 
+        <div class="d-flex justify-content-center gap-4 mt-4">
+            <button class="btn btn-success px-5 fw-bolder" (click)="addRent()">
+                Submit
+            </button>
+            <button class="btn btn-danger px-5 fw-bolder" (click)="closeModal()">
+                Cancel
+            </button>
+        </div>
+
+    </div>
 </ng-template>
-<!-- VIEW -->
+
+<!-- VIEW RENT PROOF -->
 <ng-template #viewModal let-modal>
     <div class="modal-header">
-        <h5 class="modal-title">Rent Payment Proof</h5>
+        <h5 class="fw-bolder">Rent Payment Proof</h5>
         <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
     </div>
 
     <div class="modal-body text-center">
 
-        <!-- PDF -->
-        <iframe *ngIf="proofType === 'pdf'" [src]="proofUrl" width="100%" height="500px" frameborder="0">
-        </iframe>
+        <iframe *ngIf="proofType === 'pdf'" [src]="proofUrl" width="100%" height="500px" frameborder="0"></iframe>
 
-        <!-- IMAGE -->
-        <img *ngIf="proofType === 'image'" [src]="proofUrl" class="img-fluid rounded" alt="Rent Proof">
+        <img *ngIf="proofType === 'image'" [src]="proofUrl" class="img-fluid rounded" alt="Rent Proof" />
 
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-danger" (click)="modal.close()">Close</button>
+        <button class="btn btn-danger px-4" (click)="modal.close()">Close</button>
     </div>
 </ng-template>
-
-<!-- end:: modal template -->

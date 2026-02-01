@@ -43,28 +43,28 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-cash-stack',
     roles: ['flat_admin', 'resident'],
   },
-  {
-    title: 'Light Bill',
-    route: '/payment/light-bill',
-    icon: 'bi bi-lightbulb',
-    roles: ['flat_admin', 'resident'],
-  },
-  {
-    title: 'Vehicle',
-    route: '/apartment/parking',
-    icon: 'bi bi-car-front',
-    roles: ['apartment_admin', 'flat_admin', 'resident'],
-  },
-  {
-    title: 'Parking',
-    route: '/apartment/parking',
-    icon: 'bi bi-p-circle',
-    roles: ['apartment_admin', 'flat_admin', 'resident'],
-  },
-  {
-    title: 'User',
-    route: '/user_list',
-    icon: 'bi bi-people',
-    roles: ['super_admin'],
-  },
+  // {
+  //   title: 'Light Bill',
+  //   route: '/payment/light-bill',
+  //   icon: 'bi bi-lightbulb',
+  //   roles: ['flat_admin', 'resident'],
+  // },
+  // {
+  //   title: 'Vehicle',
+  //   route: '/apartment/parking',
+  //   icon: 'bi bi-car-front',
+  //   roles: ['apartment_admin', 'flat_admin', 'resident'],
+  // },
+  // {
+  //   title: 'Parking',
+  //   route: '/apartment/parking',
+  //   icon: 'bi bi-p-circle',
+  //   roles: ['apartment_admin', 'flat_admin', 'resident'],
+  // },
+  // {
+  //   title: 'User',
+  //   route: '/user_list',
+  //   icon: 'bi bi-people',
+  //   roles: ['super_admin'],
+  // },
 ];

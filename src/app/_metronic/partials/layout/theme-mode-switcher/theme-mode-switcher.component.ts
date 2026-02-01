@@ -5,6 +5,8 @@ import { ThemeModeService, ThemeModeType } from './theme-mode.service';
 @Component({
   selector: 'app-theme-mode-switcher',
   templateUrl: './theme-mode-switcher.component.html',
+  styleUrls: ['./theme-mode.component.scss'],
+
 })
 export class ThemeModeSwitcherComponent implements OnInit {
   @Input() toggleBtnClass: string = '';

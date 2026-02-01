@@ -1,17 +1,14 @@
-<div class="menu menu-column menu-rounded menu-sub-indention px-3">
+<div class="menu menu-column menu-rounded menu-sub-indention px-3 sidebar-menu">
 
   <ng-container *ngFor="let item of menuItems">
 
     <div class="menu-item">
-      <a
-        class="menu-link"
-        [routerLink]="item.route"
-        routerLinkActive="active"
-      >
-        <span class="menu-icon">
+      <a class="menu-link sidebar-menu-link" [routerLink]="item.route" routerLinkActive="active">
+        <span class="menu-icon sidebar-menu-icon">
           <i [class]="item.icon"></i>
         </span>
-        <span class="menu-title">
+
+        <span class="menu-title sidebar-menu-title">
           {{ item.title }}
         </span>
       </a>

@@ -1,25 +1,89 @@
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">Quick Actions</h3>
+<div class="card shadow-sm">
+
+  <!-- HEADER -->
+  <div class="card-header py-3">
+    <h3 class="card-title mb-0 fw-bold">Quick Actions</h3>
   </div>
 
-  <div class="card-body d-flex flex-wrap gap-3">
+  <!-- BODY -->
+  <div class="card-body">
 
-    <button *ngIf="canAddAdmin()" class="btn btn-primary" (click)="gotoAdmin()">
-      ➕ Add Admin
-    </button>
+    <!-- GRID FOR WEB & MOBILE -->
+    <div class="row g-3">
 
-    <button *ngIf="canAddComplaint()" class="btn btn-warning">
-      📝 Add Complaint
-    </button>
+      <!-- ADD ADMIN -->
+      <div class="col-6 col-md-3" *ngIf="canAddAdmin()">
+        <button class="btn btn-light-primary w-100 h-100 action-btn" (click)="gotoAdmin()">
+          <i class="bi bi-person-gear fs-3 mb-2"></i>
+          <span>Add Admin</span>
+        </button>
+      </div>
 
-    <button *ngIf="canAddVehicle()" class="btn btn-success">
-      🚗 Add Vehicle
-    </button>
+      <!-- ADD RENT -->
+      <div class="col-6 col-md-3" *ngIf="canAddRent?.()">
+        <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoRent()">
+          <i class="bi bi-cash-stack fs-3 mb-2"></i>
+          <span>Add Rent</span>
+        </button>
+      </div>
 
-    <button *ngIf="canAddMember()" class="btn btn-info">
-      👤 Add Member
-    </button>
+      <!-- ADD APARTMENT -->
+      <div class="col-6 col-md-3" *ngIf="canAddApartment()">
+        <button class="btn btn-light-primary w-100 h-100 action-btn" (click)="gotoApartment()">
+          <i class="bi bi-building fs-3 mb-2"></i>
+          <span>Add Apartment</span>
+        </button>
+      </div>
+
+      <!-- ADD FLAT -->
+      <div class="col-6 col-md-3" *ngIf="canAddFlat()">
+        <button class="btn btn-light-success w-100 h-100 action-btn" (click)="gotoFlat()">
+          <i class="bi bi-house fs-3 mb-2"></i>
+          <span>Add Flat</span>
+        </button>
+      </div>
+
+      <!-- ADD FLAT ADMIN -->
+      <!-- <div class="col-6 col-md-3" *ngIf="canAddFlatAdmin()">
+        <button class="btn btn-light-primary w-100 h-100 action-btn" (click)="gotoFlatAdmin()">
+          <i class="bi bi-person-gear fs-3 mb-2"></i>
+          <span>Add Admin</span>
+        </button>
+      </div> -->
+
+      <!-- ADD MEMBER -->
+      <div class="col-6 col-md-3" *ngIf="canAddMember()">
+        <button class="btn btn-light-info w-100 h-100 action-btn" (click)="gotoMember()">
+          <i class="bi bi-person-plus fs-3 mb-2"></i>
+          <span>Add Member</span>
+        </button>
+      </div>
+
+      <!-- ADD COMPLAINT -->
+      <!-- <div class="col-6 col-md-3" *ngIf="canAddComplaint()">
+        <button class="btn btn-light-warning w-100 h-100 action-btn">
+          <i class="bi bi-journal-text fs-3 mb-2"></i>
+          <span>Add Complaint</span>
+        </button>
+      </div> -->
+
+      <!-- ADD VEHICLE -->
+      <!-- <div class="col-6 col-md-3" *ngIf="canAddVehicle()">
+        <button class="btn btn-light-success w-100 h-100 action-btn">
+          <i class="bi bi-car-front fs-3 mb-2"></i>
+          <span>Add Vehicle</span>
+        </button>
+      </div> -->
+
+      <!-- ADD LIGHT BILL -->
+      <!-- <div class="col-6 col-md-3" *ngIf="canAddLightBill?.()">
+        <button class="btn btn-light-primary w-100 h-100 action-btn">
+          <i class="bi bi-lightbulb fs-3 mb-2"></i>
+          <span>Add Light Bill</span>
+        </button>
+      </div> -->
+
+    </div>
 
   </div>
 </div>
