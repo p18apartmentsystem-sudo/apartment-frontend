@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { RouterModule } from '@angular/router';
 
 import { ClipboardModule } from 'ngx-clipboard';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,21 +16,27 @@ import { SharedModule } from './shared/shared.module';
 import { ApartmentComponent } from './pages/apartment/apartment.component';
 
 import { environment } from 'src/environments/environment';
+
+// 🔹 Fake API (DEV ONLY)
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { FakeAPIService } from './_fake/fake-api.service';
 
+// 🔹 Interceptors
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    ApartmentComponent
+    ApartmentComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule, // ✅ FIX
     ClipboardModule,
     TranslateModule.forRoot(),
     InlineSVGModule.forRoot(),
@@ -39,16 +45,17 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     SharedModule,
     AppRoutingModule,
 
-    // Fake API (only if enabled)
-    environment.isMockEnabled
-      ? HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {
-          passThruUnknownUrl: true,
-          dataEncapsulation: false,
-        })
-      : [],
+    // ✅ Fake API ONLY in DEV
+    ...( !environment.production && environment.isMockEnabled
+      ? [
+          HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {
+            passThruUnknownUrl: true,
+            dataEncapsulation: false,
+          }),
+        ]
+      : [] ),
   ],
   providers: [
-    // ✅ ORDER MATTERS (TOP → BOTTOM)
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
