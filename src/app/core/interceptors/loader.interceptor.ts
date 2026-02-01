@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-    HttpEvent,
-    HttpHandler,
-    HttpInterceptor,
-    HttpRequest,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -12,19 +12,24 @@ import { LoaderService } from '../services/loader.service';
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
 
-    constructor(private loader: LoaderService) { }
+  constructor(private loaderService: LoaderService) {}
 
-    intercept(
-        req: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
 
-        this.loader.show();
-
-        return next.handle(req).pipe(
-            finalize(() => {
-                this.loader.hide();
-            })
-        );
+    // ✅ DO NOT SHOW LOADER FOR LOGIN API
+    if (req.url.includes('/auth/login')) {
+      return next.handle(req);
     }
+
+    this.loaderService.show();
+
+    return next.handle(req).pipe(
+      finalize(() => {
+        this.loaderService.hide();
+      })
+    );
+  }
 }
