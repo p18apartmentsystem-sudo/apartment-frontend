@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   appVersion: 'v1.0.1',
   appThemeName: 'P18',
-  apiUrl: 'https://apartment-backend.onrender.com/api/',
+  apiUrl: 'https://apartment-backend.onrender.com/api',
 
 
 

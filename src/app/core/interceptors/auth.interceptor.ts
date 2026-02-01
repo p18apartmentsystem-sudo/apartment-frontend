@@ -11,20 +11,25 @@ import { AuthStateService } from '../services/auth-state.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authState: AuthStateService) { }
+intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-
-    const token = localStorage.getItem('token');
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    }
-
+  // ✅ BYPASS LOGIN & PUBLIC APIs
+  if (req.url.includes('/login') || req.url.includes('/auth/login')) {
     return next.handle(req);
   }
+
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+
+  return next.handle(req);
+}
+
 
 }
