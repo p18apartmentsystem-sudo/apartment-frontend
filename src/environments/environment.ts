@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
-  // apiUrl: 'https://apartment-backend.onrender.com/api/',  //PROD
+  // apiUrl: 'https://apartment-backend-redp.onrender.com/api/',  //PROD
 
   // apiUrl: 'http://10.23.100.170:3000/api',  // for mobile
 
