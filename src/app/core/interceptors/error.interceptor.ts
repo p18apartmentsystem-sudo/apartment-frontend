@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-    HttpEvent,
-    HttpHandler,
-    HttpInterceptor,
-    HttpRequest,
-    HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,37 +14,42 @@ import { AuthStateService } from '../services/auth-state.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(
-        private router: Router,
-        private authState: AuthStateService
-    ) { }
+  constructor(
+    private router: Router,
+    private authState: AuthStateService
+  ) {}
 
-    intercept(
-        req: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
 
-        return next.handle(req).pipe(
-            catchError((error: HttpErrorResponse) => {
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
 
-                if (error.status === 401) {
-                    // Unauthorized → session invalid
-                    this.authState.logout();
-                    this.router.navigate(['/auth/login']);
-                }
+        // ✅ DO NOT HANDLE ERRORS FOR LOGIN API
+        if (req.url.includes('/auth/login')) {
+          return throwError(() => error);
+        }
 
-                if (error.status === 403) {
-                    // Forbidden → role / permission issue
-                    this.router.navigate(['/error/403']);
-                }
+        // ✅ UNAUTHORIZED (token expired / invalid)
+        if (error.status === 401) {
+          this.authState.logout();
+          this.router.navigate(['/auth/login']);
+        }
 
-                if (error.status >= 500) {
-                    // Server error
-                    this.router.navigate(['/error/500']);
-                }
+        // ✅ FORBIDDEN
+        if (error.status === 403) {
+          this.router.navigate(['/error/403']);
+        }
 
-                return throwError(() => error);
-            })
-        );
-    }
+        // ✅ SERVER ERROR
+        if (error.status >= 500) {
+          this.router.navigate(['/error/500']);
+        }
+
+        return throwError(() => error);
+      })
+    );
+  }
 }

@@ -21,7 +21,7 @@ export class AuthService implements OnDestroy {
 
   // private API = 'http://localhost:3000/api/auth';
   
-  private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl+"/auth";
   isLoading$ = new BehaviorSubject<boolean>(false);
 
   // public fields
