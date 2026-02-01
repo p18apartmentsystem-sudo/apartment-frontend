@@ -1,0 +1,225 @@
+<!-- SUPER ADMIN DASHBOARD -->
+<ng-container *ngIf="role === 'super_admin' && dashboard">
+
+  <div class="row g-3 g-xl-5">
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/apartments')">
+        <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.summary.totalApartments"
+          description="Total Apartments">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/flats')">
+        <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.summary.totalFlats" description="Total Flats">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/users')">
+        <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.summary.totalUsers" description="Total Users">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <!-- NOT CLICKABLE (pure metric) -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-primary" [stats]="dashboard.summary.totalApartmentAdmins"
+        description="Apartment Admins">
+      </app-cards-widget7>
+    </div>
+
+  </div>
+
+  <div class="row g-3 g-xl-5">
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-success" description="Monthly Revenue" [stats]="dashboard.summary.monthlyRevenue"
+        prefix="₹">
+      </app-cards-widget7>
+    </div>
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/complaints', { status: 'open' })">
+        <app-cards-widget7 cssClass="bg-warning" description="Pending Complaints"
+          [stats]="dashboard.summary.pendingComplaints">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-primary" description="Active Apartments"
+        [stats]="dashboard.systemStats.activeApartments">
+      </app-cards-widget7>
+    </div>
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-danger" description="Inactive Apartments"
+        [stats]="dashboard.systemStats.inactiveApartments">
+      </app-cards-widget7>
+    </div>
+
+  </div>
+
+  <div class="row g-3 g-xl-5">
+
+    <!-- All below are NOT clickable -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-warning" description="Parking Slots"
+        [stats]="dashboard.systemStats.parkingSlotsTotal">
+      </app-cards-widget7>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-primary" description="Parking Used"
+        [stats]="dashboard.systemStats.parkingSlotsUsed">
+      </app-cards-widget7>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-danger" description="Free Parking" [stats]="freeParking">
+      </app-cards-widget7>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-success" description="System Health" [stats]="systemHealthScore">
+      </app-cards-widget7>
+    </div>
+
+  </div>
+
+</ng-container>
+
+<!-- APARTMENT ADMIN DASHBOARD -->
+<ng-container *ngIf="role === 'apartment_admin' && dashboard">
+
+  <div class="row g-3 g-xl-5">
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-primary" [stats]="dashboard.totalFlats" description="Total Flats">
+      </app-cards-widget7>
+    </div>
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.occupiedFlats" description="Occupied Flats">
+      </app-cards-widget7>
+    </div>
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/flats', { vacant: true })">
+        <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.vacantFlats" description="Vacant Flats">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-info" [stats]="dashboard.vehicles" description="Vehicles">
+      </app-cards-widget7>
+    </div>
+
+  </div>
+
+  <div class="row g-3 g-xl-5">
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/rent', { status: 'pending' })">
+        <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.pendingRent" description="Pending Rent Verification">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/light-bills', { status: 'pending' })">
+        <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.pendingLightBills"
+          description="Pending Light Bills">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/complaints', { status: 'open' })">
+        <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.openComplaints" description="Open Complaints">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+  </div>
+
+</ng-container>
+
+<!-- FLAT / RESIDENT DASHBOARD -->
+<ng-container *ngIf="(role === 'flat_admin' || role === 'resident') && dashboard">
+
+  <div class="row g-3 g-xl-5">
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-primary" [stats]="0" [description]="'Flat ' + dashboard.flatNumber">
+      </app-cards-widget7>
+    </div>
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.members" description="Family Members">
+      </app-cards-widget7>
+    </div>
+
+    <!-- NOT CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <app-cards-widget7 cssClass="bg-info" [stats]="dashboard.vehicles" description="Vehicles">
+      </app-cards-widget7>
+    </div>
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/complaints', { mine: true, status: 'open' })">
+        <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.openComplaints" description="Open Complaints">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row g-3 g-xl-5">
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/rent/my')">
+        <app-cards-widget7 [cssClass]="rentStatus.cssClass" [stats]="rentStatus.value" [description]="rentStatus.label">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+    <!-- CLICKABLE -->
+    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <div class="cursor-pointer" (click)="goTo('/light-bills/my')">
+        <app-cards-widget7 [cssClass]="lightBillStatus.cssClass" [stats]="lightBillStatus.value"
+          [description]="lightBillStatus.label">
+        </app-cards-widget7>
+      </div>
+    </div>
+
+  </div>
+
+</ng-container>
+
+
+<div class="row mb-5">
+  <div class="col-12">
+    <app-quick-actions></app-quick-actions>
+  </div>
+</div>

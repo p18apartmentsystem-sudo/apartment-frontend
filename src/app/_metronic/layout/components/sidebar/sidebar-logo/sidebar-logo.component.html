@@ -1,0 +1,36 @@
+<style>.logo-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;       /* space between logo and text */
+  text-decoration: none;
+}
+
+.logo-circle {
+  background-color: 1976d2; /* or #1976d2 if you want blue circle */
+    width: 245px;
+    height: 70px;
+}
+
+.app-title {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  white-space: nowrap; /* keep in one line */
+}
+</style>
+
+<a routerLink="/dashboard" class="logo-title-wrapper">
+  <ng-container *ngIf="currentLayoutType === 'dark-sidebar'">
+    <img alt="Logo" 
+         src="./assets/media/logos/logo.png" 
+         class="logo-circle"/>
+    <!-- <b class="app-title"> P18</b> -->
+  </ng-container>
+
+  <ng-container *ngIf="currentLayoutType !== 'dark-sidebar'">
+    <img alt="Logo" 
+         src="./assets/media/logos/logo.png" 
+         class="logo-circle"/>
+    <!-- <b class="app-title">P18</b> -->
+  </ng-container>
+</a>

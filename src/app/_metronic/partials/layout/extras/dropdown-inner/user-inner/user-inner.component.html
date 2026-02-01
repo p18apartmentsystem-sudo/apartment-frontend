@@ -1,0 +1,13 @@
+<ng-container>
+  <div class="separator my-2"></div>
+  <div class="menu-item px-5">
+    <a [routerLink]="['/users/profile']" class="menu-link px-5" style="color: green;">
+      My Profile
+    </a>
+  </div>
+  <div class="menu-item px-5">
+    <a (click)="logout()" class="menu-link px-5" style="color: rgb(128, 0, 0);">
+      Logout
+    </a>
+  </div>
+</ng-container>

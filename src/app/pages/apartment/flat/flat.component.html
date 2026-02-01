@@ -1,0 +1,312 @@
+<!-- begin::Header -->
+<div class="card-header border-0 pt-5 d-flex justify-content-end">
+    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+        title="Click to add Admin">
+
+        <button type="button" class="btn btn-success" (click)="openAddModal(addModal, id)">
+            + Add Falt
+        </button>
+
+    </div>
+</div>
+<!-- end::Header -->
+
+<!-- begin::Body -->
+<div class="card-body py-3">
+
+    <!-- APARTMENT -->
+    <div class="row mb-4" *ngIf="isMulti">
+        <form [formGroup]="filterForm">
+            <div class="col-12 col-md-6 mx-auto">
+                <select class="form-select form-select-lg" (change)="filterInTable($event)"
+                    formControlName="select_apartmentId">
+                    <option value="">Select Apartment</option>
+                    <option *ngFor="let apt of apartments" [value]="apt._id">
+                        {{ apt.name }}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="row mb-4" *ngIf="!isMulti">
+        <form [formGroup]="filterForm">
+            <div class="col-12 col-md-6 mx-auto">
+                <input type="text" class="form-control form-control-lg" placeholder="Apartment Name"
+                    formControlName="apartmentName">
+            </div>
+        </form>
+    </div>
+
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder">
+                    <th class="text-uppercase"><span class="badge badge-light-warning fs-6 fw-bolder"> SR </span></th>
+                    <th class="min-w-70px text-uppercase"><span class="badge badge-light-success fs-6 fw-bolder"> NUMBER
+                        </span></th>
+                    <th class="min-w-50px text-uppercase"><span class="badge badge-light-primary fs-6 fw-bolder"> FLOOR
+                        </span></th>
+                    <th class="min-w-100px text-uppercase"><span class="badge badge-light-warning fs-6 fw-bolder">
+                            RENT </span></th>
+                    <th class="min-w-70px text-uppercase"><span class="badge badge-light-success fs-6 fw-bolder">
+                            STATUS </span></th>
+                    <th class="min-w-170px text-uppercase"><span class="fs-6 fw-bolder" style="color: #17c653"> ADMIN
+                        </span>
+                    </th>
+                    <th class="min-w-100px text-uppercase text-center"><span
+                            class="badge badge-light-warning fs-6 fw-bolder">Actions</span></th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of flats; let i = index ">
+                    <td> {{ i + 1 }} </td>
+                    <td> {{ data.flatNumber }} </td>
+                    <td> {{ data.floor }} </td>
+                    <td> {{ data.rentAmount | currency:'INR' }} </td>
+                    <td>
+                        <span *ngIf="data.isOccupied">
+                            Active
+                        </span>
+                        <span *ngIf="!data.isOccupied">
+                            In-Active
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngIf="data.flatAdminId">
+                            {{ data.flatAdminId.name }} <br>
+                            {{ data.flatAdminId.mobile }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center flex-shrink-0">
+                            <a class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                  me-1
+                " (click)="openUpdateModal(addModal, data._id, data)">
+                                <span class="badge badge-light-warning fs-6 fw-bolder">
+                                    <app-keenicon name="pencil" class="fs-3"></app-keenicon>
+                                </span>
+                            </a>
+                            <!-- <a class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                  me-1
+                " (click)="openUpdateModal(addModal, data._id, data)">
+                                <span class="badge badge-light-success fs-6 fw-bolder">
+                                    <app-keenicon name="eye" class="fs-3"></app-keenicon>
+                                </span>
+                            </a> -->
+                            <a class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                " (click)="deleteFlat(data._id)">
+                                <span class="badge badge-light-danger fs-6 fw-bolder">
+                                    <app-keenicon name="trash" class="fs-3"></app-keenicon>
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+
+<!-- begin:: modal template -->
+<ng-template #addModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">
+            <span *ngIf="isAdd">Add Falt</span>
+            <span *ngIf="!isAdd">Update Flat</span>
+        </h4>
+
+        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="addForm">
+
+            <!-- APARTMENT -->
+            <div class="row mb-4" *ngIf="isMulti">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success mb-1">
+                        Apartment <span class="text-danger">*</span>
+                    </label>
+
+                    <select class="form-select form-select-lg" formControlName="apartmentId">
+                        <option value="">Select Apartment</option>
+                        <option *ngFor="let apt of apartments" [value]="apt._id">
+                            {{ apt.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- NUMBER -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Number <span class="text-danger">*</span>
+                    </label>
+
+                    <input type="text" class="form-control form-control-lg" placeholder="Flat Number"
+                        formControlName="flatNumber" (input)="toUppercase($event)">
+                </div>
+            </div>
+
+            <!-- Floor -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Floor <span class="text-danger">*</span>
+                    </label>
+                    <input type="number" class="form-control form-control-lg" placeholder="Floor"
+                        formControlName="floor">
+                </div>
+            </div>
+
+            <!-- Rent -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Rent <span class="text-danger">*</span>
+                    </label>
+                    <input type="number" class="form-control form-control-lg" placeholder="Rent Amt"
+                        formControlName="rentAmount">
+                </div>
+            </div>
+        </form>
+
+        <br>
+
+        <!-- Add Flat Admin -->
+        <div class="row mb-4">
+            <div class="col-12 col-md-6 mx-auto">
+                <label class="fw-bolder text-success" *ngIf="flatAdminUpdate">
+                    NOTE:: You can Update Flat Admin with Flat..
+                </label>
+                <label class="fw-bolder text-success" *ngIf="!flatAdminUpdate">
+                    NOTE:: You can add Flat Admin with Flat..
+                </label>
+            </div>
+        </div>
+
+        <!-- ACTION BUTTON -->
+        <div *ngIf="!isflatAdmin" class="d-flex justify-content-center gap-3 mt-4">
+            <button *ngIf="!flatAdminUpdate" type="button"
+                class="btn btn-outline-success border-2 px-15 fw-semibold flat-admin-outline"
+                (click)="isAddFlatAdmin()">
+                Add Flat Admin
+            </button>
+            <button *ngIf="flatAdminUpdate" type="button"
+                class="btn btn-outline-warning border-2 px-15 fw-semibold flat-admin-update" (click)="isAddFlatAdmin()">
+                Update Flat Admin
+            </button>
+            <hr>
+        </div>
+        <div *ngIf="isflatAdmin" class="card">
+            <div class="card-body">
+                <form [formGroup]="adminForm">
+
+                    <!-- NAME -->
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6 mx-auto">
+                            <label class="fw-bolder text-success">
+                                Name <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text" class="form-control form-control-lg" placeholder="Admin Name"
+                                formControlName="name" (input)="toUppercase($event)">
+                        </div>
+                    </div>
+
+                    <!-- MOBILE -->
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6 mx-auto">
+                            <label class="fw-bolder text-success">
+                                Mobile <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="number" class="form-control form-control-lg" placeholder="Mobile Number"
+                                formControlName="mobile" onkeypress="return this.value.length < 10;"
+                                [class.is-invalid]="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)">
+
+                            <div *ngIf="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)"
+                                class="mt-1">
+                                <small *ngIf="adminMobile?.errors?.required" class="text-danger">
+                                    Mobile Number is required
+                                </small>
+                                <small *ngIf="adminMobile?.errors?.pattern" class="text-danger">
+                                    Please enter valid 10 Digit Mobile Number
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="row mb-4" *ngIf="flatAdminUpdate">
+                        <div class="col-12 col-md-6 mx-auto">
+                            <label class="fw-bolder text-success">
+                                Email
+                            </label>
+
+                            <input type="text" class="form-control form-control-lg" placeholder="Email"
+                                formControlName="email">
+                        </div>
+                    </div>
+
+                    <!-- PASSWORD (ADD ONLY) -->
+                    <div class="row mb-4" *ngIf="!flatAdminUpdate">
+                        <div class="col-12 col-md-6 mx-auto">
+                            <label class="fw-bolder text-success">
+                                Password <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text" class="form-control form-control-lg" placeholder="Password"
+                                formControlName="password">
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+
+                        <button type="button" class="btn btn-outline-danger px-15 fw-semibold flat-admin-outline-danger"
+                            (click)="closeAddAdminModal()">
+                            Cancel
+                        </button>
+
+                    </div>
+
+                    <hr>
+                </form>
+            </div>
+        </div>
+        <br>
+        <!-- ACTION BUTTONS -->
+        <div class="d-flex justify-content-center gap-3 mt-4" *ngIf="isAdd">
+            <button class="btn btn-success px-5" (click)="addFlat()">Submit</button>
+            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mt-4" *ngIf="!isAdd">
+            <button class="btn btn-warning px-5" (click)="updateFlat()">Update</button>
+            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
+        </div>
+
+    </div>
+
+</ng-template>
+<!-- end:: modal template -->
