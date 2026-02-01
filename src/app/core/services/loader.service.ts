@@ -4,22 +4,14 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class LoaderService {
 
-    private loadingCount = 0;
-    private loadingSubject = new BehaviorSubject<boolean>(false);
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  loading$ = this.loadingSubject.asObservable();
 
-    loading$ = this.loadingSubject.asObservable();
+  show(): void {
+    this.loadingSubject.next(true);
+  }
 
-    show(): void {
-        this.loadingCount++;
-        this.loadingSubject.next(true);
-    }
-
-    hide(): void {
-        this.loadingCount--;
-
-        if (this.loadingCount <= 0) {
-            this.loadingCount = 0;
-            this.loadingSubject.next(false);
-        }
-    }
+  hide(): void {
+    this.loadingSubject.next(false);
+  }
 }
