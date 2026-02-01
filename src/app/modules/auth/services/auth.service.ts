@@ -19,11 +19,13 @@ export class AuthService implements OnDestroy {
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
 
-  private API = 'http://localhost:3000/api/auth';
+  // private API = 'http://localhost:3000/api/auth';
+  
+  private baseUrl = environment.apiUrl;
   isLoading$ = new BehaviorSubject<boolean>(false);
 
   // public fields
-  currentUser$: Observable<UserType>;
+  currentUser$: Observable<UserType>; 
   currentUserSubject: BehaviorSubject<UserType>;
   isLoadingSubject: BehaviorSubject<boolean>;
 
@@ -50,7 +52,7 @@ export class AuthService implements OnDestroy {
   // public methods
   login(mobile: string, password: string) {
     return this.http.post<any>(
-      `${this.API}/login`,
+      `${this.baseUrl}/login`,
       {
         mobile,
         password
@@ -68,17 +70,17 @@ export class AuthService implements OnDestroy {
   // SEND OTP
   sendEmailOtp(email: string) {
     this.isLoading$.next(true);
-    return this.http.post(`${this.API}/send-email-otp`, { email });
+    return this.http.post(`${this.baseUrl}/send-email-otp`, { email });
   }
 
   // VERIFY OTP
   verifyEmailOtp(payload: { email: string; otp: string }) {
-    return this.http.post(`${this.API}/verify-email-otp`, payload);
+    return this.http.post(`${this.baseUrl}/verify-email-otp`, payload);
   }
 
   // RESET PASSWORD
   resetPassword(payload: { email: string; newPassword: string }) {
-    return this.http.post(`${this.API}/reset-password`, payload);
+    return this.http.post(`${this.baseUrl}/reset-password`, payload);
   }
 
 
