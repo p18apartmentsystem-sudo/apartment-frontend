@@ -19,11 +19,6 @@ export class LoaderInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
 
-    // ✅ DO NOT SHOW LOADER FOR LOGIN API
-    if (req.url.includes('/auth/login')) {
-      return next.handle(req);
-    }
-
     this.loaderService.show();
 
     return next.handle(req).pipe(
