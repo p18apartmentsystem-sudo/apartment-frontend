@@ -70,7 +70,7 @@ export class LayoutService {
   private attrs: BehaviorSubject<HTMLAttributesType> =
     new BehaviorSubject<HTMLAttributesType>(getEmptyHTMLAttributes());
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   getProp(path: string, config?: ILayout): string | boolean | undefined | Object {
     if (config) {
@@ -129,8 +129,8 @@ export class LayoutService {
 
   getBaseLayoutTypeFromRouteOrLocalStorage(): LayoutType {
     const routeData = this.activatedRoute?.firstChild?.snapshot?.data;
-    if (routeData && routeData.layout) {
-      return routeData.layout as LayoutType;
+    if (routeData && routeData['layout']) {
+      return routeData['layout'] as LayoutType;
     }
 
     return this.getBaseLayoutTypeFromLocalStorage();

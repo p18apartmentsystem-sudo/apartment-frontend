@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -25,6 +25,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -54,6 +55,12 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
           }),
         ]
       : [] ),
+      ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        // Register the ServiceWorker as soon as the application is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000'
+      }),
   ],
   providers: [
     {
