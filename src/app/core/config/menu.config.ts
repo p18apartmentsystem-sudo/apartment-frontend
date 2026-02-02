@@ -14,16 +14,18 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['super_admin'],
   },
   {
-    title: 'Apartment',
-    route: '/apartment/profile',
-    icon: 'bi bi-building',
-    roles: ['apartment_admin'],
-  },
-  {
     title: 'Apartment Admin',
     route: '/users',
     icon: 'bi bi-person-gear',
     roles: ['super_admin'],
+  },
+
+  //APARTMENT ADMIN
+  {
+    title: 'Apartment',
+    route: '/apartment/profile',
+    icon: 'bi bi-building',
+    roles: ['apartment_admin'],
   },
   {
     title: 'Flat',
@@ -31,6 +33,14 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-house',
     roles: ['apartment_admin'],
   },
+  {
+    title: 'Rent',
+    route: '/payment/rent',
+    icon: 'bi bi-cash-stack',
+    roles: ['apartment_admin'],
+  },
+
+  //FLAT_MEMBER
   {
     title: 'Flat',
     route: '/apartment/my-flat',
@@ -43,12 +53,7 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-cash-stack',
     roles: ['flat_admin', 'resident'],
   },
-  // {
-  //   title: 'Light Bill',
-  //   route: '/payment/light-bill',
-  //   icon: 'bi bi-lightbulb',
-  //   roles: ['flat_admin', 'resident'],
-  // },
+
   // {
   //   title: 'Vehicle',
   //   route: '/apartment/parking',
@@ -62,9 +67,17 @@ export const MENU_ITEMS: MenuItem[] = [
   //   roles: ['apartment_admin', 'flat_admin', 'resident'],
   // },
   // {
+  //   title: 'Light Bill',
+  //   route: '/payment/light-bill',
+  //   icon: 'bi bi-lightbulb',
+  //   roles: ['flat_admin', 'resident'],
+  // },
+  // {
   //   title: 'User',
   //   route: '/user_list',
   //   icon: 'bi bi-people',
   //   roles: ['super_admin'],
   // },
+
+
 ];

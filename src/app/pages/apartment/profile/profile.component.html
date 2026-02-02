@@ -1,140 +1,146 @@
 <!-- begin::Header -->
 <div class="card-header border-0 pt-5 d-flex justify-content-end">
-    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-        title="Click to add Admin">
-
-        <button type="button" class="btn btn-success" (click)="openAddModal(addModal, id)">
-            + Add Apartment
-        </button>
-
-    </div>
+  <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
+    title="Click to add Apartment">
+    <button type="button" class="btn btn-success fw-bolder px-4"
+      (click)="openAddModal(addModal, id)">
+      + Add Apartment
+    </button>
+  </div>
 </div>
 <!-- end::Header -->
 
 <!-- begin::Body -->
 <div class="card-body py-3">
-    <!-- begin::Table container -->
-    <div class="table-responsive">
-        <!-- begin::Table -->
-        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
-            <!-- begin::Table head -->
-            <thead>
-                <tr class="fw-bolder">
-                    <th class="text-uppercase"><span class="fs-6 fw-bolder" style="color: #f6c000"> SR </span></th>
-                    <th class="min-w-150px text-uppercase"><span class="fs-6 fw-bolder" style="color: #17c653"> NAME
-                        </span></th>
-                    <th class="min-w-140px text-uppercase"><span class="fs-6 fw-bolder" style="color: #7239ea"> ADDRESS
-                        </span></th>
-                    <th class="min-w-140px text-uppercase"><span class="fs-6 fw-bolder" style="color: #17c653">CREATED
-                            AT</span>
-                    </th>
-                    <th class="min-w-140px text-uppercase"><span class="badge badge-light-warning fs-6 fw-bolder">
-                            STATUS </span></th>
-                    <th class="min-w-100px text-uppercase text-center"><span class="fs-6 fw-bolder"
-                            style="color: red">Actions</span></th>
-                </tr>
-            </thead>
-            <!-- end::Table head -->
-            <!-- begin::Table body -->
-            <tbody>
-                <tr *ngFor="let data of apartments; let i = index ">
-                    <td> {{ i + 1 }} </td>
-                    <td> {{ data.name }} </td>
-                    <td> {{ data.address}} </td>
-                    <td> {{ data.createdAt | date: 'dd MMM, YYYY'}} </td>
-                    <td>
-                        <span *ngIf="data.isActive">
-                            Active
-                        </span>
-                        <span *ngIf="!data.isActive">
-                            In-Active
-                        </span>
-                    </td>
-                    <td>
-                        <div class="d-flex justify-content-center flex-shrink-0">
-                            <a class="
-                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
-                  me-1
-                " (click)="openUpdateModal(addModal, data._id, data)">
-                                <span class="badge badge-light-warning fs-6 fw-bolder">
-                                    <app-keenicon name="pencil" class="fs-3"></app-keenicon>
-                                </span>
-                            </a>
-                            <a class="
-                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
-                " (click)="deleteApartment(data._id)">
-                                <span class="badge badge-light-danger fs-6 fw-bolder">
-                                    <app-keenicon name="trash" class="fs-3"></app-keenicon>
-                                </span>
-                            </a>
-                        </div>
-                    </td>
 
-                </tr>
-            </tbody>
-            <!-- end::Table body -->
-        </table>
-        <!-- end::Table -->
-    </div>
-    <!-- end::Table container -->
+  <!-- begin::Table container -->
+  <div class="table-responsive">
+    <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+
+      <thead>
+        <tr class="fw-bolder">
+          <th class="text-uppercase text-warning">SR</th>
+          <th class="text-uppercase text-success">Name</th>
+          <th class="text-uppercase text-primary">Address</th>
+          <th class="text-uppercase text-info">Created</th>
+          <th class="text-uppercase text-success">Status</th>
+          <th class="text-uppercase text-center text-danger">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data of apartments; let i = index">
+          <td>{{ i + 1 }}</td>
+
+          <td class="fw-bolder">{{ data.name }}</td>
+
+          <td>{{ data.address }}</td>
+
+          <td>{{ data.createdAt | date:'dd MMM, yyyy' }}</td>
+
+          <td>
+            <span class="badge"
+              [ngClass]="data.isActive ? 'badge-light-success' : 'badge-light-danger'">
+              {{ data.isActive ? 'ACTIVE' : 'INACTIVE' }}
+            </span>
+          </td>
+
+          <td class="text-center">
+            <div class="d-flex justify-content-center gap-2">
+              <button class="btn btn-sm btn-light-warning"
+                (click)="openUpdateModal(addModal, data._id, data)">
+                <app-keenicon name="pencil" class="fs-3"></app-keenicon>
+              </button>
+
+              <button class="btn btn-sm btn-light-danger"
+                (click)="deleteApartment(data._id)">
+                <app-keenicon name="trash" class="fs-3"></app-keenicon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+  <!-- end::Table container -->
 
 </div>
 <!-- end::Body -->
 
-<!-- begin:: modal template -->
+<!-- begin::Modal -->
 <ng-template #addModal let-c="close" let-d="dismiss">
 
-    <div class="modal-header d-flex justify-content-between align-items-center">
-        <h4 class="mb-0">
-            <span *ngIf="isAdd">Add Apartment</span>
-            <span *ngIf="!isAdd">Update Apartment</span>
-        </h4>
+  <div class="modal-header">
+    <h4 class="fw-bolder mb-0">
+      {{ isAdd ? 'Add Apartment' : 'Update Apartment' }}
+    </h4>
+    <button type="button" class="btn btn-sm btn-danger"
+      (click)="d('Cross click')">✕</button>
+  </div>
 
-        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal-body">
+
+    <form [formGroup]="addForm">
+
+      <!-- NAME -->
+      <div class="mb-4">
+        <label class="fw-bolder text-success">
+          Name <span class="text-danger">*</span>
+        </label>
+        <input type="text"
+          class="form-control form-control-lg"
+          placeholder="Apartment Name"
+          formControlName="name"
+          (input)="toUppercase($event)">
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="mb-4">
+        <label class="fw-bolder text-success">
+          Address <span class="text-danger">*</span>
+        </label>
+        <input type="text"
+          class="form-control form-control-lg"
+          placeholder="Location eg. WAKAD PUNE"
+          formControlName="address"
+          (input)="toUppercase($event)">
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="mb-4">
+        <label class="fw-bolder text-success">
+          Full Address
+        </label>
+        <textarea class="form-control form-control-lg"
+          rows="3"
+          placeholder="Apartment Address"
+          formControlName="address_lg"></textarea>
+      </div>
+
+    </form>
+
+    <!-- ACTION BUTTONS -->
+    <div class="d-flex justify-content-center gap-4 mt-5">
+      <button class="btn btn-success px-5 fw-bolder"
+        *ngIf="isAdd"
+        (click)="addApartment()">
+        Submit
+      </button>
+
+      <button class="btn btn-warning px-5 fw-bolder"
+        *ngIf="!isAdd"
+        (click)="updateApartment()">
+        Update
+      </button>
+
+      <button class="btn btn-danger px-5 fw-bolder"
+        (click)="closeModal()">
+        Cancel
+      </button>
     </div>
 
-    <div class="modal-body">
-        <form [formGroup]="addForm">
-
-            <!-- NAME -->
-            <div class="row mb-4">
-                <div class="col-12 col-md-6 mx-auto">
-                    <label class="fw-bolder text-success">
-                        Name <span class="text-danger">*</span>
-                    </label>
-
-                    <input type="text" class="form-control form-control-lg" placeholder="Name" formControlName="name"
-                         (input)="toUppercase($event)">
-                </div>
-            </div>
-
-            <!-- ADDRESS -->
-            <div class="row mb-4">
-                <div class="col-12 col-md-6 mx-auto">
-                    <label class="fw-bolder text-success">
-                        Address <span class="text-danger">*</span>
-                    </label>
-                    <textarea type="text" placeholder="Address" class="form-control" formControlName="address"
-                        rows="5"></textarea>
-                </div>
-            </div>
-
-        </form>
-        <br>
-        <!-- ACTION BUTTONS -->
-        <div class="d-flex justify-content-center gap-3 mt-4" *ngIf="isAdd">
-            <button class="btn btn-success px-5" (click)="addApartment()">Submit</button>
-            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
-        </div>
-
-        <div class="d-flex justify-content-center gap-3 mt-4" *ngIf="!isAdd">
-            <button class="btn btn-warning px-5" (click)="updateApartment()">Update</button>
-            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
-        </div>
-
-    </div>
+  </div>
 
 </ng-template>
-<!-- end:: modal template -->
+<!-- end::Modal -->

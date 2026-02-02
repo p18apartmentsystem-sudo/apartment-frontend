@@ -91,6 +91,20 @@ addRent(payload: {
     return this.http.get(`${this.baseUrl}/rent-payments/flat`);
   }
 
+  /**
+   * GET APARMENTS
+   */
+  getApartment(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/apartments/`);
+  }
+  
+  /**
+   * GET RENT for APARTMENT
+   */
+  getRentByApartment(
+    id: string,): Observable<any> {
+    return this.http.get(`${this.baseUrl}/rent-payments/apartment/${id}`);
+  }
 
   /**
    * VERIFY RENT

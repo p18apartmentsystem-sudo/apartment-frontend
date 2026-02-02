@@ -23,14 +23,22 @@ export class RentComponent {
     monthYear: new FormControl(""),
     proofFile: new FormControl("")
   });
+  filterForm = new FormGroup({
+    apartmentName: new FormControl(""),
+    select_apartmentId: new FormControl(""),
+  });
 
   loading = false;
   isF_Admin: boolean = false;
+  isA_Admin: boolean = false;
   proofFile!: File;
   apartment_Id: any;
   apartment_name: any;
   flat: any;
   rents: any;
+  apartments: any;
+  isMulti: boolean = false;
+  apartmentName: any;
 
   proofUrl: string | null = null;
   proofType: 'image' | 'pdf' | null = null;
@@ -43,6 +51,7 @@ export class RentComponent {
   flatNumber: any;
   floor: any;
   rentAmount: any;
+  rent_id: any;
 
   constructor(private authState: AuthStateService,
     private modalService: NgbModal,
@@ -52,9 +61,13 @@ export class RentComponent {
 
 
   ngOnInit(): void {
-
+    this.loading = true;
     this.role = this.authState.getRole();
-    if (this.role === 'flat_admin') {
+    if (this.role === 'apartment_admin') {
+      this.isA_Admin = true;
+      //get APARTMENT details API
+      this.getApartment();
+    } else if (this.role === 'flat_admin') {
       this.isF_Admin = true;
       //get flat details API
       this.getRentForFlat();
@@ -63,6 +76,7 @@ export class RentComponent {
       this.getFlatsByFlatAdminId();
     } else {
       this.isF_Admin = false;
+      this.isA_Admin = false;
       this.router.navigate(['/auth/login'])
     }
   }
@@ -98,7 +112,6 @@ export class RentComponent {
     });
   }
 
-
   closeModal() {
     this.modalRef.close('close');
     this.paymentForm.controls['refNo'].setValue("");
@@ -106,7 +119,6 @@ export class RentComponent {
     this.getRentForFlat();
     this.loading = false;
   }
-
 
   onFileChange(event: any) {
     const file = event.target.files?.[0];
@@ -145,7 +157,6 @@ export class RentComponent {
     });
   }
 
-
   toUppercase(event: Event) {
     const input = event.target as HTMLInputElement;
     const cursorPos = input.selectionStart || 0;
@@ -156,13 +167,15 @@ export class RentComponent {
     input.setSelectionRange(cursorPos, cursorPos);
   }
 
+
   viewRent(rent_id: any, viewModal: any) {
+    this.rent_id = '';
     this.loading = true;
     this.proofUrl = '';
-
     this.post.getDocRentForFlat(rent_id).subscribe({
       next: (res: any) => {
         this.loading = false;
+        this.rent_id = rent_id;
 
         if (!res.proofFile) {
           alert('No proof file found');
@@ -186,8 +199,6 @@ export class RentComponent {
       }
     });
   }
-
-
 
   openViewModal(viewModal: any) {
     this.modalRef = this.modalService.open(viewModal);
@@ -262,4 +273,104 @@ export class RentComponent {
       },
     });
   }
+
+
+
+  /**
+  * 🔹 APARTMENT_ADMIN LOGIN 
+  */
+  getApartment() {
+    this.isMulti = false;
+    this.post.getApartment().subscribe(res => {
+      this.apartments = res.data;
+      this.apartment_Id = res.data[0]._id;
+
+      if (res.data.length > 1) {
+        this.isMulti = true;
+        this.filterForm.controls['select_apartmentId'].setValue(res.data[0]._id)
+      } else {
+        this.isMulti = false;
+        this.apartmentName = res.data[0].name;
+      }
+      this.getRent(this.apartment_Id);
+    });
+
+  }
+
+
+  filterInTable(event: Event) {
+    this.apartment_Id = '';
+    const apartmentId = (event.target as HTMLSelectElement).value;
+    this.apartment_Id = apartmentId
+    this.getRent(this.apartment_Id);
+  }
+
+  getRent(apartment_Id: any) {
+    this.loading = true;
+
+    this.post.getRentByApartment(apartment_Id).subscribe({
+      next: (res) => {
+        if (!res?.data?.length) {
+          this.loading = false;
+          alert('No data found!');
+          return;
+        }
+
+        this.rents = res.data;
+        this.paymentForm.controls['amount']
+          .setValue(res.data[0].rentAmount);
+
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        alert('Error to get data!');
+      },
+    });
+  }
+
+
+  closeViewModal() {
+    this.rent_id = '';
+    this.proofUrl = '';
+    this.proofType = null;
+    this.modalRef.close('close');
+    this.getRent(this.apartment_Id);
+  }
+
+  //VERIFY/REJECT RENT    "verified", "rejected"
+  verifyRent() {
+    const payload = {
+      status: "verified"
+    }
+    this.post.verifyRent(this.rent_id, payload).subscribe({
+      next: (res) => {
+        alert("Rent Verified..!");
+        this.closeViewModal();
+      },
+      error: () => {
+        this.loading = false;
+        alert("Error to Action..!");
+        this.closeViewModal();
+      },
+    });
+  }
+
+  rejectRent() {
+    const payload = {
+      status: "rejected"
+    }
+    this.post.verifyRent(this.rent_id, payload).subscribe({
+      next: (res) => {
+        alert("Rent Rejected..!");
+        this.closeViewModal();
+      },
+      error: () => {
+        this.loading = false;
+        alert("Error to Action..!");
+        this.closeViewModal();
+      },
+    });
+  }
+
 }

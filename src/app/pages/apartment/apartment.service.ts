@@ -18,6 +18,7 @@ export class ApartmentService {
   addApartment(payload: {
     name: string;
     address: string;
+    address_lg: string;
   }): Observable<any> {
     return this.http.post(
       `${this.baseUrl}/apartments`,
@@ -56,6 +57,7 @@ export class ApartmentService {
     payload: {
       name?: string;
       address?: string;
+      address_lg?: string;
     }
   ): Observable<any> {
     return this.http.put(

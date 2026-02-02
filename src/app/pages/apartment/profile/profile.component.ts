@@ -19,6 +19,7 @@ export class ProfileComponent {
   addForm = new FormGroup({
     name: new FormControl("", Validators.required),
     address: new FormControl("", Validators.required),
+    address_lg: new FormControl(""),
   });
 
   id: any = 0;
@@ -61,6 +62,7 @@ export class ProfileComponent {
     this.apartmentId = data._id
     this.addForm.controls["name"].setValue(data.name)
     this.addForm.controls["address"].setValue(data.address)
+    this.addForm.controls["address_lg"].setValue(data.address_lg)
 
     this.modalRef = this.modalService.open(addModal);
     this.modalRef.result.then(
@@ -111,6 +113,7 @@ export class ProfileComponent {
     const payload = {
       name: this.addForm.value.name!,
       address: this.addForm.value.address!,
+      address_lg: this.addForm.value.address_lg!,
     };
 
     this.post.addApartment(payload).subscribe({
@@ -136,6 +139,7 @@ export class ProfileComponent {
     const payload = {
       name: this.addForm.value.name ?? undefined,
       address: this.addForm.value.address ?? undefined,
+      address_lg: this.addForm.value.address_lg ?? undefined,
     };
 
     this.post.updateApartmentById(this.apartmentId, payload).subscribe({
@@ -157,6 +161,7 @@ export class ProfileComponent {
     this.addForm.reset()
     this.addForm.controls['name'].setValue("")
     this.addForm.controls['address'].setValue("")
+    this.addForm.controls["address_lg"].setValue("")
     this.modalRef.close('close');
   }
 

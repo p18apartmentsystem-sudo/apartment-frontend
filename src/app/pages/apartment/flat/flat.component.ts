@@ -137,21 +137,26 @@ export class FlatComponent {
   }
 
   /**
- * 🔹 GET BY ID (EDIT MODE)
- */
+   * 🔹 GET BY APARTMENT ID (EDIT MODE)
+   */
   getFlatsByApartmentId(apartmentId: string) {
     this.loading = true;
 
     this.post.getFlatByApartmentId(apartmentId).subscribe({
       next: (res) => {
-        if (!res.data.length) return this.loading = false;
+        this.loading = false;
+
+        if (!res?.data?.length) {
+          this.flats = [];
+          return;
+        }
 
         this.flats = res.data;
-        this.apartmentId = res.data[0].apartmentId;
-        this.loading = false;
+        this.apartmentId = res.data[0]?.apartmentId;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
+        console.error(err);
       },
     });
   }
