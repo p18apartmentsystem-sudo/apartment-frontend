@@ -88,8 +88,9 @@
 
                     <td>
                         <span class="badge" [ngClass]="{
-                'badge-light-success': data.status === 'paid',
-                'badge-light-warning': data.status !== 'paid'
+                'badge-light-warning': data.status === 'paid',
+                'badge-light-success': data.status === 'verified',
+                'badge-light-danger': data.status === 'rejected',
               }">
                             {{ data.status | uppercase }}
                         </span>
@@ -268,8 +269,8 @@
     </div>
 
     <div class="modal-footer">
-        
-        <div class="d-flex justify-content-center gap-4 mt-4">
+
+        <div *ngIf="isA_Admin" class="d-flex justify-content-center gap-4 mt-4">
             <button class="btn btn-success px-5 fw-bolder" (click)="verifyRent()">
                 Verify
             </button>
@@ -280,6 +281,12 @@
                 Close
             </button>
         </div>
+        <div *ngIf="isF_Admin" class="d-flex justify-content-center gap-4 mt-4">
+            <button class="btn btn-danger px-5 fw-bolder" (click)="closeViewModal()">
+                Close
+            </button>
+        </div>
+
     </div>
-    
+
 </ng-template>

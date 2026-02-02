@@ -331,11 +331,20 @@ export class RentComponent {
 
 
   closeViewModal() {
-    this.rent_id = '';
-    this.proofUrl = '';
-    this.proofType = null;
-    this.modalRef.close('close');
-    this.getRent(this.apartment_Id);
+    if (this.isA_Admin) {
+      this.rent_id = '';
+      this.proofUrl = '';
+      this.proofType = null;
+      this.modalRef.close('close');
+      this.getRent(this.apartment_Id);
+
+    } else {
+      this.rent_id = '';
+      this.proofUrl = '';
+      this.proofType = null;
+      this.modalRef.close('close');
+
+    }
   }
 
   //VERIFY/REJECT RENT    "verified", "rejected"
