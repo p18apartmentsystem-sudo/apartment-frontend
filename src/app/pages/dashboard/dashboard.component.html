@@ -1,46 +1,44 @@
 <!-- ================= DASHBOARD ================= -->
+<div *ngIf="errorMessage" class="alert alert-warning text-center">
+  {{ errorMessage }}
+</div>
 
+<div *ngIf="loading" class="text-center">
+  Loading dashboard...
+</div>
+
+<!-- dashboard cards -->
 <!-- SUPER ADMIN DASHBOARD -->
 <ng-container *ngIf="role === 'super_admin' && dashboard">
 
   <div class="dashboard-section mb-6">
     <div class="row g-4">
-<!-- (click)="goTo('/apartments')" -->
-      <div class="col-sm-6 col-xl-3" >
+      <!-- (click)="goTo('/apartments')" -->
+      <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7
-            cssClass="bg-danger"
-            [stats]="dashboard.summary.totalApartments"
+          <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.summary.totalApartments"
             description="Total Apartments">
           </app-cards-widget7>
         </div>
       </div>
-<!-- (click)="goTo('/flats')" -->
-      <div class="col-sm-6 col-xl-3" >
+      <!-- (click)="goTo('/flats')" -->
+      <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7
-            cssClass="bg-success"
-            [stats]="dashboard.summary.totalFlats"
-            description="Total Flats">
+          <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.summary.totalFlats" description="Total Flats">
           </app-cards-widget7>
         </div>
       </div>
-<!-- (click)="goTo('/users')" -->
-      <div class="col-sm-6 col-xl-3" >
+      <!-- (click)="goTo('/users')" -->
+      <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7
-            cssClass="bg-warning"
-            [stats]="dashboard.summary.totalUsers"
-            description="Total Users">
+          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.summary.totalUsers" description="Total Users">
           </app-cards-widget7>
         </div>
       </div>
 
       <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card">
-          <app-cards-widget7
-            cssClass="bg-primary"
-            [stats]="dashboard.summary.totalApartmentAdmins"
+          <app-cards-widget7 cssClass="bg-primary" [stats]="dashboard.summary.totalApartmentAdmins"
             description="Apartment Admins">
           </app-cards-widget7>
         </div>
@@ -54,20 +52,15 @@
 
       <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card">
-          <app-cards-widget7
-            cssClass="bg-success"
-            description="Monthly Revenue"
-            [stats]="dashboard.summary.monthlyRevenue"
-            prefix="₹">
+          <app-cards-widget7 cssClass="bg-success" description="Monthly Revenue"
+            [stats]="dashboard.summary.monthlyRevenue" prefix="₹">
           </app-cards-widget7>
         </div>
       </div>
-<!-- (click)="goTo('/complaints', { status: 'open' })" -->
-      <div class="col-sm-6 col-xl-3" >
+      <!-- (click)="goTo('/complaints', { status: 'open' })" -->
+      <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7
-            cssClass="bg-warning"
-            description="Pending Complaints"
+          <app-cards-widget7 cssClass="bg-warning" description="Pending Complaints"
             [stats]="dashboard.summary.pendingComplaints">
           </app-cards-widget7>
         </div>
@@ -75,9 +68,7 @@
 
       <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card">
-          <app-cards-widget7
-            cssClass="bg-primary"
-            description="Active Apartments"
+          <app-cards-widget7 cssClass="bg-primary" description="Active Apartments"
             [stats]="dashboard.systemStats.activeApartments">
           </app-cards-widget7>
         </div>
@@ -85,9 +76,7 @@
 
       <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card">
-          <app-cards-widget7
-            cssClass="bg-danger"
-            description="Inactive Apartments"
+          <app-cards-widget7 cssClass="bg-danger" description="Inactive Apartments"
             [stats]="dashboard.systemStats.inactiveApartments">
           </app-cards-widget7>
         </div>
@@ -117,8 +106,8 @@
           </app-cards-widget7>
         </div>
       </div>
-<!-- (click)="goTo('/flats', { vacant: true })" -->
-      <div class="col-sm-6 col-xl-3" >
+      <!-- (click)="goTo('/flats', { vacant: true })" -->
+      <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card clickable">
           <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.vacantFlats" description="Vacant Flats">
           </app-cards-widget7>
@@ -145,10 +134,7 @@
 
       <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card">
-          <app-cards-widget7
-            cssClass="bg-primary"
-            [stats]="dashboard.flatNumber"
-            [description]="'Flat Number'">
+          <app-cards-widget7 cssClass="bg-primary" [stats]="dashboard.flatNumber" [description]="'Flat Number'">
           </app-cards-widget7>
         </div>
       </div>
@@ -166,8 +152,8 @@
           </app-cards-widget7>
         </div>
       </div>
-<!-- (click)="goTo('/complaints', { mine: true, status: 'open' })" -->
-      <div class="col-sm-6 col-xl-3" >
+      <!-- (click)="goTo('/complaints', { mine: true, status: 'open' })" -->
+      <div class="col-sm-6 col-xl-3">
         <div class="dashboard-card clickable">
           <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.openComplaints" description="Open Complaints">
           </app-cards-widget7>

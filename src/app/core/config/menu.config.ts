@@ -42,12 +42,6 @@ export const MENU_ITEMS: MenuItem[] = [
 
   //FLAT_MEMBER
   {
-    title: 'Flat',
-    route: '/apartment/my-flat',
-    icon: 'bi bi-house',
-    roles: ['flat_admin', 'resident'],
-  },
-  {
     title: 'Rent',
     route: '/payment/rent',
     icon: 'bi bi-cash-stack',

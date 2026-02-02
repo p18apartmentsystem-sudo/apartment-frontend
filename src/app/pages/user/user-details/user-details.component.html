@@ -32,7 +32,7 @@
         [(ngModel)]="profile.name"
         class="form-control form-control-lg"
         [readonly]="!isEditMode"
-        (input)="toUppercase($event)"
+        appUppercase
       />
     </div>
 

@@ -52,6 +52,7 @@ export class RentComponent {
   floor: any;
   rentAmount: any;
   rent_id: any;
+  is_resident: boolean = false;
 
   constructor(private authState: AuthStateService,
     private modalService: NgbModal,
@@ -74,6 +75,9 @@ export class RentComponent {
       this.month = this.post.generateMonthYearArray();
       this.setCurrentMonthYear();
       this.getFlatsByFlatAdminId();
+    } else if (this.role === 'resident') {
+      this.is_resident = true;
+      this.getRentForFlat();
     } else {
       this.isF_Admin = false;
       this.isA_Admin = false;
@@ -102,6 +106,12 @@ export class RentComponent {
 
     this.post.getRentForFlat().subscribe({
       next: (res) => {
+        if (!res?.data?.length) {
+          this.rents = [];
+          this.paymentForm.controls["amount"].setValue('')
+          this.loading = false;
+          return;
+        }
         this.rents = res.data;
         this.paymentForm.controls["amount"].setValue(res.data[0].rentAmount)
         this.loading = false;
@@ -155,16 +165,6 @@ export class RentComponent {
         alert(err.error?.message || 'Upload failed');
       }
     });
-  }
-
-  toUppercase(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const cursorPos = input.selectionStart || 0;
-
-    input.value = input.value.toUpperCase();
-
-    // restore cursor position
-    input.setSelectionRange(cursorPos, cursorPos);
   }
 
 
@@ -255,7 +255,7 @@ export class RentComponent {
   }
 
   /**
-* 🔹 GET BY FLAT ADMIN_ID (EDIT MODE)
+* 🔹 GET BY FLAT ADMIN_ID (VIEW CARD MODE)
 */
   getFlatsByFlatAdminId() {
     this.loading = true;

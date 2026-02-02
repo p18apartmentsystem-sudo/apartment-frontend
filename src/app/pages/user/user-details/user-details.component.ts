@@ -54,16 +54,6 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  toUppercase(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const cursorPos = input.selectionStart || 0;
-
-    input.value = input.value.toUpperCase();
-
-    // restore cursor position
-    input.setSelectionRange(cursorPos, cursorPos);
-  }
-
   enableEditMode() {
     this.isEditMode = true;
   }

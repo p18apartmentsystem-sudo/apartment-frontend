@@ -250,9 +250,7 @@ export class FlatComponent {
     this.getFlatsByApartmentId(this.apartmentId);
     this.isAdd = false;
     this.flatId = '';
-    this.addForm.reset()
     this.addForm.controls['rentAmount'].setValue("")
-    this.addForm.controls['apartmentId'].setValue("")
     this.addForm.controls['flatNumber'].setValue("")
     this.addForm.controls['floor'].setValue("")
     this.modalRef.close('close');
@@ -305,6 +303,7 @@ export class FlatComponent {
 
     this.post.addFlatAdmin(payload).subscribe({
       next: (res) => {
+        alert("Added successfully..!")
         this.closeModal();
       },
       error: () => {
@@ -330,6 +329,7 @@ export class FlatComponent {
 
     this.post.updateFlatAdminByFlatId(flat_Id, payload).subscribe({
       next: (res) => {
+        alert("Updated successfully..!")
         this.closeModal();
       },
       error: () => {
@@ -337,16 +337,6 @@ export class FlatComponent {
       },
     });
 
-  }
-
-  toUppercase(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const cursorPos = input.selectionStart || 0;
-
-    input.value = input.value.toUpperCase();
-
-    // restore cursor position
-    input.setSelectionRange(cursorPos, cursorPos);
   }
 
 }

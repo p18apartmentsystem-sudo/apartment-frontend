@@ -9,54 +9,7 @@
 <!-- end::Header -->
 
 <!-- begin::Body -->
-<div *ngIf="isF_Admin" class="card-body py-3">
-
-    <div class="card p-3 mb-4">
-
-        <!-- 📱 MOBILE VIEW – ONE LINE -->
-        <div class="d-flex d-md-none justify-content-between align-items-center text-center">
-
-            <div>
-                <div class="text-muted small">Flat</div>
-                <div class="fw-bolder">{{ flatNumber }}</div>
-            </div>
-
-            <div>
-                <div class="text-muted small">Floor</div>
-                <div class="fw-bolder">{{ floor }}</div>
-            </div>
-
-            <div>
-                <div class="text-muted small">Rent</div>
-                <div class="fw-bolder">₹{{ rentAmount }}</div>
-            </div>
-
-        </div>
-
-        <!-- 🖥 DESKTOP VIEW – SAME AS BEFORE -->
-        <div class="d-none d-md-block">
-            <div class="row text-center">
-
-                <div class="col-md-4">
-                    <span>Flat :</span>
-                    <span class="fw-bolder">{{ flatNumber }}</span>
-                </div>
-
-                <div class="col-md-4">
-                    <span>Floor :</span>
-                    <span class="fw-bolder">{{ floor }}</span>
-                </div>
-
-                <div class="col-md-4">
-                    <span>Rent :</span>
-                    <span class="fw-bolder">₹{{ rentAmount }}</span>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
+<div *ngIf="isF_Admin || is_resident" class="card-body py-3">
     <!-- begin::Table container -->
     <div class="table-responsive">
         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
@@ -281,7 +234,7 @@
                 Close
             </button>
         </div>
-        <div *ngIf="isF_Admin" class="d-flex justify-content-center gap-4 mt-4">
+        <div *ngIf="isF_Admin || is_resident" class="d-flex justify-content-center gap-4 mt-4">
             <button class="btn btn-danger px-5 fw-bolder" (click)="closeViewModal()">
                 Close
             </button>

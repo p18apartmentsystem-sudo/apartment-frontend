@@ -125,17 +125,31 @@
                     Name <span class="text-danger">*</span>
                 </label>
                 <input type="text" class="form-control form-control-lg" placeholder="Member Name" formControlName="name"
-                    (input)="toUppercase($event)" />
+                    appUppercase />
             </div>
 
             <!-- MOBILE -->
-            <div class="mb-4">
-                <label class="fw-bolder text-success">
-                    Mobile <span class="text-danger">*</span>
-                </label>
-                <input type="number" class="form-control form-control-lg" placeholder="Mobile Number"
-                    formControlName="mobile" />
-            </div>
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6 mx-auto">
+                            <label class="fw-bolder text-success">
+                                Mobile <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="number" class="form-control form-control-lg" placeholder="Mobile Number"
+                                formControlName="mobile" onkeypress="return this.value.length < 10;"
+                                [class.is-invalid]="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)">
+
+                            <div *ngIf="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)"
+                                class="mt-1">
+                                <small *ngIf="adminMobile?.errors?.required" class="text-danger">
+                                    Mobile Number is required
+                                </small>
+                                <small *ngIf="adminMobile?.errors?.pattern" class="text-danger">
+                                    Please enter valid 10 Digit Mobile Number
+                                </small>
+                            </div>
+                        </div>
+                    </div>
 
             <!-- EMAIL -->
             <div class="mb-4">

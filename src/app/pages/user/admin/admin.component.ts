@@ -135,7 +135,6 @@ export class AdminComponent {
    * 🔹 UPDATE ADMIN
    */
   updateAdmin() {
-    console.log("update_modal_submit", this.adminId)
     if (!this.adminId) return;
 
     this.loading = true;
@@ -147,6 +146,7 @@ export class AdminComponent {
 
     this.userService.updateAdminById(this.adminId, payload).subscribe({
       next: () => {
+        alert("Updated successfully..!")
         this.closeModal();
         this.loading = false;
       },
@@ -175,13 +175,4 @@ export class AdminComponent {
 
   }
 
-  toUppercase(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const cursorPos = input.selectionStart || 0;
-
-    input.value = input.value.toUpperCase();
-
-    // restore cursor position
-    input.setSelectionRange(cursorPos, cursorPos);
-  }
 }

@@ -144,6 +144,7 @@ export class ProfileComponent {
 
     this.post.updateApartmentById(this.apartmentId, payload).subscribe({
       next: () => {
+        alert("Updated successfully..!")
         this.closeModal();
         this.loading = false;
       },
@@ -172,13 +173,4 @@ export class ProfileComponent {
 
   }
 
-  toUppercase(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const cursorPos = input.selectionStart || 0;
-
-    input.value = input.value.toUpperCase();
-
-    // restore cursor position
-    input.setSelectionRange(cursorPos, cursorPos);
-  }
 }

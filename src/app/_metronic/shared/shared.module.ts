@@ -1,16 +1,17 @@
 import {NgModule} from '@angular/core';
 import {KeeniconComponent} from './keenicon/keenicon.component';
 import {CommonModule} from "@angular/common";
+import { UppercaseDirective } from './uppercase.directive'
 
 @NgModule({
   declarations: [
-    KeeniconComponent
+    KeeniconComponent, UppercaseDirective
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    KeeniconComponent
+    KeeniconComponent, UppercaseDirective
   ]
 })
 export class SharedModule {

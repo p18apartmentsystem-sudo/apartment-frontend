@@ -76,11 +76,6 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/profile/me`);
   }
 
-  // Update email
-  updateEmail(email: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/profile/update-email`, { email });
-  }
-
   // Send email OTP
   sendEmailOtp(email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/profile/send-email-otp`, { email });

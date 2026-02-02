@@ -20,51 +20,71 @@ export class DashboardComponent implements OnInit {
     dismissButtonLabel: 'Submit',
     closeButtonLabel: 'Cancel'
   };
+  errorMessage: string;
   constructor(private authState: AuthStateService,
     private dashboardService: DashboardService,
     private router: Router) { }
 
   ngOnInit(): void {
     this.role = this.authState.getRole();
+    this.getDashboard();
+  }
+
+  getDashboard() {
+    this.loading = true;
+
+    let api$;
+
     if (this.role === 'super_admin') {
-      this.dashboardService.getSuperAdminDashboard()
-        .subscribe({
-          next: (res) => {
-            this.dashboard = res;
-            this.loading = false;
-          },
-          error: () => {
-            this.loading = false;
-          }
-        });
+      api$ = this.dashboardService.getSuperAdminDashboard();
+    } else if (this.role === 'apartment_admin') {
+      api$ = this.dashboardService.getApartmentDashboard();
+    } else if (this.role === 'flat_admin' || this.role === 'resident') {
+      api$ = this.dashboardService.getFlatDashboard();
     }
 
-    if (this.role === 'apartment_admin') {
-      this.dashboardService.getApartmentDashboard()
-        .subscribe({
-          next: (res) => {
-            this.dashboard = res;
-            this.loading = false;
-          },
-          error: () => {
-            this.loading = false;
-          }
-        });
+    if (!api$) {
+      this.loading = false;
+      return;
     }
 
-    if (this.role === 'flat_admin' || this.role === 'resident') {
-      this.dashboardService.getFlatDashboard()
-        .subscribe({
-          next: (res) => {
-            this.dashboard = res;
-            this.loading = false;
-          },
-          error: () => {
-            this.loading = false;
-          }
-        });
+    api$.subscribe({
+      next: (res) => {
+        this.dashboard = res;
+        this.errorMessage = null;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+
+        // 🔥 MAIN LOGIC
+        if (err.status === 400) {
+          this.handleDashboardValidationError(err.error);
+        } else {
+          this.errorMessage = 'Something went wrong. Please try again.';
+        }
+      }
+    });
+  }
+
+  handleDashboardValidationError(error: any) {
+    switch (error?.code) {
+
+      case 'APARTMENT_NOT_ASSIGNED':
+        this.errorMessage = 'Please assign an apartment to access dashboard.';
+        break;
+
+      case 'FLAT_NOT_ASSIGNED':
+        this.errorMessage = 'You are not assigned to any flat yet.';
+        break;
+
+      default:
+        this.errorMessage = error?.message || 'Invalid request';
     }
   }
+
+
+
   get freeParking(): number {
     if (!this.dashboard) return 0;
     return (

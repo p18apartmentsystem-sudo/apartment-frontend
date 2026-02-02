@@ -112,7 +112,7 @@ export class FlatAdminComponent {
 
   deleteMember(userId: any) {
     this.post.deleteFlatMemberById(userId).subscribe(() => {
-      this.closeModal();
+      this.getFlatsByFlatAdminId();
     });
 
   }
@@ -139,6 +139,7 @@ export class FlatAdminComponent {
 
     this.post.addMember(payload).subscribe({
       next: (res) => {
+        alert(res.message);
         this.closeModal();
       },
       error: () => {
@@ -147,14 +148,5 @@ export class FlatAdminComponent {
     });
   }
 
-  toUppercase(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const cursorPos = input.selectionStart || 0;
-
-    input.value = input.value.toUpperCase();
-
-    // restore cursor position
-    input.setSelectionRange(cursorPos, cursorPos);
-  }
 
 }

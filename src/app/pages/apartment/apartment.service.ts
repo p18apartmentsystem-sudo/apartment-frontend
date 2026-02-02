@@ -165,7 +165,7 @@ export class ApartmentService {
    */
   deleteFlatMemberById(userId: string): Observable<any> {
     return this.http.delete(
-      `${this.baseUrl}/remove/${userId}`
+      `${this.baseUrl}/flat-members/remove/${userId}`
     );
   }
 
