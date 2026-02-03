@@ -46,7 +46,7 @@ export class QuickActionsComponent {
   }
 
   canAddRent(): boolean {
-     return ['flat_admin', 'resident'].includes(this.role || '');
+    return ['apartment_admin', 'flat_admin', 'resident'].includes(this.role || '');
   }
 
   canAddLightBill(): boolean {
@@ -92,7 +92,7 @@ export class QuickActionsComponent {
     this.router.navigate(['/apartment/comment']);
   }
 
-  
+
 
 }
 
