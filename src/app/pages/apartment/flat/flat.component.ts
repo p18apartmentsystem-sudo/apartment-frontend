@@ -21,6 +21,7 @@ export class FlatComponent {
     floor: new FormControl("", Validators.required),
     rentAmount: new FormControl("", Validators.required),
     flatNumber: new FormControl("", Validators.required),
+    meterNumber: new FormControl(""),
   });
 
   filterForm = new FormGroup({
@@ -97,6 +98,7 @@ export class FlatComponent {
     this.addForm.controls["floor"].setValue(data.floor)
     this.addForm.controls["flatNumber"].setValue(data.flatNumber)
     this.addForm.controls['apartmentId'].setValue(data.apartmentId)
+    this.addForm.controls["meterNumber"].setValue(data.meterNumber)
     if (data.flatAdminId) {
       this.flatAdminUpdate = true;
       this.adminForm.controls["name"].setValue(data.flatAdminId.name)
@@ -192,6 +194,7 @@ export class FlatComponent {
       flatNumber: this.addForm.value.flatNumber!,
       floor: this.addForm.value.floor!,
       rentAmount: this.addForm.value.rentAmount!,
+      meterNumber: this.addForm.value.meterNumber!,
     };
 
     this.post.addFlat(payload).subscribe({
@@ -222,6 +225,7 @@ export class FlatComponent {
       flatNumber: this.addForm.value.flatNumber ?? undefined,
       rentAmount: this.addForm.value.rentAmount ?? undefined,
       floor: this.addForm.value.floor ?? undefined,
+      meterNumber: this.addForm.value.meterNumber ?? undefined,
     };
 
     this.post.updateFlatById(this.flatId, payload).subscribe({
@@ -252,6 +256,7 @@ export class FlatComponent {
     this.flatId = '';
     this.addForm.controls['rentAmount'].setValue("")
     this.addForm.controls['flatNumber'].setValue("")
+    this.addForm.controls['meterNumber'].setValue("")
     this.addForm.controls['floor'].setValue("")
     this.modalRef.close('close');
     this.loading = false;
