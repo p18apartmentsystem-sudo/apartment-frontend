@@ -42,6 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.authService.sendEmailOtp(email).subscribe(() => {
       this.step = 2;
+      alert("OTP sent to email- "+this.forgotPasswordForm.value.email);
     });
   }
 
@@ -54,6 +55,7 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.authService.verifyEmailOtp(payload).subscribe(() => {
       this.step = 3;
+      alert("Email verified successfully");
     });
   }
 
@@ -65,7 +67,7 @@ export class ForgotPasswordComponent implements OnInit {
     };
 
     this.authService.resetPassword(payload).subscribe(() => {
-      alert('Password reset successful');
+      alert('Password reset successfully');
       this.step = 1;
       this.forgotPasswordForm.reset();
       this.router.navigate(['/auth/login'])
