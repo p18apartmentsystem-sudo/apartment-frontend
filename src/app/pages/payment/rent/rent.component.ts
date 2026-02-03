@@ -81,6 +81,7 @@ export class RentComponent {
     } else {
       this.isF_Admin = false;
       this.isA_Admin = false;
+      this.is_resident = false;
       this.router.navigate(['/auth/login'])
     }
   }

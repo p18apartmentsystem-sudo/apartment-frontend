@@ -23,7 +23,7 @@
       <div class="col-6 col-md-3" *ngIf="canAddRent?.()">
         <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoRent()">
           <i class="bi bi-cash-stack fs-3 mb-2"></i>
-          <span>Add Rent</span>
+          <span>Rent</span>
         </button>
       </div>
 
@@ -42,6 +42,14 @@
           <span>Add Flat</span>
         </button>
       </div>
+
+      <!-- ADD COMMENT  canAddApartment apartment_admin have access that's why -->  
+      <!-- <div class="col-6 col-md-3" *ngIf="canAddApartment()">
+        <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoComment()">
+          <i class="bi bi-building fs-3 mb-2"></i>
+          <span>Add Comment</span>
+        </button>
+      </div> -->
 
       <!-- ADD FLAT ADMIN -->
       <!-- <div class="col-6 col-md-3" *ngIf="canAddFlatAdmin()">
