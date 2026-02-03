@@ -1,2 +1,22 @@
 <app-global-loader></app-global-loader>
+
+<!-- iOS Install Hint -->
+<div class="ios-install-banner" *ngIf="showIosInstallHint">
+    <span>
+        📲 Install this app<br>
+        Tap <b>Share</b> ⬆️ → <b>Add to Home Screen</b><br>
+        <small>
+            If you don’t see it:
+            open in Safari • disable Private Mode
+        </small>
+    </span>
+</div>
+
+<!-- Android Install Button -->
+<div class="android-install-btn" *ngIf="showAndroidInstallBtn">
+    <button (click)="installAndroid()">
+        ⬇️ Install App
+    </button>
+</div>
+
 <router-outlet></router-outlet>

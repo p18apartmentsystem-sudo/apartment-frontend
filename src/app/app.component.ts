@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthStateService } from './core/services/auth-state.service';
+import { PwaInstallService } from './services/pwa-install.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,12 +11,22 @@ import { AuthStateService } from './core/services/auth-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private authState: AuthStateService
-  ) {
 
+  showIosInstallHint = false;
+  showAndroidInstallBtn = false;
+
+  constructor(
+    private authState: AuthStateService,
+    public pwaService: PwaInstallService
+  ) {}
+
+  ngOnInit(): void {
+    this.showIosInstallHint = this.pwaService.shouldShowIosHint();
+    this.showAndroidInstallBtn =
+      this.pwaService.isAndroid() && this.pwaService.canInstallAndroid();
   }
 
-  ngOnInit() {
+  installAndroid(): void {
+    this.pwaService.installAndroid();
   }
 }
