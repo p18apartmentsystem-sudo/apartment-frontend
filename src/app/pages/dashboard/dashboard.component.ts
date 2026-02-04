@@ -117,14 +117,14 @@ export class DashboardComponent implements OnInit {
     const { status, month, year } = this.dashboard.rent;
 
     switch (status) {
-      case 'verified':
+      case 'paid':
         return {
           value: 1,
           label: `Rent PAID (${month}/${year})`,
           cssClass: 'bg-success',
         };
 
-      case 'paid':
+      case 'uploaded':
         return {
           value: 1,
           label: `Rent Paid (Waiting Verification) (${month}/${year})`,
@@ -160,14 +160,14 @@ export class DashboardComponent implements OnInit {
     const { status, month, year } = this.dashboard.lightBill;
 
     switch (status) {
-      case 'verified':
+      case 'paid':
         return {
           value: 1,
           label: `Light Bill PAID (${month}/${year})`,
           cssClass: 'bg-success',
         };
 
-      case 'paid':
+      case 'uploaded':
         return {
           value: 1,
           label: `Light Bill Paid (Waiting Verification) (${month}/${year})`,

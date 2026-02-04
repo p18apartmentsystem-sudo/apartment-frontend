@@ -53,6 +53,7 @@ export class RentComponent {
   rentAmount: any;
   rent_id: any;
   is_resident: boolean = false;
+  status: any;
 
   constructor(private authState: AuthStateService,
     private modalService: NgbModal,
@@ -306,20 +307,32 @@ export class RentComponent {
     this.getRent(this.apartment_Id);
   }
 
-  getRent(apartment_Id: any) {
+  setRadioFilter(event: Event) {
+    const status = (event.target as HTMLSelectElement).value;
+    this.status = status;
+    this.getRent(this.apartment_Id)
+  }
+
+  //status: 'uploaded' | 'paid' | 'rejected' = 'uploaded'
+  getRent(apartment_Id: any,) {
     this.loading = true;
 
-    this.post.getRentByApartment(apartment_Id).subscribe({
+    this.post.getRentByApartment(apartment_Id, this.status).subscribe({
       next: (res) => {
         if (!res?.data?.length) {
-          this.loading = false;
           alert('No data found!');
+          this.rents = [];
+          this.loading = false;
           return;
         }
 
         this.rents = res.data;
-        this.paymentForm.controls['amount']
-          .setValue(res.data[0].rentAmount);
+
+        // set amount only if data exists
+        if (res.data[0]?.rentAmount) {
+          this.paymentForm.controls['amount']
+            .setValue(res.data[0].rentAmount);
+        }
 
         this.loading = false;
       },
@@ -329,6 +342,7 @@ export class RentComponent {
       },
     });
   }
+
 
 
   closeViewModal() {
@@ -348,10 +362,10 @@ export class RentComponent {
     }
   }
 
-  //VERIFY/REJECT RENT    "verified", "rejected"
+  //VERIFY/REJECT RENT    "paid", "rejected"
   verifyRent() {
     const payload = {
-      status: "verified"
+      status: "paid"
     }
     this.post.verifyRent(this.rent_id, payload).subscribe({
       next: (res) => {

@@ -16,28 +16,22 @@
     </button>
 
     <!-- Logo -->
-   <a routerLink="/dashboard"> <img src="./assets/media/logos/logo.png" class="h-30px ms-2" alt="Logo" /></a>
+   <!-- <a routerLink="/dashboard"> <img src="./assets/media/logos/logo.png" class="h-30px ms-2" alt="Logo" /></a> -->
   </div>
 
   <!-- ================= CENTER : TITLE ONLY ================= -->
-  <div class="flex-grow-1 text-center px-3 text-truncate" *ngIf="role === 'super_admin'">
+  <div class="flex-grow-1 text-center px-3 text-truncate" *ngIf="role === 'super_admin'" routerLink="/dashboard">
     <span class="fw-bold fs-5">
        {{ headerTitle }}
     </span>
   </div>
-  <div class="flex-grow-1 text-center px-3 text-truncate" *ngIf="role === 'apartment_admin'">
+  <div class="flex-grow-1 text-center px-3 text-truncate" *ngIf="role === 'apartment_admin'" routerLink="/dashboard">
     <span class="fw-bold fs-5">
       🏢 {{ headerTitle }}
     </span> <br>
     👤 {{ user_details }}
   </div>
-  <div class="flex-grow-1 text-center px-3 text-truncate" *ngIf="role === 'flat_admin'">
-    <span class="fw-bold fs-5">
-      🏢 {{ headerTitle }}
-    </span> <br>
-    🏠 {{ flat_details }} &nbsp; 👤 {{ user_details }}
-  </div>
-  <div class="flex-grow-1 text-center px-3 text-truncate" *ngIf="role === 'resident'">
+  <div class="flex-grow-1 text-center px-3 text-truncate" *ngIf="(role === 'flat_admin' || role === 'resident')" routerLink="/dashboard">
     <span class="fw-bold fs-5">
       🏢 {{ headerTitle }}
     </span> <br>

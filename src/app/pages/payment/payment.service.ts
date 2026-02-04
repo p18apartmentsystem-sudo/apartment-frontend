@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -100,10 +100,19 @@ addRent(payload: {
   
   /**
    * GET RENT for APARTMENT
+   * status: uploaded (default) | paid | rejected
    */
   getRentByApartment(
-    id: string,): Observable<any> {
-    return this.http.get(`${this.baseUrl}/rent-payments/apartment/${id}`);
+    id: string,
+    status: 'uploaded' | 'paid' | 'rejected' = 'uploaded'
+  ): Observable<any> {
+
+    const params = new HttpParams().set('status', status);
+
+    return this.http.get(
+      `${this.baseUrl}/rent-payments/apartment/${id}`,
+      { params }
+    );
   }
 
   /**

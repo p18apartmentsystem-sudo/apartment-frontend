@@ -1,0 +1,64 @@
+.rent-filter-wrapper {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+/* COMMON FILTER STYLE */
+.rent-filter {
+  flex: 1; // 👈 makes all 3 equal width
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+/* HIDE DEFAULT RADIO */
+.rent-filter input[type="radio"] {
+  accent-color: currentColor;
+  cursor: pointer;
+}
+
+/* COLORS */
+.rent-filter.uploaded {
+  background: #fff7db;
+  color: #d9a400;
+}
+
+.rent-filter.paid {
+  background: #e9fff1;
+  color: #1fa750;
+}
+
+.rent-filter.rejected {
+  background: #ffecec;
+  color: #e03131;
+}
+
+/* HOVER */
+.rent-filter:hover {
+  transform: translateY(-1px);
+}
+
+/* MOBILE TWEAK */
+@media (max-width: 576px) {
+  .rent-filter-wrapper {
+    gap: 8px;
+  }
+
+  .rent-filter {
+    font-size: 13px;
+    padding: 10px 6px;
+  }
+}

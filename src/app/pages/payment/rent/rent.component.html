@@ -41,8 +41,8 @@
 
                     <td>
                         <span class="badge" [ngClass]="{
-                'badge-light-warning': data.status === 'paid',
-                'badge-light-success': data.status === 'verified',
+                'badge-light-warning': data.status === 'uploaded',
+                'badge-light-success': data.status === 'paid',
                 'badge-light-danger': data.status === 'rejected',
               }">
                             {{ data.status | uppercase }}
@@ -82,6 +82,27 @@
         </form>
     </div>
 
+    <!-- RENT STATUS FILTER -->
+    <div class="rent-filter-wrapper">
+
+        <label class="rent-filter uploaded">
+            <input type="radio" name="rentStatus" value="uploaded" checked (change)="setRadioFilter($event)" />
+            <span>Uploaded</span>
+        </label>
+
+        <label class="rent-filter paid">
+            <input type="radio" name="rentStatus" value="paid" (change)="setRadioFilter($event)" />
+            <span>Paid</span>
+        </label>
+
+        <label class="rent-filter rejected">
+            <input type="radio" name="rentStatus" value="rejected" (change)="setRadioFilter($event)" />
+            <span>Rejected</span>
+        </label>
+
+    </div>
+
+
     <!-- begin::Table container -->
     <div class="table-responsive">
         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
@@ -118,8 +139,8 @@
 
                     <td>
                         <span class="badge" [ngClass]="{
-                'badge-light-warning': data.status === 'paid',
-                'badge-light-success': data.status === 'verified',
+                'badge-light-warning': data.status === 'uploaded',
+                'badge-light-success': data.status === 'paid',
                 'badge-light-danger': data.status === 'rejected',
               }">
                             {{ data.status | uppercase }}
