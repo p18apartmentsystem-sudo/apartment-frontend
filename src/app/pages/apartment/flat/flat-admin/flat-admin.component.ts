@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApartmentService } from '../../apartment.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-flat-admin',
@@ -39,7 +40,8 @@ export class FlatAdminComponent {
     private modalService: NgbModal,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private post: ApartmentService) { }
+    private post: ApartmentService,
+    private alertService: AlertService) { }
 
 
   ngOnInit(): void {
@@ -80,10 +82,10 @@ export class FlatAdminComponent {
     this.post.getFlatsByFlatAdminId().subscribe({
       next: (res) => {
         if (res.data[0].apartmentId) {
-        this.flatNumber = res.data[0].flatNumber;
-        this.floor = res.data[0].floor;
-        this.rentAmount = Number(res.data[0].rentAmount);
-          this.flat_Id=res.data[0]._id;
+          this.flatNumber = res.data[0].flatNumber;
+          this.floor = res.data[0].floor;
+          this.rentAmount = Number(res.data[0].rentAmount);
+          this.flat_Id = res.data[0]._id;
           this.apartment_Id = res.data[0].apartmentId._id;
           this.apartment_name = res.data[0].apartmentId.name;
           this.flat = res.data[0];
@@ -139,7 +141,7 @@ export class FlatAdminComponent {
 
     this.post.addMember(payload).subscribe({
       next: (res) => {
-        alert(res.message);
+        this.alertService.show(res.message);
         this.closeModal();
       },
       error: () => {

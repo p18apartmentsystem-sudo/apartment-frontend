@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  appVersion: 'v1.0.1',
+  appVersion: 'v1.0.4',
   appThemeName: 'P18',
   apiUrl: 'https://apartment-backend-redp.onrender.com/api',
 

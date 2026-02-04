@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalLoaderComponent } from './components/global-loader/global-loader.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
-    GlobalLoaderComponent
+    GlobalLoaderComponent,
+    AlertComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    GlobalLoaderComponent
+    GlobalLoaderComponent,
+    AlertComponent
   ]
 })
 export class SharedModule {}

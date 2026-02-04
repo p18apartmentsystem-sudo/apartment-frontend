@@ -4,6 +4,7 @@ import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-profile',
@@ -31,7 +32,8 @@ export class ProfileComponent {
     private modalService: NgbModal,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private post: ApartmentService) { }
+    private post: ApartmentService,
+    private alertService: AlertService) { }
 
 
   ngOnInit(): void {
@@ -144,7 +146,7 @@ export class ProfileComponent {
 
     this.post.updateApartmentById(this.apartmentId, payload).subscribe({
       next: () => {
-        alert("Updated successfully..!")
+        this.alertService.show("Updated successfully..!")
         this.closeModal();
         this.loading = false;
       },

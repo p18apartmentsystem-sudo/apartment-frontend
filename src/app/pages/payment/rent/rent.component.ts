@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from '../payment.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-rent',
@@ -59,7 +60,8 @@ export class RentComponent {
     private modalService: NgbModal,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private post: PaymentService) { }
+    private post: PaymentService,
+    private alertService: AlertService) { }
 
 
   ngOnInit(): void {
@@ -164,7 +166,7 @@ export class RentComponent {
     this.post.addRent(payload).subscribe({
       next: () => this.closeModal(),
       error: (err) => {
-        alert(err.error?.message || 'Upload failed');
+        this.alertService.show(err.error?.message || 'Upload failed');
       }
     });
   }
@@ -180,7 +182,7 @@ export class RentComponent {
         this.rent_id = rent_id;
 
         if (!res.proofFile) {
-          alert('No proof file found');
+          this.alertService.show('No proof file found');
           return;
         }
 
@@ -197,7 +199,7 @@ export class RentComponent {
       },
       error: (err) => {
         this.loading = false;
-        alert(err.error?.message || 'Failed to load proof');
+        this.alertService.show(err.error?.message || 'Failed to load proof');
       }
     });
   }
@@ -320,7 +322,7 @@ export class RentComponent {
     this.post.getRentByApartment(apartment_Id, this.status).subscribe({
       next: (res) => {
         if (!res?.data?.length) {
-          alert('No data found!');
+          this.alertService.show('No data found!');
           this.rents = [];
           this.loading = false;
           return;
@@ -338,7 +340,7 @@ export class RentComponent {
       },
       error: () => {
         this.loading = false;
-        alert('Error to get data!');
+        this.alertService.show('Error to get data!');
       },
     });
   }
@@ -369,12 +371,12 @@ export class RentComponent {
     }
     this.post.verifyRent(this.rent_id, payload).subscribe({
       next: (res) => {
-        alert("Rent Verified..!");
+        this.alertService.show("Rent Verified..!");
         this.closeViewModal();
       },
       error: () => {
         this.loading = false;
-        alert("Error to Action..!");
+        this.alertService.show("Error to Action..!");
         this.closeViewModal();
       },
     });
@@ -386,12 +388,12 @@ export class RentComponent {
     }
     this.post.verifyRent(this.rent_id, payload).subscribe({
       next: (res) => {
-        alert("Rent Rejected..!");
+        this.alertService.show("Rent Rejected..!");
         this.closeViewModal();
       },
       error: () => {
         this.loading = false;
-        alert("Error to Action..!");
+        this.alertService.show("Error to Action..!");
         this.closeViewModal();
       },
     });

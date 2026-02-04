@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-deactivate-account',
   templateUrl: './deactivate-account.component.html',
 })
 export class DeactivateAccountComponent {
-  constructor() {}
+  constructor(private alertService: AlertService) {}
 
   saveSettings() {
-    alert('Account has been successfully deleted!');
+    this.alertService.show('Account has been successfully deleted!');
   }
 }

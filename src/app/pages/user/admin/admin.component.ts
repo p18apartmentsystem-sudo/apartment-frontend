@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../user.service';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-admin',
@@ -31,7 +32,8 @@ export class AdminComponent {
     private modalService: NgbModal,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private userService: UserService) { }
+    private userService: UserService,
+    private alertService: AlertService) { }
 
 
   ngOnInit(): void {
@@ -146,7 +148,7 @@ export class AdminComponent {
 
     this.userService.updateAdminById(this.adminId, payload).subscribe({
       next: () => {
-        alert("Updated successfully..!")
+        this.alertService.show("Updated successfully..!")
         this.closeModal();
         this.loading = false;
       },

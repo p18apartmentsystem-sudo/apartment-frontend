@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-user-details',
@@ -13,7 +14,9 @@ export class UserDetailsComponent implements OnInit {
   loading = false;
   isEditMode = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit(): void {
     this.loadProfile();
@@ -29,11 +32,11 @@ export class UserDetailsComponent implements OnInit {
     this.loading = true;
     this.userService.updateMyProfile(this.profile).subscribe({
       next: res => {
-        alert(res.message);
+        this.alertService.show(res.message);
         this.loading = false;
       },
       error: err => {
-        alert(err.error.message);
+        this.alertService.show(err.error.message);
         this.loading = false;
       }
     });
@@ -41,14 +44,14 @@ export class UserDetailsComponent implements OnInit {
 
   sendOtp() {
     this.userService.sendEmailOtp(this.profile.email).subscribe(res => {
-      alert("OTP sent to email");
+      this.alertService.show("OTP sent to email");
       this.showOtpBox = true;
     });
   }
 
   verifyOtp() {
     this.userService.verifyEmailOtp(this.profile.email, this.otp).subscribe(res => {
-      alert("Email verified successfully");
+      this.alertService.show("Email verified successfully");
       this.showOtpBox = false;
       this.loadProfile(); // refresh status
     });

@@ -4,6 +4,7 @@ import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-flat',
@@ -53,7 +54,8 @@ export class FlatComponent {
     private modalService: NgbModal,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private post: ApartmentService) { }
+    private post: ApartmentService,
+    private alertService: AlertService) { }
 
 
   ngOnInit(): void {
@@ -308,7 +310,7 @@ export class FlatComponent {
 
     this.post.addFlatAdmin(payload).subscribe({
       next: (res) => {
-        alert("Added successfully..!")
+        this.alertService.show("Added successfully..!")
         this.closeModal();
       },
       error: () => {
@@ -334,7 +336,7 @@ export class FlatComponent {
 
     this.post.updateFlatAdminByFlatId(flat_Id, payload).subscribe({
       next: (res) => {
-        alert("Updated successfully..!")
+        this.alertService.show("Updated successfully..!")
         this.closeModal();
       },
       error: () => {

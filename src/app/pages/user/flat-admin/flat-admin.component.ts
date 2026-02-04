@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../user.service';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-flat-admin',
@@ -31,7 +32,8 @@ export class FlatAdminComponent {
     private modalService: NgbModal,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private userService: UserService) { }
+    private userService: UserService,
+    private alertService: AlertService) { }
 
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class FlatAdminComponent {
   getAdmin() {
     this.userService.getAllAdmins().subscribe(res => {
       this.admins = res.data;
-        this.loading = false;
+      this.loading = false;
     });
 
   }
@@ -122,7 +124,7 @@ export class FlatAdminComponent {
 
     this.userService.addAdmin(payload).subscribe({
       next: (res) => {
-        alert(res.message);
+        this.alertService.show(res.message);
         this.closeModal();
       },
       error: () => {
@@ -147,7 +149,7 @@ export class FlatAdminComponent {
 
     this.userService.updateAdminById(this.adminId, payload).subscribe({
       next: () => {
-        alert("Updated successfully..!")
+        this.alertService.show("Updated successfully..!")
         this.closeModal();
         this.loading = false;
       },
