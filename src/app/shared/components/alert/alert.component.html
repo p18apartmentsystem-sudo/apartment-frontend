@@ -1,0 +1,12 @@
+<div class="alert-backdrop" *ngIf="alert">
+    <div class="alert-box" [ngClass]="alert.type">
+
+        <div class="alert-message">
+            {{ alert.message }}
+        </div>
+        <br><br>
+        <button class="btn btn-outline-success border-2 px-15 fw-semibold flat-admin-outline"
+            (click)="close()">OK</button>
+
+    </div>
+</div>
