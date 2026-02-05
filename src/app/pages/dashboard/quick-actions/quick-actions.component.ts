@@ -9,12 +9,14 @@ import { AuthStateService } from 'src/app/core/services/auth-state.service';
 })
 export class QuickActionsComponent {
   role!: string | null;
+  aprtment!: string | null;
 
   constructor(
     private authState: AuthStateService,
     private router: Router
   ) {
     this.role = this.authState.getRole();
+    this.aprtment = this.authState.getApartment();
   }
 
   /* =========================
@@ -45,6 +47,12 @@ export class QuickActionsComponent {
     return this.role === 'apartment_admin';
   }
 
+  canAddApartment(): boolean {
+    if(!this.aprtment){
+    return this.role === 'apartment_admin';
+    }
+  }
+
   canAddRent(): boolean {
     return ['apartment_admin', 'flat_admin', 'resident'].includes(this.role || '');
   }
@@ -71,6 +79,10 @@ export class QuickActionsComponent {
 
   gotoMember(): void {
     this.router.navigate(['/apartment/my-flat']);
+  }
+
+  gotoApartment(): void {
+    this.router.navigate(['/apartment/profile']);
   }
 
   gotoRent(): void {

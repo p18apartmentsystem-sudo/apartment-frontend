@@ -272,7 +272,7 @@ export class FlatRentComponent {
     this.post.getRentByApartmentAdmin(apartment_Id).subscribe({
       next: (res) => {
         if (!res?.data?.length) {
-          this.alertService.show('No data found!');
+          // this.alertService.show('No data found!');
           this.rents = [];
           this.loading = false;
           return;

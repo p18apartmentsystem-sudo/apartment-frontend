@@ -19,6 +19,14 @@
         </button>
       </div>
 
+      <!-- ADD APARTMENT (If not) -->
+      <div class="col-6 col-md-3" *ngIf="canAddApartment()">
+        <button class="btn btn-light-warning w-100 h-100 action-btn" (click)="gotoApartment()">
+          <i class="bi bi-house fs-3 mb-2"></i>
+          <span>Add Apartment</span>
+        </button>
+      </div>
+
       <!-- RENT -->
       <div class="col-6 col-md-3" *ngIf="canAddRent?.()">
         <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoRent()">

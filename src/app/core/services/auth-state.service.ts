@@ -17,6 +17,11 @@ export class AuthStateService {
     return user?.role || null;
   }
 
+  getApartment(): string | null {
+    const user = this.getUser();
+    return user?.apartmentId || null;
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');

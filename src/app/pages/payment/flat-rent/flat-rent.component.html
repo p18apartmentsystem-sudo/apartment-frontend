@@ -119,7 +119,7 @@
     <br>
     <hr>
 
-    <div *ngIf="!isViewTable" class="card-header border-0 pt-5 d-flex justify-content-end">
+    <div *ngIf="!isViewTable && rents" class="card-header border-0 pt-5 d-flex justify-content-end">
         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add Rent">
             <button type="button" class="btn btn-success fw-bolder px-4" (click)="viewTable()">
                 View Rent Table
