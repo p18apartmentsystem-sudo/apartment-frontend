@@ -329,13 +329,6 @@ export class RentComponent {
         }
 
         this.rents = res.data;
-
-        // set amount only if data exists
-        if (res.data[0]?.rentAmount) {
-          this.paymentForm.controls['amount']
-            .setValue(res.data[0].rentAmount);
-        }
-
         this.loading = false;
       },
       error: () => {

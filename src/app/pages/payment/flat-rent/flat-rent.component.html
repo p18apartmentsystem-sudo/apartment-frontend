@@ -1,0 +1,226 @@
+<!-- begin::Header -->
+
+<!-- end::Header -->
+
+<!-- begin::Body -->
+<div *ngIf="isA_Admin" class="card-body py-3">
+
+    <!-- APARTMENT -->
+    <div class="row mb-4" *ngIf="isMulti">
+        <form [formGroup]="filterForm">
+            <div class="col-12 col-md-6 mx-auto">
+                <select class="form-select form-select-lg" (change)="filterInTable($event)"
+                    formControlName="select_apartmentId">
+                    <option value="">Select Apartment</option>
+                    <option *ngFor="let apt of apartments" [value]="apt._id">
+                        {{ apt.name }}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <form [formGroup]="paymentForm">
+        <!-- SELECT FLOOR FILTER -->
+        <div class="row mb-4">
+            <label class="fw-bolder text-success mb-1">
+                Select Floor <span class="text-danger">*</span>
+            </label>
+            <div class="rent-filter-wrapper" *ngIf="floors.length">
+                <!-- 🔘 RADIO BUTTONS (<=12 floors) -->
+                <ng-container *ngIf="showFloorRadios; else floorDropdown">
+
+                    <label class="rent-filter" *ngFor="let floor of floors" [class.active]="selectedFloor === floor">
+
+                        <input type="radio" name="floor" [value]="floor" (change)="onFloorChange(floor)"
+                            [checked]="selectedFloor === floor" />
+
+                        <span>{{ floor }}</span>
+                    </label>
+
+                </ng-container>
+
+                <!-- 🔽 DROPDOWN (>12 floors) -->
+                <ng-template #floorDropdown>
+                    <select class="form-select" (change)="onFloorChange($event.target.value)">
+
+                        <option value="">Select Floor</option>
+
+                        <option *ngFor="let floor of floors" [value]="floor">
+                            Floor {{ floor }}
+                        </option>
+
+                    </select>
+                </ng-template>
+            </div>
+        </div>
+
+
+        <!-- FLAT -->
+        <div *ngIf="isFloor" class="mb-4">
+            <label class="fw-bolder text-success mb-1">
+                Select Flat <span class="text-danger">*</span>
+            </label>
+            <select class="form-select form-select-lg" formControlName="flatId"
+                (change)="getFlatDetails($event.target.value)">
+                <option value="">Select Flat</option>
+                <option *ngFor="let item of flats" [value]="item._id">
+                    {{ item.flatNumber }}
+                </option>
+            </select>
+        </div>
+
+        <!-- AMOUNT -->
+        <div *ngIf="isFlat" class="mb-4">
+            <label class="fw-bolder text-success">Amount</label>
+            <input type="number" class="form-control form-control-lg" formControlName="amount" readonly
+                placeholder="Rent Amount" />
+        </div>
+
+        <!-- MONTH -->
+        <div *ngIf="isFlat" class="mb-4">
+            <label class="fw-bolder text-success mb-1">
+                Month <span class="text-danger">*</span>
+            </label>
+            <select class="form-select form-select-lg" formControlName="monthYear" (change)="selectMonthYear($event)">
+                <option value="">Select Month</option>
+                <option *ngFor="let item of month" [value]="item.monthYr">
+                    {{ item.monthYr }}
+                </option>
+            </select>
+        </div>
+
+        <!-- REF NO -->
+        <div *ngIf="isFlat" class="mb-4">
+            <label class="fw-bolder text-success">Reference No</label>
+            <input type="text" class="form-control form-control-lg" placeholder="Reference No"
+                formControlName="refNo" />
+        </div>
+
+        <!-- FILE -->
+        <div *ngIf="isFlat" class="mb-4">
+            <label class="fw-bolder text-success">
+                Payment Receipt <span class="text-danger">*</span>
+            </label>
+            <input type="file" class="form-control" (change)="onFileChange($event)" />
+        </div>
+
+    </form>
+
+    <div *ngIf="isFlat" class="d-flex justify-content-center gap-4 mt-4">
+        <button class="btn btn-success px-5 fw-bolder" (click)="addRent()">
+            Submit
+        </button>
+        <button class="btn btn-danger px-5 fw-bolder" (click)="closeModal()">
+            Cancel
+        </button>
+    </div>
+
+    <br>
+    <hr>
+
+    <div *ngIf="!isViewTable" class="card-header border-0 pt-5 d-flex justify-content-end">
+        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add Rent">
+            <button type="button" class="btn btn-success fw-bolder px-4" (click)="viewTable()">
+                View Rent Table
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="isViewTable" class="card-header border-0 pt-5 d-flex justify-content-end">
+        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add Rent">
+            <button type="button" class="btn btn-warning fw-bolder px-4" (click)="hideTable()">
+                Hide Rent Table
+            </button>
+        </div>
+    </div>
+
+
+    <!-- begin::Table container -->
+    <div *ngIf="isViewTable" class="table-responsive">
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder text-uppercase">
+                    <th class="text-warning">SR</th>
+                    <th class="text-danger">Flat</th>
+                    <th class="text-success">Month</th>
+                    <th class="text-primary">Amount</th>
+                    <th class="text-info">Status</th>
+                    <th class="text-danger text-center">Actions</th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of rents; let i = index">
+                    <td>{{ i + 1 }}</td>
+
+                    <td class="fw-bolder">
+                        {{ data.flatId.flatNumber }}
+                    </td>
+
+                    <td class="fw-bolder">
+                        {{ data.month }} {{ data.year }}
+                    </td>
+
+                    <td class="fw-bolder">
+                        {{ data.amount | currency:'INR' }}
+                    </td>
+
+                    <td>
+                        <span class="badge" [ngClass]="{
+                'badge-light-warning': data.status === 'uploaded',
+                'badge-light-success': data.status === 'paid',
+                'badge-light-danger': data.status === 'rejected',
+              }">
+                            {{ data.status | uppercase }}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-light-success" (click)="viewRent(data._id, viewModal)">
+                            <app-keenicon name="eye" class="fs-3"></app-keenicon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+
+        </table>
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+<!-- ================= MODALS ================= -->
+
+
+<!-- VIEW RENT PROOF -->
+<ng-template #viewModal let-modal>
+    <div class="modal-header">
+        <h5 class="fw-bolder">Rent Payment Proof</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body text-center">
+
+        <iframe *ngIf="proofType === 'pdf'" [src]="proofUrl" width="100%" height="500px" frameborder="0"></iframe>
+
+        <img *ngIf="proofType === 'image'" [src]="proofUrl" class="img-fluid rounded" alt="Rent Proof" />
+
+    </div>
+
+    <div class="modal-footer">
+
+        <div class="d-flex justify-content-center gap-4 mt-4">
+            <button class="btn btn-danger px-5 fw-bolder" (click)="closeViewModal()">
+                Close
+            </button>
+        </div>
+
+    </div>
+
+</ng-template>

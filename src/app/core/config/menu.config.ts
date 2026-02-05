@@ -40,6 +40,13 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['apartment_admin'],
   },
 
+  {
+    title: 'Add Flat Rent',
+    route: '/payment/flat-rent',
+    icon: 'bi bi-cash-stack',
+    roles: ['apartment_admin'],
+  },
+
   //FLAT_MEMBER
   {
     title: 'Flat',

@@ -18,21 +18,14 @@
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
           <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.summary.totalApartments"
-            description="Total Apartments">
+            description="Total Apartment">
           </app-cards-widget7>
         </div>
       </div>
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.summary.totalFlats" description="Total Flats">
-          </app-cards-widget7>
-        </div>
-      </div>
-
-      <div class="col-6 col-xl-3">
-        <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.summary.totalUsers" description="Total Users">
+          <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.summary.totalFlats" description="Total Flat">
           </app-cards-widget7>
         </div>
       </div>
@@ -40,7 +33,14 @@
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
           <app-cards-widget7 cssClass="bg-primary" [stats]="dashboard.summary.totalApartmentAdmins"
-            description="Apartment Admins">
+            description="Apartment Admin">
+          </app-cards-widget7>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="dashboard-card clickable">
+          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.summary.totalUsers" description="Total User">
           </app-cards-widget7>
         </div>
       </div>
@@ -61,15 +61,7 @@
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-warning" description="Pending Complaints"
-            [stats]="dashboard.summary.pendingComplaints">
-          </app-cards-widget7>
-        </div>
-      </div>
-
-      <div class="col-6 col-xl-3">
-        <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-primary" description="Active Apartments"
+          <app-cards-widget7 cssClass="bg-primary" description="Active Apartment"
             [stats]="dashboard.systemStats.activeApartments">
           </app-cards-widget7>
         </div>
@@ -77,7 +69,15 @@
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-danger" description="Inactive Apartments"
+          <app-cards-widget7 cssClass="bg-warning" description="Pending Complaint"
+            [stats]="dashboard.summary.pendingComplaints">
+          </app-cards-widget7>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="dashboard-card clickable">
+          <app-cards-widget7 cssClass="bg-danger" description="Inactive Apartment"
             [stats]="dashboard.systemStats.inactiveApartments">
           </app-cards-widget7>
         </div>
@@ -96,28 +96,28 @@
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-primary" [stats]="dashboard.totalFlats" description="Total Flats">
+          <app-cards-widget7 cssClass="bg-primary" [stats]="dashboard.totalFlats" description="Total Flat">
           </app-cards-widget7>
         </div>
       </div>
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.occupiedFlats" description="Occupied Flats">
+          <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.occupiedFlats" description="Taken Flat">
           </app-cards-widget7>
         </div>
       </div>
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.vacantFlats" description="Vacant Flats">
+          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.vacantFlats" description="Vacant Flat">
           </app-cards-widget7>
         </div>
       </div>
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-info" [stats]="dashboard.vehicles" description="Vehicles">
+          <app-cards-widget7 cssClass="bg-info" [stats]="dashboard.vehicles" description="Vehicle">
           </app-cards-widget7>
         </div>
       </div>

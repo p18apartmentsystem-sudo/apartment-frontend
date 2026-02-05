@@ -14,74 +14,74 @@ export class PaymentService {
 
   monthYearList: { month: string; year: number }[] = [];
 
-generateMonthYearArray() {
-  const result: {
-    month: string;   // ✅ string now
-    year: number;
-    monthYr: string;
-  }[] = [];
+  generateMonthYearArray() {
+    const result: {
+      month: string;   // ✅ string now
+      year: number;
+      monthYr: string;
+    }[] = [];
 
-  const startMonth = 5; // June (0-based)
-  const startYear = 2025;
+    const startMonth = 5; // June (0-based)
+    const startYear = 2025;
 
-  const now = new Date();
-  const currentMonth = now.getMonth();
-  const currentYear = now.getFullYear();
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
 
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
 
-  let year = startYear;
-  let monthIndex = startMonth;
+    let year = startYear;
+    let monthIndex = startMonth;
 
-  while (
-    year < currentYear ||
-    (year === currentYear && monthIndex <= currentMonth)
-  ) {
-    result.push({
-      month: months[monthIndex],              // ✅ Jan, Feb, …
-      year: year,
-      monthYr: `${months[monthIndex]} ${year}`
-    });
+    while (
+      year < currentYear ||
+      (year === currentYear && monthIndex <= currentMonth)
+    ) {
+      result.push({
+        month: months[monthIndex],              // ✅ Jan, Feb, …
+        year: year,
+        monthYr: `${months[monthIndex]} ${year}`
+      });
 
-    monthIndex++;
-    if (monthIndex > 11) {
-      monthIndex = 0;
-      year++;
+      monthIndex++;
+      if (monthIndex > 11) {
+        monthIndex = 0;
+        year++;
+      }
     }
-  }
 
-  // Latest first
-  return result.reverse();
-}
+    // Latest first
+    return result.reverse();
+  }
 
 
 
   /**
  * 🔹 ADD RENT
  */
-addRent(payload: {
-  month: string;
-  year: string;
-  amount: string;
-  refno: string;
-  proofFile: File;
-}): Observable<any> {
+  addRent(payload: {
+    month: string;
+    year: string;
+    amount: string;
+    refno: string;
+    proofFile: File;
+  }): Observable<any> {
 
-  const formData = new FormData();
-  formData.append('month', payload.month);
-  formData.append('year', payload.year);
-  formData.append('amount', payload.amount);
-  formData.append('refno', payload.refno);
-  formData.append('proofFile', payload.proofFile); // 🔥 KEY LINE
+    const formData = new FormData();
+    formData.append('month', payload.month);
+    formData.append('year', payload.year);
+    formData.append('amount', payload.amount);
+    formData.append('refno', payload.refno);
+    formData.append('proofFile', payload.proofFile); // 🔥 KEY LINE
 
-  return this.http.post(
-    `${this.baseUrl}/rent-payments`,
-    formData
-  );
-}
+    return this.http.post(
+      `${this.baseUrl}/rent-payments`,
+      formData
+    );
+  }
 
 
   /**
@@ -97,7 +97,7 @@ addRent(payload: {
   getApartment(): Observable<any> {
     return this.http.get(`${this.baseUrl}/apartments/`);
   }
-  
+
   /**
    * GET RENT for APARTMENT
    * status: uploaded (default) | paid | rejected
@@ -138,12 +138,69 @@ addRent(payload: {
     return this.http.get(`${this.baseUrl}/rent-payments/${id}`);
   }
 
-    /**
-   * GET FLAT
-   */
+  /**
+ * GET FLAT
+ */
   getFlatsByFlatAdminId(): Observable<any> {
     return this.http.get(`${this.baseUrl}/flats/`);
   }
 
-  
+  /**
+ * GET FLOOR BY APARTMENT_ID
+ */
+  getFloorByApartment(apartmentId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/flats/apartment/${apartmentId}/floors`);
+  }
+
+  /**
+ * GET FLAT BY FLOOR
+ */
+  getFlatByApartmentFloor(apartmentId: string, floor: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/flats/apartment/${apartmentId}/floor/${floor}`);
+  }
+
+  /**
+ * GET RENT BY ADMIN_ADDED
+ */
+  getRentByApartmentAdmin(apartmentId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/rent-payments/rent-add-status/${apartmentId}`);
+  }
+
+  /**
+ * 🔹 ADD RENT
+ */
+  addRentByA_Admin(payload: {
+    apartmentId: string;
+    flatId: string;
+    month: string;
+    year: string;
+    amount: string;
+    refno: string;
+    proofFile: File;
+  }): Observable<any> {
+
+    const formData = new FormData();
+    formData.append('apartmentId', payload.apartmentId);
+    formData.append('flatId', payload.flatId);
+    formData.append('month', payload.month);
+    formData.append('year', payload.year);
+    formData.append('amount', payload.amount);
+    formData.append('refno', payload.refno);
+    formData.append('proofFile', payload.proofFile); // 🔥 KEY LINE
+
+    return this.http.post(
+      `${this.baseUrl}/rent-payments/rent-add-status`,
+      formData
+    );
+  }
+
+  /**
+ * getFlatById
+ */
+  getFlatById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/flats/flat/${id}`);
+  }
+
+
+
 }

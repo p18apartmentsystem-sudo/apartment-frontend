@@ -37,7 +37,7 @@ export class QuickActionsComponent {
     return this.role === 'flat_admin';
   }
 
-  canAddApartment(): boolean {
+  canAddFlatRent(): boolean {
     return this.role === 'apartment_admin';
   }
 
@@ -84,8 +84,8 @@ export class QuickActionsComponent {
     this.router.navigate(['/apartment/flat']);
   }
 
-  gotoApartment(): void {
-    this.router.navigate(['/apartment/profile']);
+  gotoFlatRent(): void {
+    this.router.navigate(['/payment/flat-rent']);
   }
 
   gotoComment(): void {

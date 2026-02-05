@@ -11,9 +11,10 @@ import { WidgetsModule } from 'src/app/_metronic/partials';
 import { PaymentComponent } from './payment.component';
 import { RentComponent } from './rent/rent.component';
 import { LightBillComponent } from './light-bill/light-bill.component';
+import { FlatRentComponent } from './flat-rent/flat-rent.component';
 
 @NgModule({
-  declarations: [PaymentComponent, RentComponent, LightBillComponent
+  declarations: [PaymentComponent, RentComponent, LightBillComponent, FlatRentComponent
   ],
   imports: [
     CommonModule,
@@ -23,6 +24,10 @@ import { LightBillComponent } from './light-bill/light-bill.component';
       {
         path: '',
         component: PaymentComponent,
+      },
+      {
+        path: 'flat-rent',
+        component: FlatRentComponent,
       },
       {
         path: 'rent',

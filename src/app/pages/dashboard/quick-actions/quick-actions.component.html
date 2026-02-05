@@ -19,7 +19,7 @@
         </button>
       </div>
 
-      <!-- ADD RENT -->
+      <!-- RENT -->
       <div class="col-6 col-md-3" *ngIf="canAddRent?.()">
         <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoRent()">
           <i class="bi bi-cash-stack fs-3 mb-2"></i>
@@ -27,13 +27,19 @@
         </button>
       </div>
 
-      <!-- ADD APARTMENT -->
-      <div class="col-6 col-md-3" *ngIf="canAddApartment()">
-        <button class="btn btn-light-primary w-100 h-100 action-btn" (click)="gotoApartment()">
-          <i class="bi bi-building fs-3 mb-2"></i>
-          <span>Add Apartment</span>
+      <!-- ADD FLAT Rent -->
+      <div class="col-6 col-md-3" *ngIf="canAddFlatRent()">
+        <button class="btn btn-light-primary w-100 h-100 action-btn" (click)="gotoFlatRent()">
+
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <i class="bi bi-house fs-3"></i>
+            <i class="bi bi-cash-stack fs-3"></i>
+          </div>
+
+          <span class="d-block mt-2">Add Rent</span>
         </button>
       </div>
+
 
       <!-- ADD FLAT -->
       <div class="col-6 col-md-3" *ngIf="canAddFlat()">
@@ -43,8 +49,8 @@
         </button>
       </div>
 
-      <!-- ADD COMMENT  canAddApartment apartment_admin have access that's why -->  
-      <!-- <div class="col-6 col-md-3" *ngIf="canAddApartment()">
+      <!-- ADD COMMENT  canAddFlatRent apartment_admin have access that's why -->
+      <!-- <div class="col-6 col-md-3" *ngIf="canAddFlatRent()">
         <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoComment()">
           <i class="bi bi-building fs-3 mb-2"></i>
           <span>Add Comment</span>
