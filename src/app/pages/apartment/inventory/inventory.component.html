@@ -1,0 +1,213 @@
+<!-- begin::Header -->
+<div class="card-header border-0 pt-5 d-flex justify-content-end">
+    <div *ngIf="isA_Admin" class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+        title="Click to add Admin">
+
+        <button type="button" class="btn btn-success" (click)="openAddModal(addModal, id)">
+            + Add Inventory
+        </button>
+
+    </div>
+</div>
+<!-- end::Header -->
+
+<!-- begin::Body -->
+<div *ngIf="isA_Admin" class="card-body py-3">
+
+    <!-- APARTMENT -->
+    <div class="row mb-4" *ngIf="isMulti">
+        <form [formGroup]="filterForm">
+            <div class="col-12 col-md-6 mx-auto">
+                <select class="form-select form-select-lg" (change)="filterInTable($event)"
+                    formControlName="select_apartmentId">
+                    <option value="">Select Apartment</option>
+                    <option *ngFor="let apt of apartments" [value]="apt._id">
+                        {{ apt.name }}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder">
+                    <th class="text-uppercase text-warning"> SR </th>
+                    <th class="text-uppercase text-success"> FLAT </th>
+                    <th class="text-uppercase text-primary"> INVENTORY </th>
+                    <th class=" text-uppercase text-info"> QUANTITY </th>
+                    <th class=" text-uppercase text-center text-danger"> Actions </th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of inventoryData; let i = index ">
+                    <td> {{ i + 1 }} </td>
+                    <td>
+                            {{ data.flatId?.flatNumber }}
+                    </td>
+                    <td> {{ data.itemName }} </td>
+                    <td class="text-center"> {{ data.quantity }} </td>
+                    <td>
+                        <div class="d-flex justify-content-center flex-shrink-0">
+                            <a class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                  me-1
+                " (click)="openUpdateModal(addModal, data._id, data)">
+                                <span class="badge badge-light-warning fs-6 fw-bolder">
+                                    <app-keenicon name="pencil" class="fs-3"></app-keenicon>
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+
+<!-- begin::Body -->
+<div *ngIf="isF_Admin" class="card-body py-3">
+
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder">
+                    <th class="text-uppercase text-warning"> SR </th>
+                    <th class="text-uppercase text-primary"> INVENTORY </th>
+                    <th class="text-uppercase text-info"> QUANTITY </th>
+                    <th class="text-uppercase text-center text-danger"> Description </th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of inventoryData; let i = index ">
+                    <td> {{ i + 1 }} </td>
+                    <td> {{ data.itemName }} </td>
+                    <td class="text-center"> {{ data.quantity }} </td>
+                    <td class="text-center"> {{ data.description }} </td>
+
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+
+<!-- begin:: modal template -->
+<ng-template #addModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">
+            <span *ngIf="isAdd">Add Inventory</span>
+            <span *ngIf="!isAdd">Update Inventory</span>
+        </h4>
+
+        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="addForm">
+
+            <!-- APARTMENT -->
+            <div class="row mb-4" *ngIf="isMulti">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success mb-1">
+                        Apartment <span class="text-danger">*</span>
+                    </label>
+
+                    <select class="form-select form-select-lg" formControlName="apartmentId">
+                        <option value="">Select Apartment</option>
+                        <option *ngFor="let apt of apartments" [value]="apt._id">
+                            {{ apt.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- FLAT -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success mb-1">
+                        Flat
+                    </label>
+
+                    <select class="form-select form-select-lg" formControlName="flatId">
+                        <option value="">Select Flat</option>
+                        <option *ngFor="let flt of flatData" [value]="flt._id">
+                            {{ flt.flatNumber }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- NAME -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Inventory Name
+                    </label>
+
+                    <input type="text" class="form-control form-control-lg" placeholder="Invetory Name"
+                        formControlName="inventoryName">
+                </div>
+            </div>
+
+            <!-- QUANTITY -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Quantity
+                    </label>
+                    <input type="number" class="form-control form-control-lg" placeholder="Quantity"
+                        formControlName="quantity">
+                </div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="mb-4">
+                <label class="fw-bolder text-success">
+                    Description
+                </label>
+                <textarea class="form-control form-control-lg" rows="3" placeholder="Description"
+                    formControlName="description"></textarea>
+            </div>
+
+        </form>
+
+        <!-- ACTION BUTTONS -->
+        <div class="d-flex justify-content-center gap-3 mt-4" *ngIf="isAdd">
+            <button class="btn btn-success px-5" (click)="add()">Submit</button>
+            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mt-4" *ngIf="!isAdd">
+            <button class="btn btn-warning px-5" (click)="update()">Update</button>
+            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
+        </div>
+
+    </div>
+
+</ng-template>
+<!-- end:: modal template -->

@@ -17,6 +17,11 @@ export class AuthStateService {
     return user?.role || null;
   }
 
+  getFlat(): string | null {
+    const user = this.getUser();
+    return user?.flatId?.id || null;
+  }
+
   getApartment(): string | null {
     const user = this.getUser();
     return user?.apartmentId || null;

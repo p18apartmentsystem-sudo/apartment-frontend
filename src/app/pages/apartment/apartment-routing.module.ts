@@ -7,6 +7,7 @@ import { FlatComponent } from './flat/flat.component';
 import { ParkingSlotComponent } from './parking-slot/parking-slot.component';
 import { FlatAdminComponent } from './flat/flat-admin/flat-admin.component';
 import { ComplaintComponent } from './complaint/complaint.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 const routes: Routes = [
     {
@@ -52,12 +53,21 @@ const routes: Routes = [
             roles: ['apartment_admin']
         }
     },
-  {
+    {
         path: 'comment',
         component: ComplaintComponent,
         canActivate: [RoleGuard],
         data: {
             roles: ['apartment_admin']
+        }
+    },
+
+    {
+        path: 'inventory',
+        component: InventoryComponent,
+        canActivate: [RoleGuard],
+        data: {
+            roles: ['apartment_admin', 'flat_admin', 'resident']
         }
     },
 

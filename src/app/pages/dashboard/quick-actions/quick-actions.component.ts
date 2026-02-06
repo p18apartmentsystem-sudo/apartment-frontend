@@ -48,8 +48,8 @@ export class QuickActionsComponent {
   }
 
   canAddApartment(): boolean {
-    if(!this.aprtment){
-    return this.role === 'apartment_admin';
+    if (!this.aprtment) {
+      return this.role === 'apartment_admin';
     }
   }
 
@@ -60,6 +60,15 @@ export class QuickActionsComponent {
   canAddLightBill(): boolean {
     return this.role === 'flat_admin';
   }
+
+  canInventory(): boolean {
+    return ['apartment_admin', 'flat_admin', 'resident'].includes(this.role || '');
+  }
+
+
+
+
+
 
   /* =========================
      NAVIGATION ACTIONS
@@ -103,6 +112,11 @@ export class QuickActionsComponent {
   gotoComment(): void {
     this.router.navigate(['/apartment/comment']);
   }
+
+  gotoInventory(): void {
+    this.router.navigate(['/apartment/inventory']);
+  }
+
 
 
 

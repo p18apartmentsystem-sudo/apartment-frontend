@@ -33,9 +33,9 @@ export class ApartmentService {
     return this.http.get(`${this.baseUrl}/apartments/`);
   }
 
-    /**
-   * GET FLAT
-   */
+  /**
+ * GET FLAT
+ */
   getFlatsByFlatAdminId(): Observable<any> {
     return this.http.get(`${this.baseUrl}/flats/`);
   }
@@ -142,13 +142,13 @@ export class ApartmentService {
     );
   }
 
-    /**
- * ADD FLAT MEMBER  name, mobile, password, apartmentId, flatId, email
- */
+  /**
+* ADD FLAT MEMBER  name, mobile, password, apartmentId, flatId, email
+*/
   addMember(payload: {
     name: string;
     mobile: string;
-    password?: string;   
+    password?: string;
     apartmentId: string;
     flatId: string;
     email: string;
@@ -158,8 +158,8 @@ export class ApartmentService {
       payload
     );
   }
-  
-  
+
+
   /**
    * DELETE FLAT MEMBER (SOFT DELETE)
    */
@@ -185,5 +185,28 @@ export class ApartmentService {
       payload
     );
   }
+
+
+  // 1️⃣ Add Inventory (Apartment / Flat)
+  addInventory(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/inventory/`, payload);
+  }
+
+  // 2️⃣ Get Inventory by Apartment
+  getInventoryByApartment(apartmentId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/inventory/apartment/${apartmentId}`);
+  }
+
+  // 3️⃣ Get Inventory by Flat
+  getInventoryByFlat(flatId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/inventory/flat/${flatId}`);
+  }
+
+  // 4️⃣ Update Inventory Details
+  updateInventory(id: string, payload: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/inventory/${id}`, payload);
+  }
+
+
 
 }

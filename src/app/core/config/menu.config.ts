@@ -46,6 +46,12 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-cash-stack',
     roles: ['apartment_admin'],
   },
+  {
+    title: 'Inventory',
+    route: '/apartment/inventory',
+    icon: 'bi bi-box-seam',
+    roles: ['apartment_admin'],
+  },
 
   //FLAT_MEMBER
   {
@@ -60,6 +66,13 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-cash-stack',
     roles: ['flat_admin', 'resident'],
   },
+  {
+    title: 'Inventory',
+    route: '/apartment/inventory',
+    icon: 'bi bi-box-seam',
+    roles: ['flat_admin', 'resident'],
+  },
+
 
   // {
   //   title: 'Vehicle',

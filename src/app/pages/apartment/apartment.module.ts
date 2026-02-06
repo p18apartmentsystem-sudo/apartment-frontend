@@ -15,6 +15,7 @@ import { WidgetsModule } from 'src/app/_metronic/partials';
 import { ApartmentRoutingModule } from './apartment-routing.module';
 import { ComplaintComponent } from './complaint/complaint.component';
 import { FlatAdminComponent } from './flat/flat-admin/flat-admin.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FlatAdminComponent } from './flat/flat-admin/flat-admin.component';
     FlatComponent,
     ParkingSlotComponent,
     ComplaintComponent,
-    FlatAdminComponent
+    FlatAdminComponent,
+    InventoryComponent
   ],
   imports: [
     CommonModule,

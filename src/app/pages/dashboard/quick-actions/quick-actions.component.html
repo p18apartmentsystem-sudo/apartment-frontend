@@ -48,7 +48,6 @@
         </button>
       </div>
 
-
       <!-- ADD FLAT -->
       <div class="col-6 col-md-3" *ngIf="canAddFlat()">
         <button class="btn btn-light-success w-100 h-100 action-btn" (click)="gotoFlat()">
@@ -56,6 +55,30 @@
           <span>Add Flat</span>
         </button>
       </div>
+
+      <!-- ADD MEMBER -->
+      <div class="col-6 col-md-3" *ngIf="canAddMember()">
+        <button class="btn btn-light-info w-100 h-100 action-btn" (click)="gotoMember()">
+          <i class="bi bi-person-plus fs-3 mb-2"></i>
+          <span>Add Member</span>
+        </button>
+      </div>
+
+      <!-- INVENTORY -->
+      <div class="col-6 col-md-3" *ngIf="canInventory()">
+        <button class="btn btn-light-warning w-100 h-100 action-btn" (click)="gotoInventory()">
+          <i class="bi bi-box-seam fs-3 mb-2"></i>
+          <span>Inventory</span>
+        </button>
+      </div>
+
+
+
+
+
+
+
+
 
       <!-- ADD COMMENT  canAddFlatRent apartment_admin have access that's why -->
       <!-- <div class="col-6 col-md-3" *ngIf="canAddFlatRent()">
@@ -72,14 +95,6 @@
           <span>Add Admin</span>
         </button>
       </div> -->
-
-      <!-- ADD MEMBER -->
-      <div class="col-6 col-md-3" *ngIf="canAddMember()">
-        <button class="btn btn-light-info w-100 h-100 action-btn" (click)="gotoMember()">
-          <i class="bi bi-person-plus fs-3 mb-2"></i>
-          <span>Add Member</span>
-        </button>
-      </div>
 
       <!-- ADD COMPLAINT -->
       <!-- <div class="col-6 col-md-3" *ngIf="canAddComplaint()">
