@@ -53,7 +53,8 @@ export class FlatAdminComponent {
       this.getFlatsByFlatAdminId();
     } else {
       this.isF_Admin = false;
-      this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'])
+      this.authState.logout();
     }
   }
 

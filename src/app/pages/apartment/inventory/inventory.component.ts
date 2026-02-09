@@ -70,7 +70,8 @@ export class InventoryComponent {
     } else {
       this.isF_Admin = false;
       this.isA_Admin = false;
-      this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'])
+      this.authState.logout();
     }
   }
 

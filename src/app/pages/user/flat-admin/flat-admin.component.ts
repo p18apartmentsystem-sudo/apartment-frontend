@@ -42,7 +42,8 @@ export class FlatAdminComponent {
     if (this.role === 'apartment_admin') {
       // this.getAdmin();
     } else {
-      this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'])
+      this.authState.logout();
     }
   }
 

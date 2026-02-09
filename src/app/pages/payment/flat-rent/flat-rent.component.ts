@@ -79,7 +79,8 @@ export class FlatRentComponent {
       this.getApartment();
     } else {
       this.isA_Admin = false;
-      this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'])
+      this.authState.logout();
     }
   }
 

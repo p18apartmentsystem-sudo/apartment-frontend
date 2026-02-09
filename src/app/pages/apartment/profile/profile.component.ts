@@ -42,7 +42,8 @@ export class ProfileComponent {
     if (this.role === 'apartment_admin') {
       this.getApartment();
     } else {
-      this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'])
+      this.authState.logout();
     }
   }
 

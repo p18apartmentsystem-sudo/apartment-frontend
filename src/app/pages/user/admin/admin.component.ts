@@ -42,7 +42,8 @@ export class AdminComponent {
     if (this.role === 'super_admin') {
       this.getAdmin();
     } else {
-      this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'])
+      this.authState.logout();
     }
   }
 
