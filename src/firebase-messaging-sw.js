@@ -13,7 +13,6 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-
 // 🔥 BACKGROUND MESSAGE
 messaging.onBackgroundMessage(function (payload) {
 
@@ -22,8 +21,8 @@ messaging.onBackgroundMessage(function (payload) {
     const title = payload.data.title;
     const options = {
         body: payload.data.body,
-        icon: '/assets/media/logos/p18-logo.png',
-        badge: '/assets/media/logos/p18-logo.png',
+        icon: 'assets/icons/icon-192x192.png',
+        badge: 'assets/icons/icon-192x192.png',
         data: {
             route: payload.data.route
         }
