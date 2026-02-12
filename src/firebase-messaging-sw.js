@@ -11,47 +11,49 @@ firebase.initializeApp({
     measurementId: "G-S9C4JETG0D",
 });
 
+
+
 const messaging = firebase.messaging();
+// 🔥 Handle ALL incoming messages
+self.addEventListener('push', function(event) {
 
-// 🔥 BACKGROUND MESSAGE
-messaging.onBackgroundMessage(function (payload) {
+  const payload = event.data.json();
 
-    console.log('[firebase-messaging-sw.js] Received:', payload);
+  const title = payload.data?.title || 'Notification';
+  const options = {
+    body: payload.data?.body,
+    icon: '/assets/media/logos/p18-logo.png',
+    badge: '/assets/media/logos/p18-logo.png',
+    data: {
+      route: payload.data?.route || '/dashboard'
+    }
+  };
 
-    const title = payload.data.title;
-    const options = {
-        body: payload.data.body,
-        icon: 'assets/icons/icon-192x192.png',
-        badge: 'assets/icons/icon-192x192.png',
-        data: {
-            route: payload.data.route
-        }
-    };
-
-    self.registration.showNotification(title, options);
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
 });
 
 
-// 🔥 CLICK HANDLER
-self.addEventListener('notificationclick', function (event) {
+// 🔥 Click handler
+self.addEventListener('notificationclick', function(event) {
 
-    event.notification.close();
+  event.notification.close();
 
-    const route = event.notification.data.route || '/dashboard';
+  const route = event.notification.data.route || '/dashboard';
 
-    event.waitUntil(
-        clients.matchAll({ type: 'window', includeUncontrolled: true })
-            .then(function (clientList) {
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then(function(clientList) {
 
-                for (const client of clientList) {
-                    if (client.url.includes(route) && 'focus' in client) {
-                        return client.focus();
-                    }
-                }
+        for (const client of clientList) {
+          if ('focus' in client) {
+            client.postMessage({ type: 'NAVIGATE', route });
+            return client.focus();
+          }
+        }
 
-                if (clients.openWindow) {
-                    return clients.openWindow(route);
-                }
-            })
-    );
+        return clients.openWindow(route);
+      })
+  );
 });
