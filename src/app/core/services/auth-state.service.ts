@@ -1,10 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStateService {
+  constructor(
+    private http: HttpClient
+  ) { }
+
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token') ;
+    return !!localStorage.getItem('token');
   }
 
   getUser() {
@@ -28,10 +34,22 @@ export class AuthStateService {
   }
 
   logout(): void {
+    const token = localStorage.getItem('fcm_token');
+
+    if (token) {
+      this.http.post(
+        `${environment.apiUrl}/push-token/disable`,
+        { token }
+      ).subscribe();
+    }
+
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('fcm_token'); // 🔥 important
+
     window.location.href = '/auth/login';
   }
+
 
 
 

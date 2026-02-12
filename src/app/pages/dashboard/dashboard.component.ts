@@ -3,6 +3,7 @@ import { ModalConfig } from '../../_metronic/partials';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { DashboardService } from './dashboard.service';
 import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ export class DashboardComponent implements OnInit {
   role!: string | null;
   dashboard: any;
   loading = true;
+  showNotificationBanner = false;
 
   modalConfig: ModalConfig = {
     modalTitle: 'Modal title',
@@ -21,14 +23,37 @@ export class DashboardComponent implements OnInit {
     closeButtonLabel: 'Cancel'
   };
   errorMessage: string;
-  constructor(private authState: AuthStateService,
+  constructor(
+    private authState: AuthStateService,
     private dashboardService: DashboardService,
-    private router: Router) { }
+    private router: Router,
+    private notificationService: NotificationService
+  ) { }
+
 
   ngOnInit(): void {
     this.role = this.authState.getRole();
     this.getDashboard();
+
+    // 🔔 Notification logic
+    const action = this.notificationService.checkAndHandlePermission();
+
+    if (action === 'show-banner') {
+      this.showNotificationBanner = true;
+    }
+
+    if (action === 'auto-save') {
+      this.notificationService.requestPermission();
+    }
+
+    this.notificationService.listen();
   }
+
+  enableNotifications(): void {
+    this.notificationService.requestPermission();
+    this.showNotificationBanner = false;
+  }
+
 
   getDashboard() {
     this.loading = true;

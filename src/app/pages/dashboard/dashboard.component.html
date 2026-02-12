@@ -1,4 +1,15 @@
 <!-- ================= DASHBOARD ================= -->
+<!-- 🔔 Notification Enable Banner -->
+<div *ngIf="showNotificationBanner" class="alert alert-info text-center">
+  <span>
+    🔔 Enable notifications to receive important updates.
+  </span>
+  <button class="btn btn-sm btn-primary ms-3" (click)="enableNotifications()">
+    Enable
+  </button>
+</div>
+
+
 <div *ngIf="errorMessage" class="alert alert-warning text-center">
   {{ errorMessage }}
 </div>

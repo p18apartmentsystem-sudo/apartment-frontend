@@ -17,16 +17,17 @@ import { ApartmentComponent } from './pages/apartment/apartment.component';
 
 import { environment } from 'src/environments/environment';
 
-// 🔹 Fake API (DEV ONLY)
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { FakeAPIService } from './_fake/fake-api.service';
-
 // 🔹 Interceptors
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+
+// 🔹 PWA
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+// 🔥 FIREBASE (NgModule-compatible)
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule, // ✅ FIX
+    RouterModule,
     ClipboardModule,
     TranslateModule.forRoot(),
     InlineSVGModule.forRoot(),
@@ -46,38 +47,20 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     SharedModule,
     AppRoutingModule,
 
-    // ✅ Fake API ONLY in DEV
-    ...( !environment.production && environment.isMockEnabled
-      ? [
-          HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {
-            passThruUnknownUrl: true,
-            dataEncapsulation: false,
-          }),
-        ]
-      : [] ),
-      ServiceWorkerModule.register('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        // Register the ServiceWorker as soon as the application is stable
-        // or after 30 seconds (whichever comes first).
-        registrationStrategy: 'registerWhenStable:30000'
-      }),
+    // 🔹 PWA
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+
+    // 🔥 FIREBASE INIT (CORRECT)
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireMessagingModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true,
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

@@ -9,7 +9,16 @@ export const environment = {
 
 
 
-
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  firebase: {
+    apiKey: "AIzaSyB8TGN7rckv8UtO8tHjLTwzc0xcAHE9yxs",
+    authDomain: "p18-apartment-system.firebaseapp.com",
+    projectId: "p18-apartment-system",
+    storageBucket: "p18-apartment-system.firebasestorage.app",
+    messagingSenderId: "423719701111",
+    appId: "1:423719701111:web:6ba467c48e0855871c9472",
+    measurementId: "G-S9C4JETG0D"
+  },
 
 
   appVersion: 'v1.0.4',
