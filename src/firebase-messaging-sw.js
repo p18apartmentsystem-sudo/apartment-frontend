@@ -13,16 +13,38 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// 🔔 Background notifications
-messaging.onBackgroundMessage(function (payload) {
-    console.log('[firebase-messaging-sw.js] Background message ', payload);
+messaging.onBackgroundMessage(function(payload) {
+  console.log('[firebase-messaging-sw.js] Background message', payload);
 
-    self.registration.showNotification(
-        payload.notification.title,
-        {
-            body: payload.notification.body,
-            icon: '/assets/icons/icon-192x192.png',
-            badge: '/assets/icons/icon-72x72.png'
+  const notificationTitle = payload.notification?.title || 'Notification';
+  const notificationOptions = {
+    body: payload.notification?.body,
+    icon: '/assets/media/logos/p18-logo.png', // 🔥 your app icon
+    data: payload.data || {}
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+
+// 🔥 IMPORTANT: Handle click
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+
+  const route = event.notification.data?.route || '/dashboard';
+  const urlToOpen = new URL(route, self.location.origin).href;
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then(function(clientList) {
+        for (const client of clientList) {
+          if (client.url === urlToOpen && 'focus' in client) {
+            return client.focus();
+          }
         }
-    );
+        if (clients.openWindow) {
+          return clients.openWindow(urlToOpen);
+        }
+      })
+  );
 });
