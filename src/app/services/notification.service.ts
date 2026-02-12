@@ -75,11 +75,23 @@ export class NotificationService {
     });
   }
 
-  listen(): void {
-    this.afMessaging.messages.subscribe(message => {
-      console.log('Foreground notification:', message);
-    });
-  }
+listen(): void {
+  this.afMessaging.messages.subscribe((payload: any) => {
+
+    console.log('Foreground notification:', payload);
+
+    const title = payload?.data?.title;
+    const options = {
+      body: payload?.data?.body,
+      icon: 'assets/icons/icon-192x192.png'
+    };
+
+    if (Notification.permission === 'granted') {
+      new Notification(title, options);
+    }
+  });
+}
+
 
   private getPlatform(): 'web' | 'android' | 'ios' {
     const ua = navigator.userAgent.toLowerCase();
