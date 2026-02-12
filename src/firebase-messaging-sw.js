@@ -12,48 +12,40 @@ firebase.initializeApp({
 });
 
 
-
 const messaging = firebase.messaging();
-// 🔥 Handle ALL incoming messages
-self.addEventListener('push', function(event) {
 
-  const payload = event.data.json();
+messaging.onBackgroundMessage(function (payload) {
+  console.log('[firebase-messaging-sw.js] Background message ', payload);
 
-  const title = payload.data?.title || 'Notification';
-  const options = {
+  const notificationTitle = payload.data?.title || 'P18';
+  const notificationOptions = {
     body: payload.data?.body,
-    icon: '/assets/media/logos/p18-logo.png',
-    badge: '/assets/media/logos/p18-logo.png',
+    icon: '/assets/icons/icon-192x192.png',
+    badge: '/assets/icons/icon-192x192.png',
     data: {
-      route: payload.data?.route || '/dashboard'
+      url: payload.data?.route || '/'
     }
   };
 
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-
-// 🔥 Click handler
-self.addEventListener('notificationclick', function(event) {
-
+// Click handling
+self.addEventListener('notificationclick', function (event) {
   event.notification.close();
 
-  const route = event.notification.data.route || '/dashboard';
+  const urlToOpen = event.notification.data?.url || '/';
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(function(clientList) {
-
-        for (const client of clientList) {
-          if ('focus' in client) {
-            client.postMessage({ type: 'NAVIGATE', route });
-            return client.focus();
-          }
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
+      for (const client of clientList) {
+        if (client.url.includes(self.location.origin) && 'focus' in client) {
+          return client.focus();
         }
-
-        return clients.openWindow(route);
-      })
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
   );
 });
