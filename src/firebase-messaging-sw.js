@@ -1,5 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js');
 
 firebase.initializeApp({
     apiKey: "AIzaSyB8TGN7rckv8UtO8tHjLTwzc0xcAHE9yxs",
@@ -13,38 +13,46 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage(function(payload) {
-  console.log('[firebase-messaging-sw.js] Background message', payload);
 
-  const notificationTitle = payload.notification?.title || 'Notification';
-  const notificationOptions = {
-    body: payload.notification?.body,
-    icon: '/assets/media/logos/p18-logo.png', // 🔥 your app icon
-    data: payload.data || {}
-  };
+// 🔥 BACKGROUND MESSAGE
+messaging.onBackgroundMessage(function (payload) {
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+    console.log('[firebase-messaging-sw.js] Received:', payload);
+
+    const title = payload.data.title;
+    const options = {
+        body: payload.data.body,
+        icon: '/assets/media/logos/p18-logo.png',
+        badge: '/assets/media/logos/p18-logo.png',
+        data: {
+            route: payload.data.route
+        }
+    };
+
+    self.registration.showNotification(title, options);
 });
 
 
-// 🔥 IMPORTANT: Handle click
-self.addEventListener('notificationclick', function(event) {
-  event.notification.close();
+// 🔥 CLICK HANDLER
+self.addEventListener('notificationclick', function (event) {
 
-  const route = event.notification.data?.route || '/dashboard';
-  const urlToOpen = new URL(route, self.location.origin).href;
+    event.notification.close();
 
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(function(clientList) {
-        for (const client of clientList) {
-          if (client.url === urlToOpen && 'focus' in client) {
-            return client.focus();
-          }
-        }
-        if (clients.openWindow) {
-          return clients.openWindow(urlToOpen);
-        }
-      })
-  );
+    const route = event.notification.data.route || '/dashboard';
+
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true })
+            .then(function (clientList) {
+
+                for (const client of clientList) {
+                    if (client.url.includes(route) && 'focus' in client) {
+                        return client.focus();
+                    }
+                }
+
+                if (clients.openWindow) {
+                    return clients.openWindow(route);
+                }
+            })
+    );
 });
