@@ -21,7 +21,7 @@ export const environment = {
   },
 
 
-  appVersion: 'v1.0.4',
+  appVersion: 'v2.0.0',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   appThemeName: 'P18',
