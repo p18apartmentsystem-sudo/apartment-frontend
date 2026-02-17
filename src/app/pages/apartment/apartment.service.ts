@@ -208,5 +208,73 @@ export class ApartmentService {
   }
 
 
+  /**
+   * 🔹 RAISE COMPLAINT (resident / flat_admin)
+   */
+  raiseComplaint(payload: {
+    category: string;
+    description: string;
+  }): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/complaints`,
+      payload
+    );
+  }
+
+  /**
+   * 🔹 GET FLAT COMPLAINTS (flat_admin)
+   */
+  getFlatComplaints(): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/complaints/flat`
+    );
+  }
+
+  /**
+   * 🔹 GET MY COMPLAINTS (resident)
+   */
+  getMyComplaints(): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/complaints/my`
+    );
+  }
+
+  /**
+   * 🔹 UPDATE COMPLAINT STATUS (apartment_admin)
+   */
+  updateComplaintStatus(
+    id: string,
+    payload: {
+      status: string;
+    }
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseUrl}/complaints/status/${id}`,
+      payload
+    );
+  }
+
+  /**
+   * 🔹 BROADCAST TO APARTMENT (apartment_admin)
+   */
+  broadcastToApartment(payload: {
+    title: string;
+    body: string;
+  }): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/complaints/broadcast`,
+      payload
+    );
+  }
+
+  /**
+   * 🔹 GET ALL APARTMENT COMPLAINTS (apartment_admin)
+   */
+  getAllApartmentComplaints(): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/complaints/apartment`
+    );
+  }
+
 
 }

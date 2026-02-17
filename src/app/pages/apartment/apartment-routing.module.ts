@@ -54,11 +54,11 @@ const routes: Routes = [
         }
     },
     {
-        path: 'comment',
+        path: 'updates',
         component: ComplaintComponent,
         canActivate: [RoleGuard],
         data: {
-            roles: ['apartment_admin']
+            roles: ['apartment_admin', 'flat_admin', 'resident']
         }
     },
 

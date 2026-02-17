@@ -2,13 +2,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js');
 
 firebase.initializeApp({
-    apiKey: "AIzaSyB8TGN7rckv8UtO8tHjLTwzc0xcAHE9yxs",
-    authDomain: "p18-apartment-system.firebaseapp.com",
-    projectId: "p18-apartment-system",
-    storageBucket: "p18-apartment-system.firebasestorage.app",
-    messagingSenderId: "423719701111",
-    appId: "1:423719701111:web:6ba467c48e0855871c9472",
-    measurementId: "G-S9C4JETG0D",
+  apiKey: "AIzaSyB8TGN7rckv8UtO8tHjLTwzc0xcAHE9yxs",
+  authDomain: "p18-apartment-system.firebaseapp.com",
+  projectId: "p18-apartment-system",
+  storageBucket: "p18-apartment-system.firebasestorage.app",
+  messagingSenderId: "423719701111",
+  appId: "1:423719701111:web:6ba467c48e0855871c9472",
+  measurementId: "G-S9C4JETG0D",
 });
 
 
@@ -23,7 +23,7 @@ messaging.onBackgroundMessage(function (payload) {
     icon: '/assets/icons/icon-192x192.png',
     badge: '/assets/icons/icon-192x192.png',
     data: {
-      url: payload.data?.route || '/'
+      route: payload.data?.route || '/apartment/updates'
     }
   };
 
@@ -34,18 +34,9 @@ messaging.onBackgroundMessage(function (payload) {
 self.addEventListener('notificationclick', function (event) {
   event.notification.close();
 
-  const urlToOpen = event.notification.data?.url || '/';
+  const route = event.notification.data?.route || '/apartment/updates';
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
-      for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(urlToOpen);
-      }
-    })
+    clients.openWindow(self.location.origin + route)
   );
 });

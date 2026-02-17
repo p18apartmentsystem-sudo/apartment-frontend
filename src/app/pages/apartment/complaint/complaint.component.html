@@ -1,1 +1,225 @@
-<p>complaint works!</p>
+<!-- ================= HEADER ================= -->
+<div class="card-header border-0 pt-5 d-flex justify-content-end">
+
+    <!-- Anyone can add -->
+    <div *ngIf="!isA_Admin" class="card-toolbar">
+        <button type="button" class="btn btn-success" (click)="openAddModal(addModal)">
+            + Raise Complaint
+        </button>
+    </div>
+    <div *ngIf="isA_Admin" class="card-toolbar">
+        <button type="button" class="btn btn-success" (click)="openAddModal(addModal)">
+            + Comment
+        </button>
+    </div>
+</div>
+<!-- ================= END HEADER ================= -->
+
+
+<!-- ================= BODY ================= -->
+<div class="card-body py-3">
+
+    <div class="table-responsive">
+
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+
+            <!-- TABLE HEAD -->
+            <thead>
+                <tr class="fw-bolder">
+                    <th class="text-uppercase text-warning">SR</th>
+
+                    <!-- Show Flat column only for Apartment Admin -->
+                    <th *ngIf="isA_Admin" class="text-uppercase text-success">
+                        FLAT
+                    </th>
+
+                    <th class="text-uppercase text-primary">
+                        CATEGORY
+                    </th>
+
+                    <th class="text-uppercase text-info">
+                        DESCRIPTION
+                    </th>
+
+                    <th class="text-uppercase text-warning">
+                        STATUS
+                    </th>
+
+                    <th class="text-uppercase text-success">
+                        CREATED
+                    </th>
+
+                    <th *ngIf="isA_Admin" class="text-uppercase text-center text-danger">
+                        ACTIONS
+                    </th>
+                </tr>
+            </thead>
+
+            <!-- TABLE BODY -->
+            <tbody>
+
+                <tr *ngFor="let data of complaintData; let i = index">
+
+                    <td>{{ i + 1 }}</td>
+
+                    <!-- Flat Number (Admin Only) -->
+                    <td *ngIf="isA_Admin">
+                        {{ data.flatId?.flatNumber || '-' }}
+                    </td>
+
+                    <td>{{ data.category }}</td>
+
+                    <td>{{ data.description }}</td>
+
+                    <!-- STATUS BADGE -->
+                    <td>
+                        <span class="badge fs-7 fw-bolder" [ngClass]="{
+                                'badge-light-warning': data.status === 'pending',
+                                'badge-light-primary': data.status === 'in-progress',
+                                'badge-light-success': data.status === 'resolved'
+                              }">
+
+                            {{ data.status | titlecase }}
+
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ data.createdAt }}
+                    </td>
+
+                    <!-- ACTIONS (Admin Only) -->
+                    <td *ngIf="isA_Admin">
+                        <div class="d-flex justify-content-center">
+
+                            <button class="btn btn-sm btn-light-warning me-2" *ngIf="data.status !== 'resolved'"
+                                (click)="openUpdateModal(statusModal, data)">
+                                Update
+                            </button>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                <!-- EMPTY STATE -->
+                <tr *ngIf="!complaintData?.length">
+                    <td colspan="7" class="text-center text-muted">
+                        No Complaints Found
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<!-- ================= END BODY ================= -->
+
+
+
+<!-- ================= ADD COMPLAINT MODAL ================= -->
+<ng-template #addModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Raise Complaint</h4>
+
+        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
+            &times;
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <form [formGroup]="addForm">
+
+            <!-- CATEGORY -->
+            <div class="mb-4">
+                <label *ngIf="isA_Admin" class="fw-bolder text-success">
+                    Category <span class="text-danger">*</span>
+                </label>
+                <select class="form-select form-select-lg" formControlName="category">
+                    <option value="">Select Category</option>
+                    <option value="water">WATER</option>
+                    <option value="electricity">ELECTRICITY</option>
+                    <option value="parking">PARKING</option>
+                    <option value="lift">LIFT</option>
+                    <option value="noise">NOISE</option>
+                    <option value="other">OTHER</option>
+                </select>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="mb-4">
+                <label class="fw-bolder text-success">
+                    Description <span class="text-danger">*</span>
+                </label>
+
+                <textarea rows="3" class="form-control form-control-lg" placeholder="Describe your issue"
+                    formControlName="description">
+                </textarea>
+            </div>
+
+        </form>
+
+        <!-- ACTION BUTTONS -->
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <button *ngIf="!isA_Admin" class="btn btn-success px-5" (click)="add()">
+                Submit
+            </button>
+
+            <button *ngIf="isA_Admin" class="btn btn-success px-5" (click)="addBroadcast()">
+                Submit
+            </button>
+
+            <button class="btn btn-danger px-5" (click)="c('cancel')">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+
+</ng-template>
+<!-- ================= END ADD MODAL ================= -->
+
+
+
+<!-- ================= UPDATE STATUS MODAL (ADMIN) ================= -->
+<ng-template #statusModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Update Complaint Status</h4>
+
+        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
+            &times;
+        </button>
+    </div>
+
+    <div class="modal-body text-center">
+
+        <p class="mb-4">Select Status</p>
+
+        <div class="d-flex justify-content-center gap-3">
+
+            <button class="btn btn-warning" (click)="updateStatus('in-progress')">
+                In Progress
+            </button>
+
+            <button class="btn btn-success" (click)="updateStatus('resolved')">
+                Resolved
+            </button>
+
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-danger" (click)="c('cancel')">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+
+</ng-template>
+<!-- ================= END UPDATE MODAL ================= -->

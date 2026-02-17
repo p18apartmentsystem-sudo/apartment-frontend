@@ -110,7 +110,7 @@ export class QuickActionsComponent {
   }
 
   gotoComment(): void {
-    this.router.navigate(['/apartment/comment']);
+    this.router.navigate(['/apartment/updates']);
   }
 
   gotoInventory(): void {
