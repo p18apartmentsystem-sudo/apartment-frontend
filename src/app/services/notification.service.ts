@@ -76,9 +76,31 @@ export class NotificationService {
   }
 
   listen(): void {
-    this.afMessaging.messages.subscribe(message => {
-      console.log('Message received in app:', message);
+
+    this.afMessaging.messages.subscribe((message: any) => {
+
+      console.log('Foreground message:', message);
+
+      const title = message?.data?.title || 'P18';
+      const body = message?.data?.body || '';
+      const route = message?.data?.route || '/apartment/updates';
+
+      // 🔥 Show browser notification when app is open
+      if (Notification.permission === 'granted') {
+
+        const notification = new Notification(title, {
+          body: body,
+          icon: '/assets/icons/icon-192x192.png'
+        });
+
+        notification.onclick = () => {
+          window.focus();
+          window.location.href = route;   // simple navigation
+        };
+      }
+
     });
+
   }
 
 
