@@ -235,4 +235,16 @@ export class ComplaintComponent {
     });
   }
 
+
+  /* ===========================================
+     🔹 DELETE 
+  ============================================ */
+
+  delete(id: any) {
+    this.post.deleteComplaint(id).subscribe((res) => {
+      this.alertService.show(`${res.message}`);
+      this.refreshData();
+    });
+
+  }
 }

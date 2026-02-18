@@ -285,5 +285,16 @@ export class ApartmentService {
     );
   }
 
+  /**
+   * 🔹 DELETE COMPLAINT (apartment_admin)
+   */
+  deleteComplaint(
+    id: string,
+  ): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}/complaints/delete/${id}`
+    );
+  }
+
 
 }
