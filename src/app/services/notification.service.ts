@@ -34,25 +34,36 @@ export class NotificationService {
   }
 
   requestPermission(): void {
+
     if (this.isTokenSaving) return;
 
-    this.afMessaging.requestToken.subscribe({
-      next: (token) => {
-        if (!token) return;
+    // 🔥 Wait until Service Worker is ready
+    navigator.serviceWorker.ready
+      .then(() => {
 
-        const savedToken = localStorage.getItem('fcm_token');
-        if (savedToken === token) return;
+        this.afMessaging.requestToken.subscribe({
+          next: (token) => {
 
-        localStorage.setItem('fcm_token', token);
+            if (!token) return;
 
-        this.isTokenSaving = true;
-        this.saveTokenToBackend(token);
-      },
-      error: (err) => {
-        console.error('Permission denied', err);
-        this.isTokenSaving = false;
-      }
-    });
+            const savedToken = localStorage.getItem('fcm_token');
+            if (savedToken === token) return;
+
+            localStorage.setItem('fcm_token', token);
+
+            this.isTokenSaving = true;
+            this.saveTokenToBackend(token);
+          },
+          error: (err) => {
+            console.error('Permission denied', err);
+            this.isTokenSaving = false;
+          }
+        });
+
+      })
+      .catch(err => {
+        console.error('Service Worker not ready:', err);
+      });
   }
 
   private saveTokenToBackend(token: string): void {
