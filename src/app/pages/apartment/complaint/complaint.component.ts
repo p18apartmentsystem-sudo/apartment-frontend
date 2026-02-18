@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
@@ -13,6 +13,7 @@ import { ApartmentService } from '../apartment.service';
   styleUrl: './complaint.component.scss'
 })
 export class ComplaintComponent {
+  @ViewChild('broadcastModal') broadcastModal!: TemplateRef<any>;
 
   role!: string | null;
   modalRef: any;
@@ -23,6 +24,7 @@ export class ComplaintComponent {
   isF_Admin = false;
 
   complaintData: any[] = [];
+  broadcastData: any[] = [];
   complaintId: string = '';
 
   addForm = new FormGroup({
@@ -48,6 +50,7 @@ export class ComplaintComponent {
     else if (this.role === 'flat_admin' || this.role === 'resident') {
       this.isF_Admin = true;
       this.getFlatComplaints();
+      this.getApartmentBroadcasts();
     } else {
       this.authState.logout();
     }
@@ -159,7 +162,7 @@ export class ComplaintComponent {
   }
 
   /* ===========================================
-     🔹 ADD COMPLAINT
+     🔹 ADD BROADCAST
   ============================================ */
 
   addBroadcast() {
@@ -176,7 +179,7 @@ export class ComplaintComponent {
 
     this.post.broadcastToApartment(payload).subscribe({
       next: (res) => {
-        this.alertService.show('Complaint Raised..!');
+        this.alertService.show('Comment added..!');
         this.closeModal();
       },
       error: () => {
@@ -202,6 +205,34 @@ export class ComplaintComponent {
         },
         error: () => this.loading = false
       });
+  }
+
+
+  /* ===========================================
+     🔹 GET APARTMENT BROADCAST 
+  ============================================ */
+
+  getApartmentBroadcasts() {
+    this.loading = true;
+
+    this.post.getApartmentBroadcast().subscribe({
+      next: (res) => {
+
+        if (res.data && res.data.length > 0) {
+
+          this.broadcastData = res.data;
+
+          // 🔥 OPEN MODAL HERE
+          this.modalService.open(this.broadcastModal, {
+            backdrop: 'static'
+          });
+
+        }
+
+        this.loading = false;
+      },
+      error: () => this.loading = false
+    });
   }
 
 }

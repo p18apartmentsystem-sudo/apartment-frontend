@@ -276,5 +276,14 @@ export class ApartmentService {
     );
   }
 
+  /**
+   * 🔹 GET ALL APARTMENT BROADCAST (apartment_members)
+   */
+  getApartmentBroadcast(): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/complaints/apartment-broadcast`
+    );
+  }
+
 
 }
