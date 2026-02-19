@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { SwUpdate } from '@angular/service-worker';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +11,13 @@ export class PwaUpdateService {
   init(): void {
     if (!this.swUpdate.isEnabled) return;
 
-    // 🔄 Listen for new version
-    this.swUpdate.versionUpdates.subscribe((event) => {
+    this.swUpdate.versionUpdates.subscribe(event => {
       if (event.type === 'VERSION_READY') {
-        this.showUpdatePrompt();
+        // 🔥 silently update without confirm popup
+        this.swUpdate.activateUpdate().then(() => {
+          document.location.reload();
+        });
       }
     });
-  }
-
-  private showUpdatePrompt(): void {
-    const shouldReload = confirm(
-      '🚀 New update available!\n\nReload to get the latest version?'
-    );
-
-    if (shouldReload) {
-      this.swUpdate.activateUpdate().then(() => {
-        document.location.reload();
-      });
-    }
   }
 }

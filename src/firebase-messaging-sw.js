@@ -11,13 +11,12 @@ firebase.initializeApp({
   measurementId: "G-S9C4JETG0D",
 });
 
-
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
-  console.log('[firebase-messaging-sw.js] Background message ', payload);
 
   const notificationTitle = payload.data?.title || 'P18';
+
   const notificationOptions = {
     body: payload.data?.body,
     icon: '/assets/icons/icon-192x192.png',
@@ -30,7 +29,6 @@ messaging.onBackgroundMessage(function (payload) {
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// Click handling
 self.addEventListener('notificationclick', function (event) {
   event.notification.close();
 

@@ -90,13 +90,15 @@ export class NotificationService {
 
     this.afMessaging.messages.subscribe((message: any) => {
 
-      console.log('Foreground message:', message);
+      // Only show if app is visible
+      if (document.visibilityState !== 'visible') {
+        return;   // let service worker handle it
+      }
 
       const title = message?.data?.title || 'P18';
       const body = message?.data?.body || '';
       const route = message?.data?.route || '/apartment/updates';
 
-      // 🔥 Show browser notification when app is open
       if (Notification.permission === 'granted') {
 
         const notification = new Notification(title, {
@@ -106,12 +108,10 @@ export class NotificationService {
 
         notification.onclick = () => {
           window.focus();
-          window.location.href = route;   // simple navigation
+          window.location.href = route;
         };
       }
-
     });
-
   }
 
 
