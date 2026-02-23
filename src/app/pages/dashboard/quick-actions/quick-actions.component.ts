@@ -121,6 +121,9 @@ export class QuickActionsComponent {
     this.router.navigate(['/payment/flat-light-bill']);
   }
 
+  gotoReport(): void {
+    this.router.navigate(['/report'])
+  }
 
 }
 

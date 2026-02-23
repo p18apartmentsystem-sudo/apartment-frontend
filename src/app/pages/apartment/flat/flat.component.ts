@@ -149,7 +149,6 @@ export class FlatComponent {
 
     this.post.getFlatByApartmentId(apartmentId).subscribe({
       next: (res) => {
-        this.loading = false;
 
         if (!res?.data?.length) {
           this.flats = [];
@@ -158,6 +157,7 @@ export class FlatComponent {
 
         this.flats = res.data;
         this.apartmentId = res.data[0]?.apartmentId;
+        this.loading = false;
       },
       error: (err) => {
         this.loading = false;
@@ -262,7 +262,6 @@ export class FlatComponent {
     this.addForm.controls['meterNumber'].setValue("")
     this.addForm.controls['floor'].setValue("")
     this.modalRef.close('close');
-    this.loading = false;
     this.isflatAdmin = false;
     this.adminForm.reset()
     this.adminForm.controls['password'].setValue("123456")

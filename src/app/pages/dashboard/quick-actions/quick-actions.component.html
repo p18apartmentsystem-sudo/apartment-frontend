@@ -85,6 +85,23 @@
         </button>
       </div>
 
+      <!-- REPORT -->
+      <div class="col-6 col-md-3" *ngIf="canAddFlat()">
+        <button class="btn btn-light-success w-100 h-100 action-btn" (click)="gotoReport()">
+          <i class="bi bi-house fs-3 mb-2"></i>
+          <span>REPORT</span>
+        </button>
+      </div>
+
+
+      <!-- INVENTORY -->
+      <div class="col-6 col-md-3" *ngIf="canInventory()">
+        <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoInventory()">
+          <i class="bi bi-box-seam fs-3 mb-2"></i>
+          <span>Inventory</span>
+        </button>
+      </div>
+
       <!-- ADD COMMENT  canInventory apartment_admin, flat_admin & resident have access that's why -->
       <div class="col-6 col-md-3" *ngIf="canInventory()">
         <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoComment()">
@@ -93,13 +110,9 @@
         </button>
       </div>
 
-      <!-- INVENTORY -->
-      <div class="col-6 col-md-3" *ngIf="canInventory()">
-        <button class="btn btn-light-info w-100 h-100 action-btn" (click)="gotoInventory()">
-          <i class="bi bi-box-seam fs-3 mb-2"></i>
-          <span>Inventory</span>
-        </button>
-      </div>
+
+
+
 
 
     </div>
