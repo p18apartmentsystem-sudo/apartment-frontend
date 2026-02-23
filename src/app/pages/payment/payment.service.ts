@@ -201,6 +201,106 @@ export class PaymentService {
     return this.http.get(`${this.baseUrl}/flats/flat/${id}`);
   }
 
+  /**
+ * 🔹 ADD LIGHT BILL
+ */
+  addLightBill(payload: {
+    month: string;
+    year: string;
+    amount: string;
+    proofFile: File;
+  }): Observable<any> {
 
+    const formData = new FormData();
+    formData.append('month', payload.month);
+    formData.append('year', payload.year);
+    formData.append('amount', payload.amount);
+    formData.append('proofFile', payload.proofFile); // 🔥 KEY LINE
+
+    return this.http.post(
+      `${this.baseUrl}/light-bills`,
+      formData
+    );
+  }
+
+
+  /**
+   * GET LIGHT BILL for FLAT
+   */
+  getLightBillForFlat(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/light-bills/flat`);
+  }
+
+  /**
+   * GET LIGHT BILL for APARTMENT
+   * status: uploaded (default) | paid | rejected
+   */
+  getLightBillByApartment(
+    id: string,
+    status: 'uploaded' | 'paid' | 'rejected' = 'uploaded'
+  ): Observable<any> {
+
+    const params = new HttpParams().set('status', status);
+
+    return this.http.get(
+      `${this.baseUrl}/light-bills/apartment/${id}`,
+      { params }
+    );
+  }
+
+  /**
+   * VERIFY LIGHTBILL
+   */
+  verifyLightBill(
+    id: string,
+    payload: {
+      status?: string;
+    }
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseUrl}/light-bills/verify/${id}`,
+      payload
+    );
+  }
+
+  /**
+   * GET DOC LIGHT BILL for FLAT
+   */
+  getDocLightBillForFlat(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/light-bills/${id}`);
+  }
+
+  /**
+* GET LIGHT BILL BY ADMIN_ADDED
+*/
+  getLightBillByApartmentAdmin(apartmentId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/light-bills/light-bill-add-status/${apartmentId}`);
+  }
+
+  /**
+ * 🔹 ADD LIGHT BILL
+ */
+  addLightBillByA_Admin(payload: {
+    apartmentId: string;
+    flatId: string;
+    month: string;
+    year: string;
+    amount: string;
+    proofFile: File;
+  }): Observable<any> {
+
+    const formData = new FormData();
+    formData.append('apartmentId', payload.apartmentId);
+    formData.append('flatId', payload.flatId);
+    formData.append('month', payload.month);
+    formData.append('year', payload.year);
+    formData.append('amount', payload.amount);
+    formData.append('proofFile', payload.proofFile); // 🔥 KEY LINE
+
+    return this.http.post(
+      `${this.baseUrl}/light-bills/light-bill-add-status`,
+      formData
+    );
+  }
 
 }

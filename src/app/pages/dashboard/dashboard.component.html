@@ -121,14 +121,42 @@
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.vacantFlats" description="Vacant Flat">
+          <app-cards-widget7 cssClass="bg-info" [stats]="dashboard.vacantFlats" description="Vacant Flat">
           </app-cards-widget7>
         </div>
       </div>
 
       <div class="col-6 col-xl-3">
         <div class="dashboard-card clickable">
-          <app-cards-widget7 cssClass="bg-info" [stats]="dashboard.vehicles" description="Vehicle">
+          <app-cards-widget7 cssClass="bg-danger" [stats]="dashboard.openComplaints" description="Complaint">
+          </app-cards-widget7> 
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="dashboard-card clickable">
+          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.pendingRent" description="Rent Uploads">
+          </app-cards-widget7>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="dashboard-card clickable">
+          <app-cards-widget7 cssClass="bg-warning" [stats]="dashboard.pendingLightBills" description="Light Bill Uploads">
+          </app-cards-widget7>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="dashboard-card clickable">
+          <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.paidRent" description="Rent Paid">
+          </app-cards-widget7>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="dashboard-card clickable">
+          <app-cards-widget7 cssClass="bg-success" [stats]="dashboard.paidLightBills" description="Light Bill Paid">
           </app-cards-widget7>
         </div>
       </div>

@@ -37,7 +37,7 @@
 
       <!-- ADD FLAT Rent -->
       <div class="col-6 col-md-3" *ngIf="canAddFlatRent()">
-        <button class="btn btn-light-primary w-100 h-100 action-btn" (click)="gotoFlatRent()">
+        <button class="btn btn-light-danger w-100 h-100 action-btn" (click)="gotoFlatRent()">
 
           <div class="d-flex justify-content-center align-items-center gap-2">
             <i class="bi bi-house fs-3"></i>
@@ -45,6 +45,27 @@
           </div>
 
           <span class="d-block mt-2">Add Rent</span>
+        </button>
+      </div>
+
+      <!-- LIGHT BILL -->
+      <div class="col-6 col-md-3" *ngIf="canAddRent?.()">
+        <button class="btn btn-light-warning w-100 h-100 action-btn" (click)="gotoLightBill()">
+          <i class="bi bi-lightbulb fs-3 mb-2"></i>
+          <span>Light Bill</span>
+        </button>
+      </div>
+
+      <!-- ADD FLAT LIGHT BILL -->
+      <div class="col-6 col-md-3" *ngIf="canAddFlatRent()">
+        <button class="btn btn-light-warning w-100 h-100 action-btn" (click)="gotoFlatLightBill()">
+
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <i class="bi bi-house fs-3"></i>
+            <i class="bi bi-lightbulb fs-3"></i>
+          </div>
+
+          <span class="d-block mt-2">Add Light Bill</span>
         </button>
       </div>
 
@@ -58,17 +79,9 @@
 
       <!-- ADD MEMBER -->
       <div class="col-6 col-md-3" *ngIf="canAddMember()">
-        <button class="btn btn-light-info w-100 h-100 action-btn" (click)="gotoMember()">
+        <button class="btn btn-light-success w-100 h-100 action-btn" (click)="gotoMember()">
           <i class="bi bi-person-plus fs-3 mb-2"></i>
           <span>Add Member</span>
-        </button>
-      </div>
-
-      <!-- INVENTORY -->
-      <div class="col-6 col-md-3" *ngIf="canInventory()">
-        <button class="btn btn-light-warning w-100 h-100 action-btn" (click)="gotoInventory()">
-          <i class="bi bi-box-seam fs-3 mb-2"></i>
-          <span>Inventory</span>
         </button>
       </div>
 
@@ -80,14 +93,14 @@
         </button>
       </div>
 
-
-      <!-- ADD LIGHT BILL -->
-      <!-- <div class="col-6 col-md-3" *ngIf="canAddLightBill?.()">
-        <button class="btn btn-light-primary w-100 h-100 action-btn">
-          <i class="bi bi-lightbulb fs-3 mb-2"></i>
-          <span>Add Light Bill</span>
+      <!-- INVENTORY -->
+      <div class="col-6 col-md-3" *ngIf="canInventory()">
+        <button class="btn btn-light-info w-100 h-100 action-btn" (click)="gotoInventory()">
+          <i class="bi bi-box-seam fs-3 mb-2"></i>
+          <span>Inventory</span>
         </button>
-      </div> -->
+      </div>
+
 
     </div>
 

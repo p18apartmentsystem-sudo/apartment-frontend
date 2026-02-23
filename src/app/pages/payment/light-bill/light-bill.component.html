@@ -1,1 +1,259 @@
-<p>light-bill works!</p>
+<!-- begin::Header -->
+<div *ngIf="isF_Admin" class="card-header border-0 pt-5 d-flex justify-content-end">
+    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add Light Bill">
+        <button type="button" class="btn btn-success fw-bolder px-4" (click)="openAddModal(addModal)">
+            + Add Light Bill
+        </button>
+    </div>
+</div>
+<!-- end::Header -->
+
+<!-- begin::Body -->
+<div *ngIf="isF_Admin || is_resident" class="card-body py-3">
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder text-uppercase">
+                    <th class="text-warning">SR</th>
+                    <th class="text-success">Month</th>
+                    <th class="text-primary">Amount</th>
+                    <th class="text-info">Status</th>
+                    <th class="text-danger text-center">Actions</th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of light_bills; let i = index">
+                    <td>{{ i + 1 }}</td>
+
+                    <td class="fw-bolder">
+                        {{ data.month }} {{ data.year }}
+                    </td>
+
+                    <td class="fw-bolder">
+                        {{ data.amount | currency:'INR' }}
+                    </td>
+
+                    <td>
+                        <span class="badge" [ngClass]="{
+                'badge-light-warning': data.status === 'uploaded',
+                'badge-light-success': data.status === 'paid',
+                'badge-light-danger': data.status === 'rejected',
+              }">
+                            {{ data.status | uppercase }}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-light-success" (click)="viewLight_Bill(data._id, viewModal)">
+                            <app-keenicon name="eye" class="fs-3"></app-keenicon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+
+        </table>
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+<!-- begin::Body -->
+<div *ngIf="isA_Admin" class="card-body py-3">
+
+    <!-- APARTMENT -->
+    <div class="row mb-4" *ngIf="isMulti">
+        <form [formGroup]="filterForm">
+            <div class="col-12 col-md-6 mx-auto">
+                <select class="form-select form-select-lg" (change)="filterInTable($event)"
+                    formControlName="select_apartmentId">
+                    <option value="">Select Apartment</option>
+                    <option *ngFor="let apt of apartments" [value]="apt._id">
+                        {{ apt.name }}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <!--  STATUS FILTER -->
+    <div class="bill-filter-wrapper">
+
+        <label class="bill-filter uploaded">
+            <input type="radio" name="billStatus" value="uploaded" checked (change)="setRadioFilter($event)" />
+            <span>Uploaded</span>
+        </label>
+
+        <label class="bill-filter paid">
+            <input type="radio" name="billStatus" value="paid" (change)="setRadioFilter($event)" />
+            <span>Paid</span>
+        </label>
+
+        <label class="bill-filter rejected">
+            <input type="radio" name="billStatus" value="rejected" (change)="setRadioFilter($event)" />
+            <span>Rejected</span>
+        </label>
+
+    </div>
+
+
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder text-uppercase">
+                    <th class="text-warning">SR</th>
+                    <th class="text-danger">Flat</th>
+                    <th class="text-success">Month</th>
+                    <th class="text-primary">Amount</th>
+                    <th class="text-info">Status</th>
+                    <th class="text-danger text-center">Actions</th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of light_bills; let i = index">
+                    <td>{{ i + 1 }}</td>
+
+                    <td class="fw-bolder">
+                        {{ data.flatId.flatNumber }}
+                    </td>
+
+                    <td class="fw-bolder">
+                        {{ data.month }} {{ data.year }}
+                    </td>
+
+                    <td class="fw-bolder">
+                        {{ data.amount | currency:'INR' }}
+                    </td>
+
+                    <td>
+                        <span class="badge" [ngClass]="{
+                'badge-light-warning': data.status === 'uploaded',
+                'badge-light-success': data.status === 'paid',
+                'badge-light-danger': data.status === 'rejected',
+              }">
+                            {{ data.status | uppercase }}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-light-success" (click)="viewLightBill(data._id, viewModal)">
+                            <app-keenicon name="eye" class="fs-3"></app-keenicon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+
+        </table>
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+<!-- ================= MODALS ================= -->
+
+<!-- ADD LIGHT BILL -->
+<ng-template #addModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header">
+        <h4 class="fw-bolder mb-0">Add Light Bill</h4>
+        <button type="button" class="btn btn-sm btn-danger" (click)="d('Cross click')">
+            ✕
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <form [formGroup]="paymentForm">
+
+            <!-- MONTH -->
+            <div class="mb-4">
+                <label class="fw-bolder text-success mb-1">
+                    Month <span class="text-danger">*</span>
+                </label>
+                <select class="form-select form-select-lg" formControlName="monthYear"
+                    (change)="selectMonthYear($event)">
+                    <option value="">Select Month</option>
+                    <option *ngFor="let item of month" [value]="item.monthYr">
+                        {{ item.monthYr }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- AMOUNT -->
+            <div class="mb-4">
+                <label class="fw-bolder text-success">Amount</label>
+                <input type="number" class="form-control form-control-lg" formControlName="amount" placeholder="Light Bill Amt"/>
+            </div>
+
+            <!-- FILE -->
+            <div class="mb-4">
+                <label class="fw-bolder text-success">
+                    Payment Receipt <span class="text-danger">*</span>
+                </label>
+                <input type="file" class="form-control" (change)="onFileChange($event)" />
+            </div>
+
+        </form>
+
+        <div class="d-flex justify-content-center gap-4 mt-4">
+            <button class="btn btn-success px-5 fw-bolder" (click)="addLight_Bill()">
+                Submit
+            </button>
+            <button class="btn btn-danger px-5 fw-bolder" (click)="closeModal()">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+</ng-template>
+
+<!-- VIEW LIGHT BILL PROOF -->
+<ng-template #viewModal let-modal>
+    <div class="modal-header">
+        <h5 class="fw-bolder">Light Bill Payment Proof</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body text-center">
+
+        <iframe *ngIf="proofType === 'pdf'" [src]="proofUrl" width="100%" height="500px" frameborder="0"></iframe>
+
+        <img *ngIf="proofType === 'image'" [src]="proofUrl" class="img-fluid rounded" alt="Light Bill Proof" />
+
+    </div>
+
+    <div class="modal-footer">
+
+        <div *ngIf="isA_Admin" class="d-flex justify-content-center gap-4 mt-4">
+            <button class="btn btn-success px-5 fw-bolder" (click)="verifyLight_Bill()">
+                Verify
+            </button>
+            <button class="btn btn-danger px-5 fw-bolder" (click)="rejectLight_Bill()">
+                Reject
+            </button>
+            <button class="btn btn-warning px-5 fw-bolder" (click)="closeViewModal()">
+                Close
+            </button>
+        </div>
+        <div *ngIf="isF_Admin || is_resident" class="d-flex justify-content-center gap-4 mt-4">
+            <button class="btn btn-danger px-5 fw-bolder" (click)="closeViewModal()">
+                Close
+            </button>
+        </div>
+
+    </div>
+
+</ng-template>

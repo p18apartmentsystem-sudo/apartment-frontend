@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { PaymentService } from '../payment.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 

@@ -2,16 +2,16 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { PaymentService } from '../payment.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
-  selector: 'app-flat-rent',
-  templateUrl: './flat-rent.component.html',
-  styleUrl: './flat-rent.component.scss'
+  selector: 'app-flat-light-bill',
+  templateUrl: './flat-light-bill.component.html',
+  styleUrl: './flat-light-bill.component.scss'
 })
-export class FlatRentComponent {
+export class FlatLightBillComponent {
   role!: string | null;
   modalRef: any;
   closeResult: string;
@@ -23,7 +23,6 @@ export class FlatRentComponent {
     selected_month: new FormControl(""),
     selected_year: new FormControl(""),
     amount: new FormControl(""),
-    refNo: new FormControl(""),
     monthYear: new FormControl(""),
     proofFile: new FormControl("")
   });
@@ -38,7 +37,7 @@ export class FlatRentComponent {
   apartment_Id: any;
   apartment_name: any;
   flat: any;
-  rents: any;
+  lightBills: any;
   apartments: any;
   isMulti: boolean = false;
   apartmentName: any;
@@ -96,7 +95,6 @@ export class FlatRentComponent {
 
     this.paymentForm.reset({
       amount: '',
-      refNo: '',
       proofFile: '',
       flatId: '',
       selected_month: '',
@@ -122,7 +120,7 @@ export class FlatRentComponent {
     this.paymentForm.controls['proofFile'].markAsTouched();
   }
 
-  addRent() {
+  addLightBill() {
     if (this.paymentForm.invalid || !this.proofFile) {
       this.paymentForm.markAllAsTouched();
       console.log("id", this.paymentForm.value.flatId, "a_id", this.paymentForm.value.apartmentId)
@@ -136,20 +134,19 @@ export class FlatRentComponent {
       month: this.paymentForm.value.selected_month!,
       year: this.paymentForm.value.selected_year!,
       amount: this.paymentForm.value.amount!,
-      refno: this.paymentForm.value.refNo!,
       proofFile: this.proofFile // File object
     };
 
-    this.post.addRentByA_Admin(payload).subscribe({
+    this.post.addLightBillByA_Admin(payload).subscribe({
       next: (res) => {
-        this.alertService.show('Rent Added..!');
+        this.alertService.show('Light Bill Added..!');
         this.isFlat = false;
         this.paymentForm.controls["flatId"].setValue('');
         this.paymentForm.controls["apartmentId"].setValue('');
         this.paymentForm.controls["flatNumber"].setValue('');
         this.paymentForm.controls["amount"].setValue('');
-        this.paymentForm.controls["refNo"].setValue('');
         this.getFlat(this.apartment_Id, this.selectedFloor);
+        this.getLightBill(this.apartment_Id);
       },
       error: (err) => {
         this.alertService.show(err.error?.message || 'Upload failed');
@@ -168,6 +165,37 @@ export class FlatRentComponent {
     )
   }
 
+  viewLightBill(rent_id: any, viewModal: any) {
+    this.rent_id = '';
+    this.loading = true;
+    this.proofUrl = '';
+    this.post.getDocLightBillForFlat(rent_id).subscribe({
+      next: (res: any) => {
+        this.loading = false;
+        this.rent_id = rent_id;
+
+        if (!res.proofFile) {
+          this.alertService.show('No proof file found');
+          return;
+        }
+
+        this.proofUrl = res.proofFile;
+
+        // detect file type
+        if (!this.proofUrl) {
+          return;
+        }
+
+        this.proofType = this.proofUrl.endsWith('.pdf') ? 'pdf' : 'image';
+
+        this.openViewModal(viewModal);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.alertService.show(err.error?.message || 'Failed to load proof');
+      }
+    });
+  }
 
   /**
 * 🔹 GET BY FLAT By FLOOR
@@ -214,7 +242,6 @@ export class FlatRentComponent {
             flat.apartmentId?._id || flat.apartmentId
           ), // 🔥 KEY FIX
           flatNumber: flat.flatNumber,
-          amount: flat.rentAmount
         });
         this.loading = false;
 
@@ -254,7 +281,7 @@ export class FlatRentComponent {
         this.isMulti = false;
         this.apartmentName = res.data[0].name;
       }
-      this.getRent(this.apartment_Id);
+      this.getLightBill(this.apartment_Id);
       this.getFloor(this.apartment_Id);
     });
   }
@@ -263,23 +290,23 @@ export class FlatRentComponent {
     this.apartment_Id = '';
     const apartmentId = (event.target as HTMLSelectElement).value;
     this.apartment_Id = apartmentId
-    this.getRent(this.apartment_Id);
+    this.getLightBill(this.apartment_Id);
     this.getFloor(this.apartment_Id);
   }
 
-  getRent(apartment_Id: any,) {
+  getLightBill(apartment_Id: any,) {
     this.loading = true;
 
-    this.post.getRentByApartmentAdmin(apartment_Id).subscribe({
+    this.post.getLightBillByApartmentAdmin(apartment_Id).subscribe({
       next: (res) => {
         if (!res?.data?.length) {
           // this.alertService.show('No data found!');
-          this.rents = [];
+          this.lightBills = [];
           this.loading = false;
           return;
         }
 
-        this.rents = res.data;
+        this.lightBills = res.data;
         this.loading = false;
       },
       error: () => {
@@ -332,37 +359,6 @@ export class FlatRentComponent {
     this.getFlat(this.apartment_Id, this.selectedFloor)
   }
 
-  viewRent(rent_id: any, viewModal: any) {
-    this.rent_id = '';
-    this.loading = true;
-    this.proofUrl = '';
-    this.post.getDocRentForFlat(rent_id).subscribe({
-      next: (res: any) => {
-        this.loading = false;
-        this.rent_id = rent_id;
-
-        if (!res.proofFile) {
-          this.alertService.show('No proof file found');
-          return;
-        }
-
-        this.proofUrl = res.proofFile;
-
-        // detect file type
-        if (!this.proofUrl) {
-          return;
-        }
-
-        this.proofType = this.proofUrl.endsWith('.pdf') ? 'pdf' : 'image';
-
-        this.openViewModal(viewModal);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.alertService.show(err.error?.message || 'Failed to load proof');
-      }
-    });
-  }
 
   closeViewModal() {
     if (this.isA_Admin) {

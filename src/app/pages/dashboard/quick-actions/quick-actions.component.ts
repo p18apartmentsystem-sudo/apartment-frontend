@@ -57,10 +57,6 @@ export class QuickActionsComponent {
     return ['apartment_admin', 'flat_admin', 'resident'].includes(this.role || '');
   }
 
-  canAddLightBill(): boolean {
-    return this.role === 'flat_admin';
-  }
-
   canInventory(): boolean {
     return ['apartment_admin', 'flat_admin', 'resident'].includes(this.role || '');
   }
@@ -117,7 +113,13 @@ export class QuickActionsComponent {
     this.router.navigate(['/apartment/inventory']);
   }
 
+  gotoLightBill(): void {
+    this.router.navigate(['/payment/light-bill']);
+  }
 
+  gotoFlatLightBill(): void {
+    this.router.navigate(['/payment/flat-light-bill']);
+  }
 
 
 }

@@ -12,9 +12,10 @@ import { PaymentComponent } from './payment.component';
 import { RentComponent } from './rent/rent.component';
 import { LightBillComponent } from './light-bill/light-bill.component';
 import { FlatRentComponent } from './flat-rent/flat-rent.component';
+import { FlatLightBillComponent } from './flat-light-bill/flat-light-bill.component';
 
 @NgModule({
-  declarations: [PaymentComponent, RentComponent, LightBillComponent, FlatRentComponent
+  declarations: [PaymentComponent, RentComponent, LightBillComponent, FlatRentComponent, FlatLightBillComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +37,10 @@ import { FlatRentComponent } from './flat-rent/flat-rent.component';
       {
         path: 'light-bill',
         component: LightBillComponent,
+      },
+      {
+        path: 'flat-light-bill',
+        component: FlatLightBillComponent,
       },
     ]),
     CrudModule,

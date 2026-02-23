@@ -39,11 +39,22 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-cash-stack',
     roles: ['apartment_admin'],
   },
-
   {
     title: 'Add Flat Rent',
     route: '/payment/flat-rent',
     icon: 'bi bi-cash-stack',
+    roles: ['apartment_admin'],
+  },
+  {
+    title: 'Light Bill',
+    route: '/payment/light-bill',
+    icon: 'bi bi-lightbulb',
+    roles: ['apartment_admin'],
+  },
+  {
+    title: 'Add Flat Light Bill',
+    route: '/payment/flat-light-bill',
+    icon: 'bi bi-lightbulb',
     roles: ['apartment_admin'],
   },
   {
@@ -52,7 +63,6 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-box-seam',
     roles: ['apartment_admin'],
   },
-
   {
     title: 'Updates',
     route: '/apartment/updates',
@@ -79,7 +89,6 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: 'bi bi-box-seam',
     roles: ['flat_admin', 'resident'],
   },
-
   {
     title: 'Updates',
     route: '/apartment/updates',

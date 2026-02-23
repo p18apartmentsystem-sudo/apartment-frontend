@@ -1,11 +1,11 @@
-.bill-filter-wrapper {
+.lightBill-filter-wrapper {
   display: flex;
   gap: 12px;
   margin: 16px 0;
 }
 
 /* COMMON FILTER STYLE */
-.bill-filter {
+.lightBill-filter {
   flex: 1; // 👈 makes all 3 equal width
   display: flex;
   align-items: center;
@@ -25,39 +25,67 @@
 }
 
 /* HIDE DEFAULT RADIO */
-.bill-filter input[type="radio"] {
+.lightBill-filter input[type="radio"] {
   accent-color: currentColor;
   cursor: pointer;
 }
 
 /* COLORS */
-.bill-filter.uploaded {
+.lightBill-filter.uploaded {
   background: #fff7db;
   color: #d9a400;
 }
 
-.bill-filter.paid {
+.lightBill-filter.paid {
   background: #e9fff1;
   color: #1fa750;
 }
 
-.bill-filter.rejected {
+.lightBill-filter.rejected {
   background: #ffecec;
   color: #e03131;
 }
 
 /* HOVER */
-.bill-filter:hover {
+.lightBill-filter:hover {
   transform: translateY(-1px);
 }
 
+.lightBill-filter-wrapper {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lightBill-filter {
+  cursor: pointer;
+}
+
+.lightBill-filter input {
+  display: none;
+}
+
+.lightBill-filter span {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.lightBill-filter input:checked+span,
+.lightBill-filter.active span {
+  background: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+
 /* MOBILE TWEAK */
 @media (max-width: 576px) {
-  .bill-filter-wrapper {
+  .lightBill-filter-wrapper {
     gap: 8px;
   }
 
-  .bill-filter {
+  .lightBill-filter {
     font-size: 13px;
     padding: 10px 6px;
   }
