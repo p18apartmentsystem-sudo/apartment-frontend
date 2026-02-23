@@ -50,7 +50,7 @@
                     </td>
 
                     <td class="text-center">
-                        <button class="btn btn-sm btn-light-success" (click)="viewLight_Bill(data._id, viewModal)">
+                        <button class="btn btn-sm btn-light-success" (click)="viewLightBill(data._id, viewModal)">
                             <app-keenicon name="eye" class="fs-3"></app-keenicon>
                         </button>
                     </td>
@@ -209,7 +209,7 @@
         </form>
 
         <div class="d-flex justify-content-center gap-4 mt-4">
-            <button class="btn btn-success px-5 fw-bolder" (click)="addLight_Bill()">
+            <button class="btn btn-success px-5 fw-bolder" (click)="addLightBill()">
                 Submit
             </button>
             <button class="btn btn-danger px-5 fw-bolder" (click)="closeModal()">
@@ -238,10 +238,10 @@
     <div class="modal-footer">
 
         <div *ngIf="isA_Admin" class="d-flex justify-content-center gap-4 mt-4">
-            <button class="btn btn-success px-5 fw-bolder" (click)="verifyLight_Bill()">
+            <button class="btn btn-success px-5 fw-bolder" (click)="verifyLightBill()">
                 Verify
             </button>
-            <button class="btn btn-danger px-5 fw-bolder" (click)="rejectLight_Bill()">
+            <button class="btn btn-danger px-5 fw-bolder" (click)="rejectLightBill()">
                 Reject
             </button>
             <button class="btn btn-warning px-5 fw-bolder" (click)="closeViewModal()">

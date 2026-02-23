@@ -58,6 +58,12 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['apartment_admin'],
   },
   {
+    title: 'Report',
+    route: '/report',
+    icon: 'bi bi-bar-chart-line',
+    roles: ['apartment_admin'],
+  },
+  {
     title: 'Inventory',
     route: '/apartment/inventory',
     icon: 'bi bi-box-seam',
@@ -81,6 +87,12 @@ export const MENU_ITEMS: MenuItem[] = [
     title: 'Rent',
     route: '/payment/rent',
     icon: 'bi bi-cash-stack',
+    roles: ['flat_admin', 'resident'],
+  },
+  {
+    title: 'Light Bill',
+    route: '/payment/light-bill',
+    icon: 'bi bi-lightbulb',
     roles: ['flat_admin', 'resident'],
   },
   {

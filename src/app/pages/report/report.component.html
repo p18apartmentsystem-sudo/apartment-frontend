@@ -1,0 +1,130 @@
+<div class="container mt-3">
+
+    <!-- MONTH DROPDOWN -->
+    <div class="card shadow-sm p-3 mb-3">
+        <form [formGroup]="paymentForm">
+            <div class="mb-3">
+                <label class="fw-bolder text-success mb-1">
+                    Month <span class="text-danger">*</span>
+                </label>
+
+                <select class="form-select form-select-lg" formControlName="monthYear"
+                    (change)="selectMonthYear($event)">
+
+                    <option value="">Select Month</option>
+
+                    <option *ngFor="let item of month" [value]="item.monthYr">
+                        {{ item.monthYr }}
+                    </option>
+
+                </select>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- LOADER -->
+    <div *ngIf="loading" class="text-center mt-4">
+        <div class="spinner-border text-primary"></div>
+    </div>
+
+
+    <!-- REPORT DATA -->
+    <div *ngIf="!loading && pendingData">
+
+        <!-- Pending Rent -->
+        <div class="card shadow-sm mb-3">
+            <div class="card p-3 mb-4">
+
+                <!-- 📱 MOBILE VIEW – ONE LINE -->
+                <div class="d-md-none justify-content-between align-items-center text-center">
+
+                    <div>
+                        <div class="text-muted small">Pending Rent</div>
+                        <div class="fw-bolder text-center text-danger">{{ pendingData.rent.length }}</div>
+                    </div>
+                </div>
+
+                <!-- 🖥 DESKTOP VIEW – SAME AS BEFORE -->
+                <div class="d-none d-md-block">
+                    <div class="row text-center">
+
+                        <div class="col-md-4">
+                            <span>Pending Rent :</span>
+                            <span class="fw-bolder text-center text-danger">{{ pendingData.rent.length }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body p-2" *ngIf="pendingData.rent.length > 0; else noRent">
+
+                <div *ngFor="let r of pendingData.rent" class="border-bottom py-2 px-2">
+
+                    <div class="fw-bold">Flat {{ r.flat }}</div>
+                    <div class="small text-muted">
+                        {{ r.flatAdminName }} ({{ r.flatAdminMobile }})
+                    </div>
+
+                </div>
+
+            </div>
+
+            <ng-template #noRent>
+                <div class="p-3 text-success text-center">
+                    All Rent Uploaded ✅
+                </div>
+            </ng-template>
+        </div>
+
+
+        <!-- Pending Light Bills -->
+        <div class="card shadow-sm">
+            <div class="card p-3 mb-4">
+
+                <!-- 📱 MOBILE VIEW – ONE LINE -->
+                <div class="d-md-none justify-content-between align-items-center text-center">
+
+                    <div>
+                        <div class="text-muted small">Pending Light Bills</div>
+                        <div class="fw-bolder text-center text-danger">{{ pendingData.lightBills.length }}</div>
+                    </div>
+                </div>
+
+                <!-- 🖥 DESKTOP VIEW – SAME AS BEFORE -->
+                <div class="d-none d-md-block">
+                    <div class="row text-center">
+
+                        <div class="col-md-4">
+                            <span>Pending Light Bills :</span>
+                            <span class="fw-bolder text-center text-danger">{{ pendingData.lightBills.length }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body p-2" *ngIf="pendingData.lightBills.length > 0; else noLight">
+
+                <div *ngFor="let l of pendingData.lightBills" class="border-bottom py-2 px-2">
+
+                    <div class="fw-bold">Flat {{ l.flat }}</div>
+                    <div class="small text-muted">
+                        {{ l.flatAdminName }} ({{ l.flatAdminMobile }})
+                    </div>
+
+                </div>
+
+            </div>
+
+            <ng-template #noLight>
+                <div class="p-3 text-success text-center">
+                    All Light Bills Uploaded ✅
+                </div>
+            </ng-template>
+        </div>
+
+    </div>
+
+</div>

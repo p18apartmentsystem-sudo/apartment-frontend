@@ -109,12 +109,10 @@ export class LightBillComponent {
       next: (res) => {
         if (!res?.data?.length) {
           this.light_bills = [];
-          this.paymentForm.controls["amount"].setValue('')
           this.loading = false;
           return;
         }
         this.light_bills = res.data;
-        this.paymentForm.controls["amount"].setValue(res.data[0].lightBillAmt)
         this.loading = false;
       },
       error: () => {
@@ -235,7 +233,7 @@ export class LightBillComponent {
     const currentMonthName = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ][now.getMonth()];
+    ][now.getMonth() - 1];
     const currentYear = now.getFullYear();
 
     const currentItem = this.month.find(
@@ -315,7 +313,9 @@ export class LightBillComponent {
     this.post.getLightBillByApartment(apartment_Id, this.status).subscribe({
       next: (res) => {
         if (!res?.data?.length) {
+          if(this.status != 'uploaded'){
           this.alertService.show('No data found!');
+          }
           this.light_bills = [];
           this.loading = false;
           return;
