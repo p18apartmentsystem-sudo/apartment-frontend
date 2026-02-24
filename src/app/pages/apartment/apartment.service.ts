@@ -127,6 +127,22 @@ export class ApartmentService {
   }
 
   /**
+   * ASSIGN FLAT BY ID
+   */
+  assignFlatById(
+    id: string,
+    payload: {
+      status?: string;
+    }
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseUrl}/flats/assign/${id}`,
+      payload
+    );
+  }
+
+
+  /**
  * ADD FLAT ADMIN
  */
   addFlatAdmin(payload: {
@@ -294,6 +310,11 @@ export class ApartmentService {
     return this.http.delete(
       `${this.baseUrl}/complaints/delete/${id}`
     );
+  }
+
+  // getFlatMembersByID
+  getFlatMembersByID(flatId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/flats/flat-members/${flatId}`);
   }
 
 

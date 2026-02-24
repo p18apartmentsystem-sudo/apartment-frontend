@@ -177,7 +177,7 @@ export class InventoryComponent {
   }
 
   /**
-   * 🔹 GET BY APARTMENT ID (EDIT MODE)
+   * 🔹 GET BY FLAT ID
    */
   getInventoryByFlatId(flat_ID: string) {
     this.loading = true;

@@ -49,6 +49,15 @@ export class FlatComponent {
   isA_Admin: boolean = false;
   isF_Admin: boolean = false;
   apartmentName: any;
+  rentAmount: any;
+  floor: any;
+  flatNumber: any;
+  consumerNumber: any;
+  isFlatAdmin: boolean = false;
+  flatAdminName: any;
+  flatAdminMobile: any;
+  inventoryData: any[];
+  memberData: any[];
 
   constructor(private authState: AuthStateService,
     private modalService: NgbModal,
@@ -271,7 +280,15 @@ export class FlatComponent {
     this.post.deleteFlatById(flatId).subscribe(() => {
       this.getFlatsByApartmentId(this.apartmentId);
     });
+  }
 
+  assignFlat(flatId: any) {
+    const payload = {
+      status: "true"
+    }
+    this.post.assignFlatById(flatId, payload).subscribe(() => {
+      this.getFlatsByApartmentId(this.apartmentId);
+    });
   }
 
   filterInTable(event: Event) {
@@ -344,6 +361,91 @@ export class FlatComponent {
       },
     });
 
+  }
+
+
+
+  openViewModal(viewModal: any, data: any) {
+    this.loading = true;
+    this.inventoryData = [];
+    this.memberData = [];
+    this.rentAmount = '';
+    this.floor = '';
+    this.flatNumber = '';
+    this.consumerNumber = '';
+    this.isFlatAdmin = false;
+    this.flatAdminName = '';
+    this.flatAdminMobile = '';
+
+    this.flatId = data._id;
+    this.rentAmount = (data.rentAmount);
+    this.floor = (data.floor);
+    this.flatNumber = (data.flatNumber);
+    this.consumerNumber = (data.consumerNumber);
+    if (data.flatAdminId) {
+      this.isFlatAdmin = true;
+      this.flatAdminName = (data.flatAdminId.name);
+      this.flatAdminMobile = (data.flatAdminId.mobile);
+    this.getFlatMembersByFlatID(data._id);
+    } else {
+      this.isFlatAdmin = false;
+      this.flatAdminName = ("");
+      this.flatAdminMobile = ("");
+    }
+    //get Inventory & members by flat 
+    this.getInventoryByFlatId(data._id);
+    this.modalRef = this.modalService.open(viewModal);
+    this.modalRef.result.then(
+      (result: any) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (_reason: any) => {
+        this.closeResult = `Dismissed`;
+      }
+    )
+  }
+
+  /**
+ * 🔹 GET BY FLAT
+ */
+  getInventoryByFlatId(flat_ID: any) {
+    this.loading = true;
+
+    this.post.getInventoryByFlat(flat_ID).subscribe({
+      next: (res) => {
+
+        if (!res?.data?.length) {
+          this.inventoryData = [];
+          return;
+        }
+
+        this.inventoryData = res.data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error(err);
+      },
+    });
+  }
+  getFlatMembersByFlatID(flatId: any) {
+    this.loading = true;
+
+    this.post.getFlatMembersByID(flatId).subscribe({
+      next: (res) => {
+
+        if (!res?.data?.length) {
+          this.memberData = [];
+          return;
+        }
+
+        this.memberData = res.data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error(err);
+      },
+    });
   }
 
 }

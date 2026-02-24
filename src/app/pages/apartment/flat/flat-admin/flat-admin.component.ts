@@ -35,6 +35,7 @@ export class FlatAdminComponent {
   flatNumber: any;
   floor: any;
   rentAmount: any;
+  consumerNumber: any;
 
   constructor(private authState: AuthStateService,
     private modalService: NgbModal,
@@ -86,6 +87,7 @@ export class FlatAdminComponent {
           this.flatNumber = res.data[0].flatNumber;
           this.floor = res.data[0].floor;
           this.rentAmount = Number(res.data[0].rentAmount);
+          this.consumerNumber = res.data[0].consumerNumber;
           this.flat_Id = res.data[0]._id;
           this.apartment_Id = res.data[0].apartmentId._id;
           this.apartment_name = res.data[0].apartmentId.name;

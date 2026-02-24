@@ -30,9 +30,9 @@
     </div>
 
     <!-- begin::Table container -->
-    <div class="table-responsive">
+    <div class="table-responsive custom-scroll">
         <!-- begin::Table -->
-        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 text-nowrap">
             <!-- begin::Table head -->
             <thead>
                 <tr class="fw-bolder">
@@ -57,7 +57,7 @@
                         <span *ngIf="data.isOccupied">
                             Active
                         </span>
-                        <span *ngIf="!data.isOccupied">
+                        <span class="text-info" *ngIf="!data.isOccupied" (click)="assignFlat(data._id)">
                             In-Active
                         </span>
                     </td>
@@ -72,19 +72,19 @@
                             <a class="
                   btn btn-icon btn-bg-light btn-active-color-primary btn-sm
                   me-1
+                " (click)="openViewModal(viewModal, data)">
+                                <span class="badge badge-light-success fs-6 fw-bolder">
+                                    <app-keenicon name="eye" class="fs-3"></app-keenicon>
+                                </span>
+                            </a>
+                            <a class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                  me-1
                 " (click)="openUpdateModal(addModal, data._id, data)">
                                 <span class="badge badge-light-warning fs-6 fw-bolder">
                                     <app-keenicon name="pencil" class="fs-3"></app-keenicon>
                                 </span>
                             </a>
-                            <!-- <a class="
-                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
-                  me-1
-                " (click)="openUpdateModal(addModal, data._id, data)">
-                                <span class="badge badge-light-success fs-6 fw-bolder">
-                                    <app-keenicon name="eye" class="fs-3"></app-keenicon>
-                                </span>
-                            </a> -->
                             <a class="
                   btn btn-icon btn-bg-light btn-active-color-primary btn-sm
                 " (click)="deleteFlat(data._id)">
@@ -172,7 +172,7 @@
                         formControlName="rentAmount">
                 </div>
             </div>
-            
+
             <!-- Consumer Number -->
             <div class="row mb-4">
                 <div class="col-12 col-md-6 mx-auto">
@@ -302,6 +302,134 @@
             <button class="btn btn-warning px-5" (click)="updateFlat()">Update</button>
             <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
         </div>
+
+    </div>
+
+</ng-template>
+<!-- end:: modal template -->
+<!-- begin:: modal template -->
+<ng-template #viewModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">
+            FLAT Details
+        </h4>
+
+        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="container-fluid">
+
+            <!-- Row 1 -->
+            <div class="row mb-3">
+                <div class="col-6">
+                    <div class="text-uppercase text-muted small">Flat</div>
+                    <div class="fw-bold fs-6">{{ flatNumber }}</div>
+                </div>
+                <div class="col-6">
+                    <div class="text-uppercase text-muted small">Floor</div>
+                    <div class="fw-bold fs-6">{{ floor }}</div>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row mb-3">
+                <div class="col-6">
+                    <div class="text-uppercase text-muted small">Rent</div>
+                    <div class="fw-bold fs-6">₹ {{ rentAmount }}</div>
+                </div>
+                <div class="col-6">
+                    <div class="text-uppercase text-muted small">Consumer Number</div>
+                    <div class="fw-bold fs-6">{{ consumerNumber }}</div>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="row" *ngIf="isFlatAdmin">
+                <div class="col-6">
+                    <div class="text-uppercase text-muted small">Admin</div>
+                    <div class="fw-bold fs-6">{{ flatAdminName }}</div>
+                </div>
+                <div class="col-6">
+                    <div class="text-uppercase text-muted small">Mobile</div>
+                    <div class="fw-bold fs-6">{{ flatAdminMobile }}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+        <!-- begin::Table container -->
+        <div *ngIf="memberData?.length" class="table-responsive custom-scroll">
+            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 text-nowrap">
+
+                <!-- begin::Table head -->
+                <thead>
+                    <tr class="fw-bolder">
+                        <th class="text-uppercase text-warning">SR</th>
+                        <th class="text-uppercase text-success">Name</th>
+                        <th class="text-uppercase text-primary">Mobile</th>
+                        <th class="text-uppercase text-info">Role</th>
+                        <th class="text-uppercase text-info">Join</th>
+                    </tr>
+                </thead>
+                <!-- end::Table head -->
+
+                <!-- begin::Table body -->
+                <tbody>
+                    <tr *ngFor="let data of memberData; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td class="fw-bolder">{{ data.name }}</td>
+                        <td>{{ data.mobile }}</td>
+                        <td>
+                            <span class="badge" [ngClass]="{
+                'badge-light-primary': data.role === 'flat_admin',
+                'badge-light-success': data.role === 'resident'
+              }">
+                                {{ data.role === 'flat_admin' ? 'ADMIN' : 'MEMBER' }}
+                            </span>
+                        </td>
+                        <td>{{ data.joinedAt | date:'dd MMM, yyyy' }}</td>
+                    </tr>
+                </tbody>
+                <!-- end::Table body -->
+
+            </table>
+        </div>
+        <!-- end::Table container -->
+        <hr>
+        <!-- begin::Table container -->
+        <div *ngIf="inventoryData?.length" class="table-responsive custom-scroll">
+            <!-- begin::Table -->
+            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 text-nowrap">
+                <!-- begin::Table head -->
+                <thead>
+                    <tr class="fw-bolder">
+                        <th class="text-uppercase text-warning"> SR </th>
+                        <th class="text-uppercase text-primary"> INVENTORY </th>
+                        <th class="text-uppercase text-info"> QUANTITY </th>
+                        <th class="text-uppercase text-center text-danger"> Description </th>
+                    </tr>
+                </thead>
+                <!-- end::Table head -->
+                <!-- begin::Table body -->
+                <tbody>
+                    <tr *ngFor="let data of inventoryData; let i = index ">
+                        <td> {{ i + 1 }} </td>
+                        <td> {{ data.itemName }} </td>
+                        <td class="text-center"> {{ data.quantity }} </td>
+                        <td class="text-center"> {{ data.description }} </td>
+
+                    </tr>
+                </tbody>
+                <!-- end::Table body -->
+            </table>
+            <!-- end::Table -->
+        </div>
+        <!-- end::Table container -->
 
     </div>
 

@@ -1,15 +1,5 @@
 <!-- begin::Header -->
-<div *ngIf="isF_Admin" class="card-header border-0 pt-5 d-flex justify-content-end">
-    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add Member">
-        <button type="button" class="btn btn-success fw-bolder px-4" (click)="openAddModal(addModal)">
-            + Add Member
-        </button>
-    </div>
-</div>
-<!-- end::Header -->
-
-<!-- begin::Body -->
-<div *ngIf="isF_Admin" class="card-body py-3">
+<div *ngIf="isF_Admin" class="card-header">
 
     <div class="card p-3 mb-4">
 
@@ -31,35 +21,56 @@
                 <div class="fw-bolder">₹{{ rentAmount }}</div>
             </div>
 
+            <div>
+                <div class="text-muted small">Consumer Number</div>
+                <div class="fw-bolder">{{ consumerNumber }}</div>
+            </div>
+
         </div>
 
         <!-- 🖥 DESKTOP VIEW – SAME AS BEFORE -->
         <div class="d-none d-md-block">
             <div class="row text-center">
 
-                <div class="col-md-4">
-                    <span>Flat :</span>
+                <div class="col-md-3">
+                    <span>Flat : </span>
                     <span class="fw-bolder">{{ flatNumber }}</span>
                 </div>
 
-                <div class="col-md-4">
-                    <span>Floor :</span>
+                <div class="col-md-3">
+                    <span>Floor : </span>
                     <span class="fw-bolder">{{ floor }}</span>
                 </div>
 
-                <div class="col-md-4">
-                    <span>Rent :</span>
+                <div class="col-md-3">
+                    <span>Rent : </span>
                     <span class="fw-bolder">₹{{ rentAmount }}</span>
+                </div>
+
+                <div class="col-md-3">
+                    <span>Consumer Number : </span>
+                    <span class="fw-bolder">{{ consumerNumber }}</span>
                 </div>
 
             </div>
         </div>
 
     </div>
+</div>
+<!-- end::Header -->
 
+<!-- begin::Body -->
+<div *ngIf="isF_Admin" class="card-body py-3">
+    <div class="card-toolbar border-0 pt-5 d-flex justify-content-end" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add Member">
+        <button type="button" class="btn btn-success fw-bolder px-4" (click)="openAddModal(addModal)">
+            + Add Member
+        </button>
+    </div>
+    <hr>
     <!-- begin::Table container -->
-    <div class="table-responsive">
-        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+    <div class="table-responsive custom-scroll">
+
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 text-nowrap">
 
             <!-- begin::Table head -->
             <thead>
@@ -68,40 +79,53 @@
                     <th class="text-uppercase text-success">Name</th>
                     <th class="text-uppercase text-primary">Mobile</th>
                     <th class="text-uppercase text-info">Role</th>
+                    <th class="text-uppercase text-primary">Join Date</th>
                     <th class="text-uppercase text-center text-danger">Actions</th>
                 </tr>
             </thead>
-            <!-- end::Table head -->
 
             <!-- begin::Table body -->
             <tbody>
                 <tr *ngFor="let data of flatMember; let i = index">
-                    <td>{{ i + 1 }}</td>
-                    <td class="fw-bolder">{{ data.name }}</td>
-                    <td>{{ data.mobile }}</td>
+
+                    <td class="fw-semibold">{{ i + 1 }}</td>
+
+                    <td class="fw-bolder text-dark">
+                        {{ data.name }}
+                    </td>
+
+                    <td class="fw-semibold">
+                        {{ data.mobile }}
+                    </td>
+
                     <td>
-                        <span class="badge" [ngClass]="{
-                'badge-light-primary': data.role === 'flat_admin',
-                'badge-light-success': data.role === 'resident'
-              }">
+                        <span class="badge px-3 py-2 fw-semibold" [ngClass]="{
+                            'badge-light-primary': data.role === 'flat_admin',
+                            'badge-light-success': data.role === 'resident'
+                        }">
                             {{ data.role === 'flat_admin' ? 'ADMIN' : 'MEMBER' }}
                         </span>
                     </td>
+
+                    <td class="fw-semibold">
+                        {{ data.joinedAt | date:'dd MMM, yyyy' }}
+                    </td>
+
                     <td class="text-center">
                         <div *ngIf="data.role === 'resident'">
-                            <button class="btn btn-sm btn-light-danger" (click)="deleteMember(data._id)">
+                            <button class="btn btn-sm btn-light-danger btn-icon" (click)="deleteMember(data._id)">
                                 <app-keenicon name="trash" class="fs-3"></app-keenicon>
                             </button>
                         </div>
                     </td>
+
                 </tr>
             </tbody>
-            <!-- end::Table body -->
 
         </table>
+
     </div>
     <!-- end::Table container -->
-
 </div>
 <!-- end::Body -->
 
@@ -129,27 +153,26 @@
             </div>
 
             <!-- MOBILE -->
-                    <div class="row mb-4">
-                        <div class="col-12 col-md-6 mx-auto">
-                            <label class="fw-bolder text-success">
-                                Mobile <span class="text-danger">*</span>
-                            </label>
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Mobile <span class="text-danger">*</span>
+                    </label>
 
-                            <input type="number" class="form-control form-control-lg" placeholder="Mobile Number"
-                                formControlName="mobile" onkeypress="return this.value.length < 10;"
-                                [class.is-invalid]="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)">
+                    <input type="number" class="form-control form-control-lg" placeholder="Mobile Number"
+                        formControlName="mobile" onkeypress="return this.value.length < 10;"
+                        [class.is-invalid]="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)">
 
-                            <div *ngIf="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)"
-                                class="mt-1">
-                                <small *ngIf="adminMobile?.errors?.required" class="text-danger">
-                                    Mobile Number is required
-                                </small>
-                                <small *ngIf="adminMobile?.errors?.pattern" class="text-danger">
-                                    Please enter valid 10 Digit Mobile Number
-                                </small>
-                            </div>
-                        </div>
+                    <div *ngIf="adminMobile?.invalid && (adminMobile?.touched || adminMobile?.dirty)" class="mt-1">
+                        <small *ngIf="adminMobile?.errors?.required" class="text-danger">
+                            Mobile Number is required
+                        </small>
+                        <small *ngIf="adminMobile?.errors?.pattern" class="text-danger">
+                            Please enter valid 10 Digit Mobile Number
+                        </small>
                     </div>
+                </div>
+            </div>
 
             <!-- EMAIL -->
             <div class="mb-4">
