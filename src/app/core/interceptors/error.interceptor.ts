@@ -35,7 +35,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         // ✅ UNAUTHORIZED (token expired / invalid)
         if (error.status === 401) {
           this.authState.logout();
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login'], { replaceUrl: true });
         }
 
         // ✅ FORBIDDEN

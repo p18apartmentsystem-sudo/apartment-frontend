@@ -72,13 +72,13 @@ export class ForgotPasswordComponent implements OnInit {
       this.alertService.show('Password reset successfully');
       this.step = 1;
       this.forgotPasswordForm.reset();
-      this.router.navigate(['/auth/login'])
+      this.router.navigate(['/auth/login'], { replaceUrl: true })
     });
   }
 
   gotoLogin() {
     this.step = 1;
     this.forgotPasswordForm.reset();
-    this.router.navigate(['/auth/login'])
+    this.router.navigate(['/auth/login'], { replaceUrl: true })
   }
 }

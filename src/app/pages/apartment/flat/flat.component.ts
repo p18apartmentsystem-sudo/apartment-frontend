@@ -73,7 +73,7 @@ export class FlatComponent {
     } else {
       this.isF_Admin = false;
       this.isA_Admin = false;
-      // this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'], { replaceUrl: true })
       this.authState.logout();
     }
   }

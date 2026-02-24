@@ -82,7 +82,7 @@ export class LightBillComponent {
       this.isF_Admin = false;
       this.isA_Admin = false;
       this.is_resident = false;
-      // this.router.navigate(['/auth/login'])
+      // this.router.navigate(['/auth/login'], { replaceUrl: true })
       this.authState.logout();
     }
   }

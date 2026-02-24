@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ModalConfig } from '../../_metronic/partials';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';
 import { DashboardService } from './dashboard.service';
@@ -27,11 +28,18 @@ export class DashboardComponent implements OnInit {
     private authState: AuthStateService,
     private dashboardService: DashboardService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private location: Location
   ) { }
 
 
   ngOnInit(): void {
+    history.pushState(null, '', location.href);
+    window.onpopstate = () => {
+      // When back pressed on dashboard → close app
+      window.close(); // works in some PWA
+    };
+
     this.role = this.authState.getRole();
     this.getDashboard();
 
