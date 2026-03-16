@@ -303,4 +303,49 @@ export class PaymentService {
     );
   }
 
+  /**
+* 🔹 GET FLATs for PAYMENT
+*/
+  getFlatPayments(apartmentId: string, month: string, year: number): Observable<any> {
+
+    return this.http.get(`${this.baseUrl}/payment/flats`, {
+      params: {
+        apartmentId,
+        month,
+        year
+      }
+    });
+  }
+
+  /**
+  * 🔹 BULK RENT PAID
+  */
+  bulkRentPaid(data: any): Observable<any> {
+
+    return this.http.post(`${this.baseUrl}/payment/bulk-rent-paid`, data);
+
+  }
+
+  /**
+  * 🔹 BULK LIGHT-BILL PAID
+  */
+  bulkLightPaid(data: any): Observable<any> {
+
+    return this.http.post(`${this.baseUrl}/payment/bulk-light-paid`, data);
+
+  }
+
+  /**
+  * 🔹 SINGLE PAID
+  */
+  singlePaid(data: any): Observable<any> {
+
+    return this.http.post(`${this.baseUrl}/payment/single-paid`, data);
+
+  }
+
+
+
+
+
 }

@@ -34,6 +34,18 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['apartment_admin'],
   },
   {
+    title: 'Payment',
+    route: '/payment',
+    icon: 'bi bi-cash-stack',
+    roles: ['apartment_admin'],
+  },
+  {
+    title: 'Report',
+    route: '/report',
+    icon: 'bi bi-bar-chart-line',
+    roles: ['apartment_admin'],
+  },
+  {
     title: 'Rent',
     route: '/payment/rent',
     icon: 'bi bi-cash-stack',
@@ -55,12 +67,6 @@ export const MENU_ITEMS: MenuItem[] = [
     title: 'Add Flat Light Bill',
     route: '/payment/flat-light-bill',
     icon: 'bi bi-lightbulb',
-    roles: ['apartment_admin'],
-  },
-  {
-    title: 'Report',
-    route: '/report',
-    icon: 'bi bi-bar-chart-line',
     roles: ['apartment_admin'],
   },
   {

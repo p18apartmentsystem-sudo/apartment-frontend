@@ -241,7 +241,7 @@ export class RentComponent {
     const currentMonthName = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ][now.getMonth()];
+    ][now.getMonth() - 1];
     const currentYear = now.getFullYear();
 
     const currentItem = this.month.find(
