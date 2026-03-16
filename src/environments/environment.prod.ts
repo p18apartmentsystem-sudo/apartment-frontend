@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   appVersion: 'v2.0.0',
   appThemeName: 'P18',
-  apiUrl: 'https://apartment-backend-redp.onrender.com/api',
+  apiUrl: 'https://apartment-backend-production.up.railway.app/api',
 
 
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
