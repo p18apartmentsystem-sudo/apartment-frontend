@@ -89,6 +89,8 @@ export class PaymentComponent {
   }
   // ✅ SAFE & SIMPLE
   selectMonthYear(event: any) {
+    this.selectedFlats = new Set();
+    this.isSelect = false;
     const value = event.target.value;
     if (!value) return;
 
@@ -177,7 +179,6 @@ export class PaymentComponent {
   }
 
   toggleAll(event: any) {
-
     if (event.target.checked) {
 
       this.flats.forEach(flat => {
@@ -202,7 +203,11 @@ export class PaymentComponent {
       return false;
     }
 
-    return this.selectedFlats.size === this.flats.length;
+    const selectableFlats = this.flats.filter(flat =>
+      !(flat.rentStatus === 'paid' && flat.lightBillStatus === 'paid')
+    );
+
+    return this.selectedFlats.size === selectableFlats.length;
 
   }
 
