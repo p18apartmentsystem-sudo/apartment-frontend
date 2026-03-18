@@ -3,4 +3,5 @@ export interface MenuItem {
   route: string;
   icon?: string;
   roles: string[];
+  children?: MenuItem[];
 }

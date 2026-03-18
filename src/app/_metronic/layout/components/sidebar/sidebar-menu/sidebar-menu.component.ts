@@ -11,9 +11,13 @@ export class SidebarMenuComponent implements OnInit {
 
   menuItems: MenuItem[] = [];
 
-  constructor(private menuService: MenuService) {}
+  constructor(private menuService: MenuService) { }
 
   ngOnInit(): void {
     this.menuItems = this.menuService.getMenu();
+  }
+
+  toggleMenu(item: any) {
+    item.isOpen = !item.isOpen;
   }
 }

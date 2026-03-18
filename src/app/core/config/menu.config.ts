@@ -38,35 +38,37 @@ export const MENU_ITEMS: MenuItem[] = [
     route: '/payment',
     icon: 'bi bi-cash-stack',
     roles: ['apartment_admin'],
+    children: [
+      {
+        title: 'Rent',
+        route: '/payment/rent',
+        icon: 'bi bi-cash-stack',
+        roles: ['apartment_admin'],
+      },
+      {
+        title: 'Add Flat Rent',
+        route: '/payment/flat-rent',
+        icon: 'bi bi-cash-stack',
+        roles: ['apartment_admin'],
+      },
+      {
+        title: 'Light Bill',
+        route: '/payment/light-bill',
+        icon: 'bi bi-lightbulb',
+        roles: ['apartment_admin'],
+      },
+      {
+        title: 'Add Flat Light Bill',
+        route: '/payment/flat-light-bill',
+        icon: 'bi bi-lightbulb',
+        roles: ['apartment_admin'],
+      }
+    ]
   },
   {
     title: 'Report',
     route: '/report',
     icon: 'bi bi-bar-chart-line',
-    roles: ['apartment_admin'],
-  },
-  {
-    title: 'Rent',
-    route: '/payment/rent',
-    icon: 'bi bi-cash-stack',
-    roles: ['apartment_admin'],
-  },
-  {
-    title: 'Add Flat Rent',
-    route: '/payment/flat-rent',
-    icon: 'bi bi-cash-stack',
-    roles: ['apartment_admin'],
-  },
-  {
-    title: 'Light Bill',
-    route: '/payment/light-bill',
-    icon: 'bi bi-lightbulb',
-    roles: ['apartment_admin'],
-  },
-  {
-    title: 'Add Flat Light Bill',
-    route: '/payment/flat-light-bill',
-    icon: 'bi bi-lightbulb',
     roles: ['apartment_admin'],
   },
   {

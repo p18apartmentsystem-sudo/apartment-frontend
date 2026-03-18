@@ -3,15 +3,55 @@
   <ng-container *ngFor="let item of menuItems">
 
     <div class="menu-item">
-      <a class="menu-link sidebar-menu-link" [routerLink]="item.route" routerLinkActive="active">
-        <span class="menu-icon sidebar-menu-icon">
-          <i [class]="item.icon"></i>
+
+      <!-- 🔹 Parent with route + toggle -->
+      <div class="menu-link sidebar-menu-link d-flex align-items-center justify-content-between">
+
+        <!-- 👉 LEFT SIDE → Navigation -->
+        <a class="d-flex align-items-center flex-grow-1 text-decoration-none" [routerLink]="item.route"
+          routerLinkActive="active">
+
+          <span class="menu-icon sidebar-menu-icon">
+            <i [class]="item.icon"></i>
+          </span>
+
+          <span class="menu-title sidebar-menu-title">
+            {{ item.title }}
+          </span>
+
+        </a>
+
+        <!-- 👉 RIGHT SIDE → Toggle ONLY -->
+        <span *ngIf="item.children" (click)="toggleMenu(item); $event.stopPropagation()" style="cursor: pointer;">
+
+          <i class="bi" [ngClass]="item.isOpen ? 'bi-chevron-up' : 'bi-chevron-down'">
+          </i>
+
         </span>
 
-        <span class="menu-title sidebar-menu-title">
-          {{ item.title }}
-        </span>
-      </a>
+      </div>
+
+    </div>
+
+    <!-- 🔽 Submenu -->
+    <div *ngIf="item.children && item.isOpen" class="submenu">
+
+      <div *ngFor="let child of item.children" class="menu-item ps-4">
+
+        <a class="menu-link sidebar-menu-link" [routerLink]="child.route" routerLinkActive="active">
+
+          <span class="menu-icon sidebar-menu-icon">
+            <i [class]="child.icon"></i>
+          </span>
+
+          <span class="menu-title sidebar-menu-title">
+            {{ child.title }}
+          </span>
+
+        </a>
+
+      </div>
+
     </div>
 
   </ng-container>
