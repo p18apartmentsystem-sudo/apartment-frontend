@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
-  // apiUrl: 'https://apartment-backend-production.up.railway.app/api',  //PROD
+  // apiUrl: 'https://apartment-backend-production.up.railway.app/api',  //PROD BE RAILWAY
+  // apiUrl: 'https://apartment-backend-p07l.onrender.com/api',  //PROD BE RENDER
 
 
 
