@@ -66,6 +66,13 @@ export const MENU_ITEMS: MenuItem[] = [
     ]
   },
   {
+    title: 'Vehicle',
+    route: '/apartment/vehicle',
+    icon: 'bi bi-car-front',
+    roles: ['apartment_admin'],
+  },
+
+  {
     title: 'Report',
     route: '/report',
     icon: 'bi bi-bar-chart-line',
@@ -116,13 +123,14 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['flat_admin', 'resident'],
   },
 
+  {
+    title: 'Vehicle',
+    route: '/apartment/vehicle',
+    icon: 'bi bi-car-front',
+    roles: ['flat_admin', 'resident'],
+  },
 
-  // {
-  //   title: 'Vehicle',
-  //   route: '/apartment/parking',
-  //   icon: 'bi bi-car-front',
-  //   roles: ['apartment_admin', 'flat_admin', 'resident'],
-  // },
+
   // {
   //   title: 'Parking',
   //   route: '/apartment/parking',

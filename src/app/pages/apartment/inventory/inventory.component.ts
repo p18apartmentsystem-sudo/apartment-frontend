@@ -1,4 +1,3 @@
-
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ApartmentService } from '../apartment.service';
 import { AuthStateService } from 'src/app/core/services/auth-state.service';

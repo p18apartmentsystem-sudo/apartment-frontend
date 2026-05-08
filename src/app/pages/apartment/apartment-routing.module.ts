@@ -8,6 +8,7 @@ import { ParkingSlotComponent } from './parking-slot/parking-slot.component';
 import { FlatAdminComponent } from './flat/flat-admin/flat-admin.component';
 import { ComplaintComponent } from './complaint/complaint.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 
 const routes: Routes = [
     {
@@ -65,6 +66,15 @@ const routes: Routes = [
     {
         path: 'inventory',
         component: InventoryComponent,
+        canActivate: [RoleGuard],
+        data: {
+            roles: ['apartment_admin', 'flat_admin', 'resident']
+        }
+    },
+
+    {
+        path: 'vehicle',
+        component: VehicleComponent,
         canActivate: [RoleGuard],
         data: {
             roles: ['apartment_admin', 'flat_admin', 'resident']

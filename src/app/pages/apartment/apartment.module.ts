@@ -16,6 +16,7 @@ import { ApartmentRoutingModule } from './apartment-routing.module';
 import { ComplaintComponent } from './complaint/complaint.component';
 import { FlatAdminComponent } from './flat/flat-admin/flat-admin.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { InventoryComponent } from './inventory/inventory.component';
     ParkingSlotComponent,
     ComplaintComponent,
     FlatAdminComponent,
-    InventoryComponent
+    InventoryComponent,
+    VehicleComponent
   ],
   imports: [
     CommonModule,

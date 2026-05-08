@@ -1,0 +1,165 @@
+<!-- begin::Header -->
+<div class="card-header border-0 pt-5 d-flex justify-content-end">
+    <div *ngIf="isF_Admin" class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+        title="Click to add Vehicle">
+
+        <button type="button" class="btn btn-success" (click)="openAddModal(addModal)">
+            + Add Vehicle
+        </button>
+
+    </div>
+</div>
+<!-- end::Header -->
+
+<!-- begin::Body -->
+<div *ngIf="isA_Admin" class="card-body py-3">
+
+    <!-- APARTMENT -->
+    <div class="row mb-4" *ngIf="isMulti">
+        <form [formGroup]="filterForm">
+            <div class="col-12 col-md-6 mx-auto">
+                <select class="form-select form-select-lg" (change)="filterInTable($event)"
+                    formControlName="select_apartmentId">
+                    <option value="">Select Apartment</option>
+                    <option *ngFor="let apt of apartments" [value]="apt._id">
+                        {{ apt.name }}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <!-- begin::Table container -->
+    <div class="table-responsive custom-scroll">
+        <!-- begin::Table -->
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4  text-nowrap">
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder">
+                    <th class="text-uppercase text-warning"> SR </th>
+                    <th class="text-uppercase text-success"> FLAT </th>
+                    <th class="text-uppercase text-primary"> VEHICLE NO </th>
+                    <th class=" text-uppercase text-info"> DETAILS </th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of vehicleData; let i = index ">
+                    <td> {{ i + 1 }} </td>
+                    <td>
+                        {{ data.flatId?.flatNumber }}
+                    </td>
+
+                    <td> {{ data.vehicleNumber }} </td>
+                    <td> {{ data.vehicleType }} - {{ data.description }} </td>
+
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+
+<!-- begin::Body -->
+<div *ngIf="isF_Admin" class="card-body py-3">
+
+    <!-- begin::Table container -->
+    <div class="table-responsive custom-scroll">
+        <!-- begin::Table -->
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4  text-nowrap">
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder">
+                    <th class="text-uppercase text-warning"> SR </th>
+                    <th class="text-uppercase text-primary"> VEHICLE NO </th>
+                    <th class=" text-uppercase text-info"> DETAILS </th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+            <!-- begin::Table body -->
+            <tbody>
+                <tr *ngFor="let data of vehicleData; let i = index ">
+                    <td> {{ i + 1 }} </td>
+                    <td> {{ data.vehicleNumber }} </td>
+                    <td> {{ data.vehicleType }} - {{ data.description }} </td>
+                </tr>
+            </tbody>
+            <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+
+</div>
+<!-- end::Body -->
+
+<!-- begin:: modal template -->
+<ng-template #addModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">
+            <span>Add Vehicle</span>
+        </h4>
+
+        <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="addForm">
+
+            <!-- NAME -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Vehicle Number
+                    </label>
+
+                    <input type="text" class="form-control form-control-lg" placeholder="Vehicle Number"
+                        formControlName="vehicleNumber" appUppercase />
+                </div>
+            </div>
+
+            <!-- QUANTITY -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <label class="fw-bolder text-success">
+                        Vehicle Type
+                    </label>
+                    <select class="form-select form-select-lg" formControlName="vehicleType">
+                        <option value="">Select Type</option>
+                        <option value="2W">2W</option>
+                        <option value="3W">3W</option>
+                        <option value="4W">4W</option>
+                        <option value="OTHER">OTHER</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="mb-4">
+                <label class="fw-bolder text-success">
+                    Description
+                </label>
+                <textarea class="form-control form-control-lg" rows="3" placeholder="About Vehicle like name, color"
+                    formControlName="description"></textarea>
+            </div>
+
+        </form>
+
+        <!-- ACTION BUTTONS -->
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <button class="btn btn-success px-5" (click)="add()">Submit</button>
+            <button class="btn btn-danger px-5" (click)="closeModal()">Cancel</button>
+        </div>
+
+    </div>
+
+</ng-template>
+<!-- end:: modal template -->

@@ -317,5 +317,24 @@ export class ApartmentService {
     return this.http.get(`${this.baseUrl}/flats/flat-members/${flatId}`);
   }
 
+  /**
+   * 🔹 GET FLAT VEHICLE
+   */
+  getVehicleByFlat(): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/vehicles/flat`
+    );
+  }
+
+  // Get Vehicles by Apartment
+  getVehicleByApartment(apartmentId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/vehicles/apartment/${apartmentId}`);
+  }
+
+  //  Add Vehicle
+  addVehicle(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/vehicles/`, payload);
+  }
+
 
 }
