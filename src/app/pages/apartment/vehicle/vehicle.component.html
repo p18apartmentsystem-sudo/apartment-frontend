@@ -32,7 +32,7 @@
         <div class="row g-3">
             <div class="col-9 col-md-3">
                 <input class="form-select responsive-input" list="vehicleData" placeholder="Search Vehicle"
-                    formControlName="vehicleNumber" (change)="getDetailsByVehicle($event)">
+                    formControlName="vehicleNumber" (change)="getDetailsByVehicle($event)" appUppercase/>
                 <datalist id="vehicleData">
                     <option *ngFor="let data of vehicleData" [value]="data.vehicleNumber">
                         {{ data.vehicleNumber }}
@@ -70,7 +70,7 @@
                     </td>
 
                     <td> {{ data.vehicleNumber }} </td>
-                    <td> {{ data.vehicleType }} - {{ data.description }}   {{ data.userId?.name}} </td>
+                    <td> {{ data.vehicleType }} - {{ data.description }} <b> - {{ data.userId?.name}} </b></td>
 
                 </tr>
             </tbody>
