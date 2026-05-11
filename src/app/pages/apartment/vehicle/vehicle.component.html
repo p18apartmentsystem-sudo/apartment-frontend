@@ -14,9 +14,9 @@
 <!-- begin::Body -->
 <div *ngIf="isA_Admin" class="card-body py-3">
 
-    <!-- APARTMENT -->
-    <div class="row mb-4" *ngIf="isMulti">
-        <form [formGroup]="filterForm">
+    <form [formGroup]="filterForm">
+        <!-- APARTMENT -->
+        <div class="row mb-4" *ngIf="isMulti">
             <div class="col-12 col-md-6 mx-auto">
                 <select class="form-select form-select-lg" (change)="filterInTable($event)"
                     formControlName="select_apartmentId">
@@ -26,8 +26,26 @@
                     </option>
                 </select>
             </div>
-        </form>
-    </div>
+        </div>
+
+        <!-- FILTER VEHICLE -->
+        <div class="row g-3">
+            <div class="col-9 col-md-3">
+                <input class="form-select responsive-input" list="vehicleData" placeholder="Search Vehicle"
+                    formControlName="vehicleNumber" (change)="getDetailsByVehicle($event)">
+                <datalist id="vehicleData">
+                    <option *ngFor="let data of vehicleData" [value]="data.vehicleNumber">
+                        {{ data.vehicleNumber }}
+                    </option>
+                </datalist>
+            </div>
+            <div *ngIf="isSearch" class="col-3 col-md-3">
+                <button class="btn btn-danger" (click)="clear()">
+            Clear
+        </button>
+            </div>
+        </div>
+    </form>
 
     <!-- begin::Table container -->
     <div class="table-responsive custom-scroll">
@@ -52,7 +70,7 @@
                     </td>
 
                     <td> {{ data.vehicleNumber }} </td>
-                    <td> {{ data.vehicleType }} - {{ data.description }} </td>
+                    <td> {{ data.vehicleType }} - {{ data.description }}   {{ data.userId?.name}} </td>
 
                 </tr>
             </tbody>

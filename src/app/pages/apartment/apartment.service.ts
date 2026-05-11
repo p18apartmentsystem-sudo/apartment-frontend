@@ -336,5 +336,10 @@ export class ApartmentService {
     return this.http.post(`${this.baseUrl}/vehicles/`, payload);
   }
 
+  //  Add Vehicle
+  getVehicleByVehicleNumber(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/vehicles/vehicle`, payload);
+  }
+
 
 }

@@ -27,6 +27,7 @@ export class VehicleComponent {
   filterForm = new FormGroup({
     apartmentName: new FormControl(""),
     select_apartmentId: new FormControl(""),
+    vehicleNumber: new FormControl("")
   });
 
   apartments: any;
@@ -41,6 +42,7 @@ export class VehicleComponent {
   isA_Admin: boolean = false;
   isF_Admin: boolean = false;
   apartmentName: any;
+  isSearch: boolean = false;
 
   constructor(private authState: AuthStateService,
     private modalService: NgbModal,
@@ -181,6 +183,53 @@ export class VehicleComponent {
     this.addForm.controls['description'].setValue("")
     this.modalRef.close('close');
     this.loading = false;
+  }
+
+  getDetailsByVehicle(id: any) {
+    const vehicleNumber = id.target.value;
+    if (vehicleNumber) {
+      this.isSearch = true;
+      this.search(vehicleNumber);
+    } else {
+      this.getVehicleByApartmentId(this.apartmentId);
+    }
+
+  }
+
+  /**
+* 🔹 SEARCH VEHICLE
+*/
+  search(vehicleNumber: any) {
+
+    this.loading = true;
+    const payload = {
+      vehicleNumber: vehicleNumber,
+    };
+
+    this.post.getVehicleByVehicleNumber(payload).subscribe({
+      next: (res) => {
+
+        if (!res?.data?.length) {
+          this.vehicleData = [];
+          return;
+        }
+
+        this.vehicleData = res.data;
+        this.loading = false;
+        this.cd.detectChanges();
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error(err);
+      },
+    });
+  }
+
+  clear() {
+    this.isSearch = false;
+    this.getVehicleByApartmentId(this.apartmentId);
+    this.filterForm.controls['vehicleNumber'].setValue("")
+
   }
 
 }
